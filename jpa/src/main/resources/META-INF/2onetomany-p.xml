@@ -1,0 +1,34 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+
+    <!--
+
+        This file contains definition of persistence units. A JPA
+        Persistence Unit is a logical grouping of user defined persistable
+        classes (entity classes, embeddable classes and mapped superclasses)
+        with related settings.
+
+        Persistence units are defined in a persistence.xml file,
+        which has to be located in the META-INF directory in the classpath.
+        
+        Usually it contains information about persistence provider
+        and list of mapped classes. Classes, which are int the same
+        jar, which contains persistence.xml are found automatically,
+        other classes must be specified. But some JPA providers automatically
+        search through  classpath and search all mapped classes. So
+        you do not have to declare these classes.
+
+    -->
+
+    <persistence-unit name="jpa-snippets"
+        transaction-type="RESOURCE_LOCAL">
+        
+        <description>Persistence unit for my snippets.</description>
+        
+        <class>cz.kul.snippets.jpa._2onetomany.Customer</class>
+        <class>cz.kul.snippets.jpa._2onetomany.Address</class>
+       
+    </persistence-unit>
+</persistence>

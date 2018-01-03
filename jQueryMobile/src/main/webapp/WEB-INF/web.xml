@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="crossad" version="2.5">
+	<display-name>Archetype Created Web Application</display-name>
+	<servlet>
+		<description></description>
+		<display-name>09_popup_iframe_controller</display-name>
+		<servlet-name>09_popup_iframe_controller</servlet-name>
+		<servlet-class>cz.kul.snippets.jquerymobile._09.popupiframe.Controller</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>09_popup_iframe_controller</servlet-name>
+		<url-pattern>/09_popup_iframe_controller</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<display-name>MainFilter</display-name>
+		<filter-name>MainFilter</filter-name>
+		<filter-class>cz.kul.snippets.jquerymobile.MainFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MainFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+</web-app>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>jQueryMobile - Multiple pages</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script
+	src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	
+<script type="text/javascript">
+
+/**
+ * Open the popup and register the event handlers.
+ */
+function openPopup() {
+  $("#popupwindow").on("popupbeforeposition", function() {
+    scale(480, 330);
+  });
+  $("#popupwindow").on("popupafterclose", function() {
+    scale(0, 0);    
+    afterclose();
+  });
+  var popup = $("#popupwindow").popup("open");
+}
+
+/**
+ * Close the popup. This function is called from the iframe.
+ */
+function closePopup() {
+  $("#popupwindow").popup("close");
+}
+
+/**
+ * Because of mobile browsers, it is important to set the width and height
+ * of the iframe to the 0.
+ * When the iframe is showed, set that to the real size. When it is closed,
+ * set than to the 0 again.
+ */
+function scale(width, height) {
+  $("#popupwindow iframe").attr("width", width).attr("height", height);
+}
+
+/**
+ * This method is executed after the popup is closed. It can for example
+ * modify the page somehow.
+ */
+function afterclose() {
+  console.log("afterclose operation");
+  $("#popupwindow").off("popupbeforeposition");
+  $("#popupwindow").off("popupafterclose");
+}
+</script>
+
+</head>
+<body>
+
+	<!--
+	  Popup with iframe
+	  
+	  This snippets contains popup with iframe in the popup. There is a form in the popup.
+	  When the form is submit, the poppup is closed. Steps:
+	  
+	  1. show the popup by the javascript
+	  2. data are submited in the hidden iframe in the iframe
+	  3. onload event on the hidden iframe call the parent method, which close the popup
+	  4. the popupafterclose event is fired 
+	 -->
+	<div data-role="page" id="page1">
+		<div data-role="header">
+			<h3>Popup with iframe</h3>
+		</div>
+		<div data-role="main" class="ui-content">
+
+			<!-- 
+				onclick
+				Open the popup by the javascript. It is not necessary, it is possible
+				just use common way with href="#popupwindow". To use javascript is necessary,
+				when you need to modifiy the popup, before it is showen.
+			 -->
+			<p>
+				<a href="#" data-rel="popup" onclick="openPopup(); return false;">Open the popup with the
+					iframe</a>
+			</p>
+			<div id="popupwindow" data-role="popup" data-dismissible="false"
+				data-position-to="window">
+				<iframe src="iframe.html" seamless style="border: 0px;"></iframe>				
+			</div>					
+
+		</div>
+	</div>
+
+</body>
+</html>

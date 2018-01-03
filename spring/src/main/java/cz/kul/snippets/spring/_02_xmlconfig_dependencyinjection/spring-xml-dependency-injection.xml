@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+ 
+	<!-- Setter DI with reference -->
+	<!-- TODO I do not know if this is field injection or setter injection -->
+	<bean id="outputHelper1" class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.OutputHelper">
+		<property name="outputGenerator" ref="CsvOutputGenerator" />
+	</bean>
+	
+	<!-- Constructor DI with reference -->
+	<bean id="outputHelper2" class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.OutputHelper">
+		<constructor-arg>
+		    <ref bean="CsvOutputGenerator"/>
+		</constructor-arg>		
+	</bean>
+	
+	<!-- Constructor DI with direct bean declaration -->
+	<bean id="outputHelper3" class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.OutputHelper">
+		<constructor-arg>
+		    <bean class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.JsonOutputGenerator" />
+		</constructor-arg>		
+	</bean>
+	
+	<bean id="CsvOutputGenerator" class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.CsvOutputGenerator" />
+    <bean id="JsonOutputGenerator" class="cz.kul.snippets.spring._02_xmlconfig_dependencyinjection.JsonOutputGenerator" />
+ 
+</beans>

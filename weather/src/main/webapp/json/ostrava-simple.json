@@ -1,0 +1,14 @@
+{
+	"weather":"Clear",
+	"temperature_string":"58.9 F (14.9 C)",
+	"temp_f":58.9,
+	"temp_c":14.9,
+	"relative_humidity":"26%",
+	"wind_string":"From the East at 1.0 MPH",
+	"wind_dir":"East",
+	"wind_degrees":100,
+	"wind_mph":1.0,
+	"wind_gust_mph":0,
+	"wind_kph":1,
+	"wind_gust_kph":0
+}

@@ -1,0 +1,5 @@
+header toolbar
+footer toolbar
+navbars
+panel
+

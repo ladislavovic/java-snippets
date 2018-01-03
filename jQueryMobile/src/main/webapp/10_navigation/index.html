@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>jQueryMobile - Multiple pages</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+$(document).bind("mobileinit", function(){
+  $.mobile.pushStateEnabled = false;
+});
+</script>
+
+<script
+	src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+</head>
+
+<!--
+
+     TODO make examples of all these stuff
+
+     
+     All clicking to anchor, submiting the form etc. is translated to the Ajax call. The page
+     is loaded with Ajax, the div with the data-role="page" is found and is injected to the DOM.
+     The rest of the incoming page is discarded so any scripts, stylesheets or other information in the will not be included. 
+     The styles and behaviour is added to the page. Then the animation is executed and new page 
+     is showed.
+     
+     Features: animation, caching, prefetch,
+     
+     data-ajax="false" - it is needed when you link to multipage document, because you need to load all pages
+     
+     cache - pages loaded by ajax are removed from the dom when they are hidden. It can be configured by data-dom-cache
+     
+     $.mobile.pushStateEnabled = false; - this ON/OFF something like conversion between hash url to normal URL
+     
+     base element
+
+     One HTML page, can contain more jQm pages. The user see only one page.     
+ -->
+<body>
+
+	<!-- 
+      id
+      The name of the page. It is used for navigation.    
+     -->
+	<div data-role="page" id="page1">
+		<div data-role="main" class="ui-content">
+
+			<!-- 
+		      It hides "pageone" and shows "pagetwo"
+		     -->
+			<a href="page2.html">Go to Page Two</a>
+			
+			<br>
+			
+			<a href="index.html">Go to this page</a>
+			
+			<br>
+			
+			<a href="foo.jsp">Go to redirect</a>
+		</div>
+	</div>
+	
+</body>
+</html>

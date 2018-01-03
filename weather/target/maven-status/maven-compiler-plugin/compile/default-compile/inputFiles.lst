@@ -1,0 +1,17 @@
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/webservice/WeatherServiceEndpointRest.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/schemas/package-info.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/Weather.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/wunderground/UrlDataFetcher.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/WeatherConnector.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/schemas/ObjectFactory.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/webservice/WeatherServiceEndpoint.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/WeatherService.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/TestServlet.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/schemas/WeatherServiceResponse.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/schemas/WeatherServiceRequest.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/wunderground/DataFetcher.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/Location.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/wunderground/WundergroundConnector.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/schemas/WeatherServiceResponseCreator.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/WeatherException.java
+/home/lad/workspace/tieto/weather/src/main/java/cz/kul/weather/WeatherCache.java

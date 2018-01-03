@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Events</title>
+
+<script type="text/javascript" >
+function foo(event) {
+  console.log("FOO function. event.target: " + event.target);
+}
+function bar(event) {
+  console.log("BAR function. event.target: " + event.target);
+  event.stopPropagation();
+}
+</script>
+
+</head>
+<body>
+
+<h3 onclick="foo(event);">
+    <span onclick="foo(event);">Propagate to parent.</span>
+</h3>
+
+<h3 onclick="bar(event);">
+    <span onclick="bar(event);">event.stopPropagation()</span>
+</h3>
+
+<!-- The event is captured: H3 -> span 
+And then bubble back: span -> H3
+-->
+<h3 id="a">
+    <span id="b">Capturing</span>
+</h3>
+<script type="text/javascript" >
+document.getElementById("a").addEventListener("click", foo, true);
+document.getElementById("a").addEventListener("click", foo, false);
+document.getElementById("b").addEventListener("click", foo, true);
+document.getElementById("b").addEventListener("click", foo, false);
+</script>
+
+</body>
+</html>

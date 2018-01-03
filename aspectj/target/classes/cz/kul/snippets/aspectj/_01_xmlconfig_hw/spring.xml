@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+ 
+    <bean id="WC" class="cz.kul.snippets.spring._01_xmlconfig_hw.Main_SpringXMLConfigHw.WeatherConnector">
+        <property name="url" value="http://myweater.com" />
+        <property name="login" value="ladislav" />
+        <property name="password" value="pswd" />
+    </bean>
+	
+    <bean id="PB" class="cz.kul.snippets.spring._01_xmlconfig_hw.Main_SpringXMLConfigHw.PrototypeBean" scope="prototype">
+        <constructor-arg value=""></constructor-arg>
+    </bean>
+ 
+</beans>

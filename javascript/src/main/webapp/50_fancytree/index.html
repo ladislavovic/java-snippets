@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fancytree</title>
+
+<link rel="stylesheet" href="../jQueryUI/jquery-ui.css">
+<link rel="stylesheet" href="../jQueryUI/jquery-ui.structure.css">
+<link rel="stylesheet" href="../jQueryUI/jquery-ui.theme.css">
+<link rel="stylesheet"
+	href="../fancytree/dist/skin-win8/ui.fancytree.css">
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="../jQueryUI/jquery-ui.js"></script>
+<script src="../fancytree/dist/jquery.fancytree.js"></script>
+
+<script type="text/javascript">
+  $(function() {
+    
+    $("#tree").fancytree({
+      source : [ {
+        title : "Node 1",
+        key : "1",
+        myOwnAttr : "myOwnAttrVal"
+      }, {
+        title : "Folder 2",
+        key : "2",
+        folder : true,
+        expanded : true,
+        children : [ {
+          title : "Node 2.1",
+          key : "3"
+        }, {
+          title : "Node 2.2",
+          key : "4"
+        } ]
+      } ],
+      
+      
+      activate : function(event, data) {
+        
+        var node = data.node;
+        $("#echoActivate").text("activate" + node.data.myOwnAttr);        
+      }
+      
+    });
+    
+    $("#htmlTree").fancytree();
+  });
+  
+  
+  function getTree() {
+    var tree = $("#tree").fancytree("getTree");
+  }
+  
+  function addSibling() {
+    node = $("#tree").fancytree("getActiveNode");
+    node.appendSibling({
+      title: "Added"
+    });
+    $("#echoActivate").text("addSibling");   
+  }
+  
+  function addChildren() {
+    node = $("#tree").fancytree("getActiveNode");
+    node.addChildren({
+      title: "Added children"
+    });
+    $("#echoActivate").text("addChildren");   
+  }
+  
+  function editNode() {
+    node = $("#tree").fancytree("getActiveNode");
+    node.setTitle("Edited");
+    $("#echoActivate").text("edit");   
+  }
+  
+  function deleteNode() {
+    node = $("#tree").fancytree("getActiveNode");
+    node.remove();
+    $("#echoActivate").text("remove");   
+  }
+  
+</script>
+
+</head>
+<body>
+	
+    <div id="echoActivate">ECHO</div>
+    
+    <button onclick="addSibling(); return false;">Add sibling</button>
+    <button onclick="addChildren(); return false;">Add children</button>
+    <button onclick="editNode(); return false;">Edit node</button>
+    <button onclick="deleteNode(); return false;">Delete node</button>
+
+	<!-- Tree inicialized by JSON -->
+	<h3>Json</h3>
+	<div id="tree"></div>
+
+	<!-- Tree inicialized by HTML -->
+	<h3>Html</h3>
+	<div id="htmlTree">
+		<ul id="treeData" style="display: none;">
+			<li id="1">html Node 1</li>
+			<li id="2" class="folder">html Folder 2
+				<ul>
+					<li id="3">Node 2.1</li>
+					<li id="4">Node 2.2</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+</body>
+</html>
+
+<!-- 
+
+Find the possible ways how to load data OK
+
+how to make folder unpacked by default OK
+
+how to edit node OK
+
+how to add node OK
+
+how to delete node OK
+
+how to write data to the html
+
+how to reload data
+
+
+
+ -->

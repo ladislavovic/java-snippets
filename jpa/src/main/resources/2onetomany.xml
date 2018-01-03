@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <context:component-scan base-package="cz.kul.snippets.jpa._2onetomany" />
+
+    <!--
+        Connection Pool. This is normal javax.sql.DataSource implementation.
+    -->
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+        destroy-method="close">
+        <property name="driverClass" value="org.hsqldb.jdbcDriver" />
+        <property name="jdbcUrl" value="jdbc:hsqldb:mem:onetomanydb" />
+        <property name="user" value="SA" />
+        <property name="password" value="" />
+        <property name="minPoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="initialPoolSize" value="5" />
+
+        <!-- When there are no available connections, pool acquire
+            another connection. But acquire a connection is very expensive
+            operation. It is better to acquire connection in batches. This
+            option specify the size of batche.
+        -->
+        <property name="acquireIncrement" value="3" />
+
+        <property name="preferredTestQuery"
+            value="SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS" />
+        <property name="testConnectionOnCheckout" value="true" />
+    </bean>
+
+    <!--
+        JPA EntityManagerFactory.
+    -->
+    <bean id="emf"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="myDataSource" />
+        <property name="jpaVendorAdapter">
+            <bean
+                class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true" /> <!-- Show sql in the log. -->
+                <property name="generateDdl" value="true" /> <!-- Create / alter relevant tables after JPA start. -->
+                <property name="database" value="HSQL" /> <!-- Database name. -->
+                <property name="databasePlatform"
+                    value="org.hibernate.dialect.HSQLDialect" /> <!-- Vendor specivic database name. -->
+            </bean>
+        </property>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/2onetomany-p.xml" />
+
+        <!--
+            Properties for creating EntityManagerFactory. Usually there are
+            properties specific for persistency Vendor.
+        -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.format_sql">true</prop> <!-- pretty print of sql in log -->
+                <prop key="hibernate.archive.autodetection"></prop> <!-- Autodection of entities. Default value is "class, hbm" -->
+            </props>
+        </property>
+
+    </bean>
+
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf" />
+    </bean>
+    <tx:annotation-driven transaction-manager="txManager" />
+    
+
+</beans>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>jQueryMobile - Multiple pages</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css">
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script
+	src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+</head>
+<body>
+
+	<!--
+	  Dialogs.
+	  
+	  Pages can be showed as a dialogs. 
+	  
+	  data-rel="dialog"
+	  This is the first way, how to show page as a dialog.
+	  
+	  data-dialog="true"
+	  This is the second way. When the page has this attribute, it is showed as a dialog.
+	
+	 -->	
+	<div data-role="page" id="page1">
+		<div data-role="main" class="ui-content">
+		    This is a common page.
+			<a href="#page2" data-rel="dialog">Show another page as a dialog.</a>
+			<a href="#page3">Show page, which has data-dialog="true"</a>
+		</div>
+	</div>
+
+	<div data-role="page" id="page2">
+		
+		<!--
+		  The close button is added automatically to the header. 
+		-->
+		<div data-role="header"><h3></h3></div>
+		<div data-role="main" class="ui-content">
+			<a href="#" data-rel="back">Close</a>
+		</div>
+	</div>
+	
+	<div data-role="page" data-dialog="true" id="page3">
+		<div data-role="main" class="ui-content">
+			<a href="#" data-rel="back">Close</a>
+		</div>
+	</div>
+	
+</body>
+</html>

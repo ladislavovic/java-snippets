@@ -1,0 +1,8 @@
+- custom validation
+- recode characters in messages.properties
+- initBinder annotation
+
+- logout
+- ldap
+
+- forms: number, dates, validation, selects, checkboxes, files, ...

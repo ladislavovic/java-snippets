@@ -1,0 +1,167 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+
+	<display-name>Spring Web MVC Application</display-name>
+
+    <!--
+    Controller by inheritance of AbstractController.
+    
+    Architecture:
+    1. Controller is inherited from AbstractController
+    2. There are no annotaions. The controller is declared in spring
+       configuration file.
+    3. The controller is available on the path, which is in accordance
+       with bean name.
+    
+    Path: /01/foo
+    1. The request is processed by this servet and then by the controller
+    -->
+   	<servlet>
+		<servlet-name>mvc-dispatcher-01-abstctl</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher-01-abstctl</servlet-name>
+		<url-pattern>/01/*</url-pattern>
+	</servlet-mapping>
+
+	<!--
+    Annoted controller
+    
+    Architecture:
+    1. Controller methods are annoted by RequestMapping annotations
+       It is much easier to use annotations for mapping methods to url. You
+       can use the xml configuration too, but with multi-action controllers
+       it starts to be tricky and unclear.
+        
+    Path: /02/foo
+    1. The request is processed by this serverl
+    2. The AnnotedController#foo() method is choosen to process request
+    
+    Path: /02/bar
+    1. The request is processed by this serverl
+    2. The AnnotedController#bar() method is choosen to process request
+    -->
+    <servlet>
+		<servlet-name>mvc-dispatcher-02-annctl</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher-02-annctl</servlet-name>
+		<url-pattern>/02/*</url-pattern>
+	</servlet-mapping>
+	
+	<!--
+    Forms
+    
+    Architecture:
+    1. There is a RegisterController controller
+    2. It has two methods. One for GET request, one for POST. GET show
+       the form, POST process the submitted form.
+    3. The view jsp contains Spring MVC tags. The form thag has an
+       attribute "commandName". It is in accordance with model object,
+       which contains form data.
+       The others form elements has a "path" attribute. The path is relative
+       to the "commandName".
+        
+    Path: /03/register
+    1. Show the registration form.
+    2. The form is submitted and processed. 
+    -->
+    <servlet>
+		<servlet-name>mvc-dispatcher-03-forms</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher-03-forms</servlet-name>
+		<url-pattern>/03/*</url-pattern>
+	</servlet-mapping>
+
+	<!--
+    Security
+    
+    Architecture:
+    1. There is filter, which manage whole security. Its configuration
+       is in the spring-security.xml file.
+    2. The more detailed description of security configuration is in the
+       spring-security.xml
+                
+    Path: /04/secured
+    1. The spring show the automaticaly created login page
+    
+    Path: /04/basic, user2:psswd
+    1. Login by basic authentization.
+    2. Secured page is displayed.
+    
+    Path: /04/basic, user3:psswd
+    1. Login by basic authentization
+    2. User does not have admission to view the page, it is redirected to
+       the 403 page (address is in the configuration)
+    3. 403 page is displayed.
+    
+    Path: /04/basic/username user2:psswd
+    1. The request is processed by the controller, which has a Principal as
+       a parameter. 
+       
+    Path: /04/basic/username/more user2:psswd
+    1. The controller method get Authentication object, which contains all
+       information about logged person - credetials, roles, ...
+      
+    -->
+	<servlet>
+		<servlet-name>mvc-dispatcher-04-security</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher-04-security</servlet-name>
+		<url-pattern>/04/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!--
+    Security in service level
+    
+    Architecture:
+    1. There is service, which has set security on its methods. It is set with
+       annotations.
+       It test, if a logged user in the current thread has a defined roles etc
+    
+    Path: /05/services/  user4:psswd
+    1. The controller calls two service methods. One is permitted and one is denied.
+    -->
+   	<servlet>
+		<servlet-name>mvc-dispatcher-05-securityservices</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher-05-securityservices</servlet-name>
+		<url-pattern>/05/*</url-pattern>
+	</servlet-mapping>
+	
+
+	<!-- Theese stuff is here because of security -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-security.xml</param-value>
+	</context-param>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- The end of security stuffs -->
+
+</web-app>

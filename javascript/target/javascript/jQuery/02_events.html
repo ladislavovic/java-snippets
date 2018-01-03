@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Events</title>
+<script type="text/javascript" src="jquery-2.1.0.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  
+ $("#a").on("click", function() {
+   console.log("clicked");
+ });
+ 
+});
+</script>
+
+<h3 id="a">Click here</h3>
+
+Message:
+<h3 id="msgid"></h3>
+
+
+</body>
+</html>

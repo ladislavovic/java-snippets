@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Events</title>
+
+<script type="text/javascript" >
+function foo(event) {
+  console.log("FOO function. event.target: " + event.target);
+}
+function bar(event) {
+  console.log("BAR function. event.target: " + event.target);  
+}
+</script>
+
+</head>
+<body>
+
+<h3>
+    <span id="a">Multiple event handlers</span>
+</h3>
+
+<script type="text/javascript">
+document.getElementById("a").addEventListener("click", foo, false);
+document.getElementById("a").addEventListener("click", bar, false);
+</script>
+
+</body>
+</html>
