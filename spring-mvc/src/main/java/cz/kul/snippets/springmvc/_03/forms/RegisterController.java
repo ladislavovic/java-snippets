@@ -40,34 +40,6 @@ public class RegisterController {
 		
 	}
 
-<<<<<<< HEAD
-    @RequestMapping(method = RequestMethod.GET)
-    public String viewRegistration(Map<String, Object> model) {
-        User userForm = new User();
-        model.put("userForm", userForm);
-
-        List<String> professionList = new ArrayList<String>();
-        professionList.add("Developer");
-        professionList.add("Designer");
-        professionList.add("IT Manager");
-        model.put("professionList", professionList);
-
-        return "registration";
-    }
-
-    /**
-     * @ModelAttribute("userForm") User user - fill the parameter from the model.
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    public String processRegistration(@Valid @ModelAttribute("userForm") User user, BindingResult br, Map<String, Object> model) {
-
-        if (br.hasErrors()) {
-            return "registration";
-        } else {
-            return "registrationSuccess";
-        }
-    }
-=======
 	@RequestMapping(method = RequestMethod.GET)
 	public String viewRegistration(Map<String, Object> model) {
 		User userForm = new User();
@@ -101,5 +73,5 @@ public class RegisterController {
 			return "registrationSuccess";
 		}
 	}
->>>>>>> 31f1e9ed70b851a41afda57e80ee03ccc0a86046
+
 }

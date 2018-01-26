@@ -22,7 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
  
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
+//@ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
+@ContextConfiguration(classes = {TestContext.class})
 @WebAppConfiguration
 public class TodoControllerTest {
  

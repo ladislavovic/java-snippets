@@ -1,6 +1,5 @@
 package cz.kul.snippets.spring._05_security;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,35 +9,34 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * This snippetsc could be described better. Describe objects and principes when I need to
+ * This snippet could be described better. Describe objects and principes when I need to
  * work with this domain.
+ * 
+ * Authentication - this class is for two purposes: 1. Authentication request (contains
+ * credentials) 2. Authenticaded principal (when authentication is complete)
+ * 
+ * AuthenticationManager - Attempts to authenticate the passed {@link Authentication} object, 
+ * returning a fully populated <code>Authentication</code> object (including granted authorities)
+ * if successful.
+ * 
+ * ProviderManager - Implementation of AuthenticationManager. It contains list of AuthenticationProvider
+ * and authenticate via them.
  * 
  * AuthenticationProvider - can process specific authentication process. For example for
  * LDAP, for another LDAP, DB, ... There can be more providers in one application.
- * Authentication - this class is for two purposes: 1. Authentication request (contains
- * credentials) 2. Authenticaded principal (when authentication is complete)
+ * 
  * UsernamePasswordAuthenticationToken RememberMeAuthenticationToken
  * PreAuthenticatedAuthenticationToken
- * 
- * @author kulhalad
  */
-public class Security {
+public class Main_SpringSecurity {
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = null;
-        try {
-            context = new ClassPathXmlApplicationContext("05_security.xml");
-            core(context);
-        } finally {
-            context.close();
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("05_security.xml")) {
+            authenticate();
+            logRoles();
+            FooService s = (FooService) context.getBean("fooServiceImpl");
+            System.out.println(s.getMessage());
         }
-    }
-    
-    private static void core(ApplicationContext context) {
-        authenticate();
-        logRoles();
-        FooService s = (FooService) context.getBean("fooServiceImpl");
-        System.out.println(s.getMessage());
     }
     
     private static void authenticate() {
