@@ -9,9 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * You can inject through setters or as constructor parameters.
  * 
- * @author kulhalad
- * @since 7.4
- *
+ * TODO how to choose between property and setter injection in xml config?
  */
 public class Main_XMLConfig_DependencyInjection {
 

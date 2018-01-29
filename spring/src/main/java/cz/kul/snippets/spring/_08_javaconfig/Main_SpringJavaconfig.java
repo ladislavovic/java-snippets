@@ -3,108 +3,80 @@ package cz.kul.snippets.spring._08_javaconfig;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
-import cz.kul.snippets.spring._08_javaconfig.scan1.ScannedBean1;
-import cz.kul.snippets.spring._08_javaconfig.scan2.ScannedBean2;
+import cz.kul.snippets.spring.common.Bean1;
+import cz.kul.snippets.spring.common.BeanWithDependency;
 
 /**
- * Notes
+ * TODO:
+ *  - lite mode
  * 
- * These features are not covered by snippets
- * <ul>
- * <li>@Import annotation</li>
- * <li>@Bean(initMethod = "init", destroyMethod = "cleanup" )</li>
- * <li>@Bean @Scope("prototype")</li>
- * <li>@ComponentScan("cz.kul.prime")</li>
- * <li>@Bean can be also in @Component class but it is not preffered</li>
- * <li>Spring allows for using @Bean annotation on methods that are declared in
- * classes not annotated with @Configuration. This is known as “lite” mode. In
- * this mode, bean methods can be declared in a @Component or a plain java class
- * without any annotation. In the “lite” mode, @Bean methods cannot declare
- * inter-bean dependencies. It is recommended that one @Bean method should not
- * invoke another @Bean method in ‘lite’ mode. Spring recommends that @Bean
- * methods declared within @Configuration classes should be used for full
- * configuration. This kind of full mode can prevent many bugs.</li>
- * <li>Remember that @Configuration classes are meta-annotated with @Component, so they
-are candidates for component-scanning!</li>
- * <li>@Description annotation can be useful</li>
- * <li>Constructor injection in @Configuration classes is only supported as of Spring Framework
-4.3.</li>
- * </ul>
- * 
- * @author kulhanek
- *
  */
 public class Main_SpringJavaconfig {
 
 	public static void main(String[] args) {
-		configurationAndBean();
+		helloWorld();
 		injecting();
-		inheritance();
-		overridingByInheritance();
-		overridingByComposing();		
+		configurationInheritance();
+		collectionAsSpringBean();
 	}
-
-	private static void overridingByComposing() {
+	
+	private static void helloWorld() {
 		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config_ConcreteOverrideByComposing.class);
-			ctx.refresh();
-			Bean1 bean = ctx.getBean(Bean1.class);
-			assertEquals("bean was not redefined", "concrete", bean.getValue());
-			ScannedBean1 sb1 = ctx.getBean(ScannedBean1.class);
-			ScannedBean2 sb2 = ctx.getBean(ScannedBean2.class);
-			assertNotNull("Bean scanned by general config was not found", sb1);
-			assertNotNull("Bean scanned by concrete config was not found", sb2);
-		}
-		
-	}
-
-	private static void overridingByInheritance() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config_RealOverrideByInheritance.class);
-			ctx.refresh();
-			ScannedBean1 sb1 = ctx.getBean(ScannedBean1.class);
-			ScannedBean2 sb2 = ctx.getBean(ScannedBean2.class);
-			assertNotNull(sb1);
-			assertNotNull(sb2);
-		}
-	}
-
-	private static void inheritance() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config_realConfiguration.class);
-			ctx.refresh();
-			Bean1 foo = (Bean1) ctx.getBean("foo");
-			Bean1 bar = (Bean1) ctx.getBean("bar");
-			Bean1 baz = (Bean1) ctx.getBean("baz");
-			assertEquals("foo", foo.getValue());
-			assertEquals("bar_child", bar.getValue());
-			assertEquals("baz", baz.getValue());
-		}
-	}
-
-	private static void injecting() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config_Injecting.class);
-			ctx.refresh();
-			Bean1 bean1 = ctx.getBean(Bean1.class);
-			Bean2 bean2_1 = (Bean2) ctx.getBean("bean2_1");
-			Bean2 bean2_2 = (Bean2) ctx.getBean("bean2_2");
-			assertTrue(bean1 == bean2_1.getBean1());
-			assertTrue(bean1 == bean2_2.getBean1());
-		}
-	}
-
-	private static void configurationAndBean() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config_ConfigurationAndBean.class); // you can register more classes here
+			ctx.register(Config01_HelloWorld.class);
 			ctx.refresh();
 			Bean1 bean = ctx.getBean(Bean1.class);
 			assertNotNull(bean);
 		}
 	}
+	
+	private static void injecting() {
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
+			ctx.register(Config02_Injecting.class);
+			ctx.refresh();
+			Bean1 bean1 = ctx.getBean(Bean1.class);
+			BeanWithDependency bean2_1 = (BeanWithDependency) ctx.getBean("bean2_1");
+			BeanWithDependency bean2_2 = (BeanWithDependency) ctx.getBean("bean2_2");
+			assertTrue(bean1 == bean2_1.getBean1());
+			assertTrue(bean1 == bean2_2.getBean1());
+		}
+	}
 
+	private static void configurationInheritance() {
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
+			ctx.register(Config03_realConfiguration.class);
+			ctx.refresh();
+			Bean1 foo = (Bean1) ctx.getBean("foo");
+			Bean1 bar = (Bean1) ctx.getBean("bar");
+			Bean1 baz = (Bean1) ctx.getBean("baz");
+			assertEquals("foo", foo.getVal());
+			assertEquals("bar_child", bar.getVal());
+			assertEquals("baz_child", baz.getVal());
+		}
+	}
+
+	private static void collectionAsSpringBean() {
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
+			ctx.register(Config04_collectionAsSpringBean.class);
+			ctx.refresh();
+
+			// NOTE: this works like any other bean type
+			List<Bean1> foo = (List<Bean1>) ctx.getBean("foo");
+			
+			// NOTE: this really does not work, there is not
+			// bean of type Bean1
+			try {
+				 Bean1 bar = ctx.getBean(Bean1.class);
+				 fail("It should not find this bean");
+			} catch (org.springframework.beans.factory.NoSuchBeanDefinitionException e) { 
+			}
+		}
+		
+	}
+	
 }

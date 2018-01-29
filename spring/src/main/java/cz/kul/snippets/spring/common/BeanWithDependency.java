@@ -1,10 +1,10 @@
-package cz.kul.snippets.spring._08_javaconfig;
+package cz.kul.snippets.spring.common;
 
-public class Bean2 {
+public class BeanWithDependency {
 
 	private Bean1 bean1;
-	
-	public Bean2(Bean1 bean1) {
+
+	public BeanWithDependency(Bean1 bean1) {
 		this.bean1 = bean1;
 	}
 

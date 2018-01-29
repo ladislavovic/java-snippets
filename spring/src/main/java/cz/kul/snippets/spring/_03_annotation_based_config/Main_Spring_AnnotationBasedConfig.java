@@ -18,9 +18,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * annotation based config, xml config can override annotation based config</li>
  * </ul>
  * 
- * @author kulhalad
- * @since 7.4
- *
  */
 public class Main_Spring_AnnotationBasedConfig {
 
@@ -30,12 +27,10 @@ public class Main_Spring_AnnotationBasedConfig {
             fieldIndection(ctx);
             constructorInjection(ctx);
             setterInjection(ctx);
-            instantiateByStaticFactory(ctx);
-            instantiateByInstantiateFactory(ctx);
             postConstructAndPreDestroy(ctx);
             autowireByCustomMethod(ctx);
             autowireCollection(ctx);
-            primaryBean(ctx);
+            // TODO
             // is it possible to switch on the default lazy autowiring?
             // method injection- can be used when you inject prototype into singleton
             // how to inject request scope bean into longer lived scope - it is done through a proxy, then spring set the right bean for the particular request
@@ -52,11 +47,6 @@ public class Main_Spring_AnnotationBasedConfig {
 
         }
 
-    }
-
-    private static void primaryBean(ClassPathXmlApplicationContext ctx) {
-        PrimaryInjected bean = (PrimaryInjected) ctx.getBean("primaryInjected");
-        assertEquals(ctx.getBean("foo"), bean.getBaz());
     }
 
     private static void autowireCollection(ClassPathXmlApplicationContext ctx) {
@@ -76,26 +66,6 @@ public class Main_Spring_AnnotationBasedConfig {
         LifecycleBean service = (LifecycleBean) ctx.getBean("lifecycleBean");
         assertEquals("_postConstruct_", service.toString());
         // NOTE: I do not know how to test @PreDestroy
-    }
-
-    private static void instantiateByInstantiateFactory(ClassPathXmlApplicationContext ctx) {
-        DependencyFromInstanceFactoryService service = (DependencyFromInstanceFactoryService) ctx
-                .getBean("dependencyFromInstanceFactoryService");
-        assertNotNull(service.getDependency());
-    }
-
-    private static void instantiateByStaticFactory(ClassPathXmlApplicationContext ctx) {
-        // NOTE1: Here the @Bean annotation is used. When a component has a @Bean annotation on 
-        // a method, the result of the method is also managed bean.
-
-        // NOTE2: You have to use @Qualifier annotation, because spring creates two beans: one for class annotated by
-        // component, another for instance returned by the method. This problem is gone, when you use 
-        // instance factory instead of static factory. Then class of the factory and product are different and you does
-        // not have to qualify.
-
-        DependencyFromStaticFactoryService service = (DependencyFromStaticFactoryService) ctx
-                .getBean("dependencyFromStaticFactoryService");
-        assertNotNull(service.getInjected());
     }
 
     private static void setterInjection(ClassPathXmlApplicationContext ctx) {

@@ -11,17 +11,12 @@ import org.springframework.validation.ObjectError;
  * Validator can check if properties are present, if value is from 
  * required range, ...
  * 
- * @author kulhalad
- * @since 7.4
- *
  */
 public class Main {
 
     public static void main(String[] args) {
 
-        ClassPathXmlApplicationContext context = null;
-        try {
-            context = new ClassPathXmlApplicationContext("04_validation.xml");
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("04_validation.xml")) {
 
             Person p = new Person();
             p.setAge(-10);
@@ -35,9 +30,7 @@ public class Main {
                 System.out.println("b: " + err);
             }
             
-        } finally {
-            context.close();
-        }
+        } 
 
     }
 
