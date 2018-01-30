@@ -1,4 +1,4 @@
-package cz.kul.snippets.jpa._2onetomany;
+package cz.kul.snippets.jpa._3_fetchingstrategies;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class OneToManyService {
+public class MyService {
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Transactional
-	public void testCascadeMerge() {
+	public void testOneToMany() {
 
 		// (1) Create data
 		Customer customer = new Customer();
@@ -23,8 +23,8 @@ public class OneToManyService {
 		Address a2 = new Address();
 		a1.setCustomer(customer);
 		a2.setCustomer(customer);
-		customer.getMappedByTest().add(a1);
-		customer.getMappedByTest().add(a2);
+		customer.getAddresses().add(a1);
+		customer.getAddresses().add(a2);
 		em.persist(customer);
 		em.flush();
 		Integer customerId = customer.getId();

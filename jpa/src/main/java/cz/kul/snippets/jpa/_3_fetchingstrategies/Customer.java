@@ -1,4 +1,4 @@
-package cz.kul.snippets.jpa._2onetomany;
+package cz.kul.snippets.jpa._3_fetchingstrategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,11 @@ public class Customer {
 	 * Mapped by contains the name of the property on
 	 * the owning entity (Address.customer)
 	 */
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "customer")
-	private List<Address> mappedByTest = new ArrayList<Address>();
+	@OneToMany(
+			fetch = FetchType.EAGER, 
+			cascade = CascadeType.ALL, 
+			mappedBy = "customer") // name of the property on the other side (Address.customer)
+	private List<Address> addresses = new ArrayList<Address>();
 
 	public Integer getId() {
 		return id;
@@ -42,12 +45,12 @@ public class Customer {
 		return builder.toString();
 	}
 
-	public List<Address> getMappedByTest() {
-		return mappedByTest;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setMappedByTest(List<Address> cascadeMerge) {
-		this.mappedByTest = cascadeMerge;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 
 }

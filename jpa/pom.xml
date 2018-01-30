@@ -13,6 +13,11 @@
         <log4j.version>1.2.16</log4j.version>
         <junit.version>4.11</junit.version>
         <hibernate.version>5.0.8.Final</hibernate.version>
+        <guava.version>21.0</guava.version>
+		<commons-lang3.version>3.5</commons-lang3.version>
+		<assertj.version>3.8.0</assertj.version>
+		<spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version> 
+		<hsql.version>2.3.1</hsql.version>
     </properties>
 
     <dependencies>
@@ -28,6 +33,12 @@
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        
+        <dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa.version}</version>
+		</dependency> 
 
         <!-- Is it necessarry ? -->
         <dependency>
@@ -47,6 +58,12 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+        
+        <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -55,17 +72,16 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.28</version>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsql.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
 
         <dependency>
             <groupId>log4j</groupId>
@@ -84,6 +100,71 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
         </dependency>
+        
+        <!-- utils -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency> 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+		
+		
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>xml-apis</groupId> -->
+<!-- 			<artifactId>xml-apis</artifactId> -->
+<!-- 			<version>${xml-apis.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.javassist</groupId> -->
+<!-- 			<artifactId>javassist</artifactId> -->
+<!-- 			<version>${javassist.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>mysql</groupId> -->
+<!-- 			<artifactId>mysql-connector-java</artifactId> -->
+<!-- 			<version>${mysql-connector-java.version}</version> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework.data</groupId> -->
+<!-- 			<artifactId>spring-data-jpa</artifactId> -->
+<!-- 			<version>${spring-data-jpa.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.h2database</groupId> -->
+<!-- 			<artifactId>h2</artifactId> -->
+<!-- 			<version>${h2.version}</version> -->
+<!-- 		</dependency> -->
+
+		<!-- validation -->
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hibernate</groupId> -->
+<!-- 			<artifactId>hibernate-validator</artifactId> -->
+<!-- 			<version>${hibernate-validator.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.el</groupId> -->
+<!-- 			<artifactId>javax.el-api</artifactId> -->
+<!-- 			<version>${javax.el-api.version}</version> -->
+<!-- 		</dependency> -->
 
     </dependencies>
 
@@ -95,8 +176,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
