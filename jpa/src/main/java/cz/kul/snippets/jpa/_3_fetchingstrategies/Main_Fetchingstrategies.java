@@ -23,7 +23,12 @@ public class Main_Fetchingstrategies {
 			ctx.refresh();
 
 			MyService myService = ctx.getBean(MyService.class);
-			myService.testOneToMany();
+			Long customerId = myService.createCustomer("cust1", "addr1", "addr2");
+			
+			log.info("SELECT:");
+//			Customer customer = myService.findCustomerByName("cust1");
+			myService.findCustomerById(customerId);
+			
 		}
 	}
 

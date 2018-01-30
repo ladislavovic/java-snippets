@@ -13,8 +13,10 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	
+	private String address;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;
 
 	public Integer getId() {
@@ -24,22 +26,26 @@ public class Address {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Order [id=");
-		builder.append(id);
-		builder.append("]");
-		return builder.toString();
-	}
-
+	
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", address=" + address + "]";
 	}
 
 }

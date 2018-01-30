@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 @Service
 public class MyService {
@@ -15,33 +18,39 @@ public class MyService {
 	private EntityManager em;
 
 	@Transactional
-	public void testOneToMany() {
-
-		// (1) Create data
+	public Long createCustomer(String customerName, String... addrs) {
 		Customer customer = new Customer();
-		Address a1 = new Address();
-		Address a2 = new Address();
-		a1.setCustomer(customer);
-		a2.setCustomer(customer);
-		customer.getAddresses().add(a1);
-		customer.getAddresses().add(a2);
 		em.persist(customer);
-		em.flush();
-		Integer customerId = customer.getId();
-
-		// (2) Detach
-		em.detach(customer);
-		em.detach(a1);
-		em.detach(a2);
-
-		// (3) Count instances
-		List l = em.createQuery("select c from Customer as c").getResultList();
-		System.out.println(l.size());
-
-		// (4)
-		Customer merged = em.merge(customer);
-		List l2 = em.createQuery("select c from Customer as c").getResultList();
-		System.out.println(l2.size());
+		
+		for (String addr : addrs) {
+			Address a = new Address();
+			a.setAddress(addr);
+			a.setCustomer(customer);
+			em.persist(a);
+		}
+		
+		return customer.getId();
+	}
+	
+	@Transactional
+	public Customer findCustomerById(Long id) {
+		Session sess = this.em.unwrap(Session.class);
+		sess.enableFetchProfile("profile1");
+		
+		Customer customer = em.find(Customer.class, id);
+		return customer;
+	}
+	
+	public Customer findCustomerByName(String name) {
+		Query q = em.createQuery("select c from Customer c where name = :name");
+		q.setParameter("name", name);
+		
+		@SuppressWarnings("unchecked")
+		List<Customer> resultList = q.getResultList();
+		if (CollectionUtils.isEmpty(resultList)) {
+			return null;
+		}
+		return resultList.get(0);
 	}
 
 }
