@@ -4,8 +4,7 @@ public class Bean1 {
 	
 	private String val;
 
-	public Bean1() {
-	}
+	public Bean1() { }
 
 	public Bean1(String val) {
 		this.val = val;

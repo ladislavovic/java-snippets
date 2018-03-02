@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:06_unittesting.xml")
+@ContextConfiguration("classpath:_06_spring.xml")
 public class SpringAppTest {
     
     @Autowired

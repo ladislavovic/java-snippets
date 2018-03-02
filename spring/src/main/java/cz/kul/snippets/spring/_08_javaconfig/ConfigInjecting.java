@@ -7,7 +7,7 @@ import cz.kul.snippets.spring.common.Bean1;
 import cz.kul.snippets.spring.common.BeanWithDependency;
 
 @Configuration
-public class Config02_Injecting {
+public class ConfigInjecting {
 
 	@Bean
 	public BeanWithDependency bean2_1(Bean1 bean1) {

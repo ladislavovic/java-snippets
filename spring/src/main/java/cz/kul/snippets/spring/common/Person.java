@@ -1,5 +1,6 @@
 package cz.kul.snippets.spring.common;
 
+// TODO remove and use Bean1
 public class Person {
 	
 	private String name;

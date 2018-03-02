@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("04_validation.xml")) {
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext( "_04_spring.xml" )) {
 
             Person p = new Person();
             p.setAge(-10);

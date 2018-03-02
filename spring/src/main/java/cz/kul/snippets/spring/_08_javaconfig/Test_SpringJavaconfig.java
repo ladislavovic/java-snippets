@@ -7,6 +7,9 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.Test;
+
+import cz.kul.snippets.spring.common.SpringTestUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import cz.kul.snippets.spring.common.Bean1;
@@ -17,34 +20,25 @@ import cz.kul.snippets.spring.common.BeanWithDependency;
  *  - lite mode
  * 
  */
-public class Main_SpringJavaconfig {
+public class Test_SpringJavaconfig {
 
-	public static void main(String[] args) {
-		helloWorld();
-		injecting();
-		configurationInheritance();
-		collectionAsSpringBean();
-	}
-	
-	private static void helloWorld() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config01_HelloWorld.class);
-			ctx.refresh();
+	@Test
+	public void testHelloWorld() {
+		SpringTestUtils.runInSpring(ConfigHelloWorld.class, ctx -> {
 			Bean1 bean = ctx.getBean(Bean1.class);
 			assertNotNull(bean);
-		}
+		});
 	}
-	
-	private static void injecting() {
-		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
-			ctx.register(Config02_Injecting.class);
-			ctx.refresh();
+
+	@Test
+	public void injecting() {
+		SpringTestUtils.runInSpring(ConfigInjecting.class, ctx -> {
 			Bean1 bean1 = ctx.getBean(Bean1.class);
 			BeanWithDependency bean2_1 = (BeanWithDependency) ctx.getBean("bean2_1");
 			BeanWithDependency bean2_2 = (BeanWithDependency) ctx.getBean("bean2_2");
 			assertTrue(bean1 == bean2_1.getBean1());
 			assertTrue(bean1 == bean2_2.getBean1());
-		}
+		});
 	}
 
 	private static void configurationInheritance() {

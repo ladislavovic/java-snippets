@@ -31,7 +31,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class Main_SpringSecurity {
 
     public static void main(String[] args) {
-        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("05_security.xml")) {
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("_05_spring.xml")) {
             authenticate();
             logRoles();
             FooService s = (FooService) context.getBean("fooServiceImpl");

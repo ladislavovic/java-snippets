@@ -8,14 +8,27 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import cz.kul.snippets.spring.common.Bean1;
 
+/**
+ *
+ * aspects
+ *   Java / XML
+ *   Definition / Scanning
+ *   Import / inheritance
+ *
+ *
+ * override Java -> Import Java
+ * override Java -> Import Xml
+ * TODO aliases
+ *
+ */
 public class Main_BeanOverriding {
 
 	public static void main(String[] args) {
 		// beanOverriding();
 //		test();
 		importWin();
-
 	}
+
 
 	private static void importWin() {
 		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {

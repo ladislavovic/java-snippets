@@ -22,7 +22,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main_Spring_AnnotationBasedConfig {
 
     public static void main(String[] args) {
-        String cfgFile = "cz/kul/snippets/spring/_03_annotation_based_config/spring-autoscanning.xml";
+        String cfgFile = "_03_spring.xml";
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(cfgFile)) {
             fieldIndection(ctx);
             constructorInjection(ctx);

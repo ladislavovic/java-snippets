@@ -18,7 +18,7 @@ public class Main_SpringXMLConfigHw {
 	}
 
 	public static void createBeans() {
-        String configLocation = "cz/kul/snippets/spring/_01_xmlconfig_hw/spring.xml";
+        String configLocation = "_01_spring.xml";
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(configLocation)) {
 
         	Person person = (Person) ctx.getBean("person");

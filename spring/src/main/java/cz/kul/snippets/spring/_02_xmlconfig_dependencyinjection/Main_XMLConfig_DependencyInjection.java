@@ -15,7 +15,7 @@ public class Main_XMLConfig_DependencyInjection {
 
     public static void main(String[] args) {
 
-        String configLocation = "cz/kul/snippets/spring/_02_xmlconfig_dependencyinjection/spring-xml-dependency-injection.xml";
+        String configLocation = "_02_spring.xml";
 
         try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(configLocation)) {
 
