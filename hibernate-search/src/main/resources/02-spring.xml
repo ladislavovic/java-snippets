@@ -7,15 +7,13 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-    <context:component-scan base-package="cz.kul.snippets.hibernatesearch._01_helloworld" />
-
     <!-- Persistence -->
-    <import resource="classpath:01-spring-hibernate.xml" />
+    <import resource="classpath:02-spring-hibernate.xml" />
 
     <bean id="hwSessionFactory" parent="mySessionFactory" primary="true">
         <property name="packagesToScan">
             <list>
-                <value>cz.kul.snippets.hibernatesearch._01_helloworld</value>
+                <value>cz.kul.snippets.hibernatesearch._02_programmatic_approach</value>
             </list>
         </property>
     </bean>

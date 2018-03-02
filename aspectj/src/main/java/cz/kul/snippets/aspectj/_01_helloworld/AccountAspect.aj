@@ -1,4 +1,7 @@
+package cz.kul.snippets.aspectj._01_helloworld;
+
 public aspect AccountAspect {
+
     final int MIN_BALANCE = 10;
  
     pointcut callWithDraw(int amount, Account acc) : 
@@ -9,6 +12,7 @@ public aspect AccountAspect {
  
     boolean around(int amount, Account acc) : 
       callWithDraw(amount, acc) {
+		System.out.println("ASPECT!");
         if (acc.balance < amount) {
             return false;
         }

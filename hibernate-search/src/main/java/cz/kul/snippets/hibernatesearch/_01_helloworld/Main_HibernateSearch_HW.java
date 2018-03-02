@@ -1,7 +1,6 @@
 package cz.kul.snippets.hibernatesearch._01_helloworld;
 
 import org.apache.lucene.search.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import org.hibernate.search.FullTextQuery;
@@ -11,14 +10,18 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import org.junit.Assert;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.util.List;
-import java.util.function.Function;
 
-public class MainHw {
+import static cz.kul.snippets.hibernatesearch.HibernateUtils.doInTransaction;
+
+public class Main_HibernateSearch_HW {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-hw.xml");
+        clean();
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("01-spring.xml");
         SessionFactory sessionFactory = ctx.getBean(SessionFactory.class);
 
         doInTransaction(sessionFactory, session -> {
@@ -40,9 +43,10 @@ public class MainHw {
             return results;
         });
         Assert.assertEquals(1, people.size());
-
     }
 
-
+    private static void clean() {
+        FileSystemUtils.deleteRecursively(new File("/var/hibernate-seach-snippets"));
+    }
 
 }

@@ -12,8 +12,19 @@ public class Main_BeanOverriding {
 
 	public static void main(String[] args) {
 		// beanOverriding();
-		test();
+//		test();
+		importWin();
 
+	}
+
+	private static void importWin() {
+		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
+			ctx.register(ImportWinConfig.class);
+			ctx.refresh();
+
+			Bean1 byName = (Bean1) ctx.getBean("foo");
+			assertEquals("config_imported", byName.getVal());
+		}
 	}
 
 	private static void test() {
@@ -22,13 +33,7 @@ public class Main_BeanOverriding {
 			ctx.refresh();
 
 			Bean1 byName = (Bean1) ctx.getBean("foo");
-			System.out.println("By name: " + byName.getVal());
-
-//			Bean1 byType = ctx.getBean(Bean1.class);
-//			System.out.println("By type: " + byType.getVal());
-
-			Map<String, Bean1> beansOfType = ctx.getBeansOfType(Bean1.class);
-			beansOfType.entrySet().forEach(x -> System.out.println(x.getKey() + ": " + x.getValue()));
+			assertEquals("project", byName.getVal());
 		}
 
 	}

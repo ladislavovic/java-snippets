@@ -1,4 +1,4 @@
-package cz.kul.snippets.aspectj._01_xmlconfig_hw;
+package cz.kul.snippets.aspectj._01_helloworld;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main_SpringXMLConfigHw {
 
     public static void main(String[] args) {
-        String configLocation = "cz/kul/snippets/spring/_01_xmlconfig_hw/spring.xml";
+        String configLocation = "cz/kul/snippets/spring/_01_helloworld/spring.xml";
 
         try (ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(configLocation)) {
             

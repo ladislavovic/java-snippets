@@ -33,7 +33,7 @@ public abstract class Runner {
         } finally {
             if (session != null) {
                 Transaction transaction = session.getTransaction();
-                if (transaction != null && transaction.isActive()) {
+                if (transaction != null) {
                     transaction.rollback();
                 }
                 session.close();

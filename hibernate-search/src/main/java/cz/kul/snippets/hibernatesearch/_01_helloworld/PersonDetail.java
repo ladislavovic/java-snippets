@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.kul.snippets.hibernate._01_hsql;
+package cz.kul.snippets.hibernatesearch._01_helloworld;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
