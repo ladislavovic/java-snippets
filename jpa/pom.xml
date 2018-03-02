@@ -1,14 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+          <groupId>cz.kul.snippets</groupId>
+          <artifactId>snippets</artifactId>
+          <version>1.0-SNAPSHOT</version>
+    </parent>
     <groupId>cz.kul.snippets</groupId>
     <artifactId>jpa</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>jpa</name>
-    <url>http://maven.apache.org</url>
 
-    <properties>
+    <!-- <properties>
         <spring.version>4.2.5.RELEASE</spring.version>
         <log4j.version>1.2.16</log4j.version>
         <junit.version>4.11</junit.version>
@@ -18,27 +22,25 @@
 		<assertj.version>3.8.0</assertj.version>
 		<spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version> 
 		<hsql.version>2.3.1</hsql.version>
-    </properties>
+    </properties> -->
 
     <dependencies>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         
-        <dependency>
+        <!-- <dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 			<version>${spring-data-jpa.version}</version>
-		</dependency> 
+		</dependency>  -->
 
         <!-- Is it necessarry ? -->
         <dependency>
@@ -50,137 +52,35 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
+            <version>5.0.8.Final</version> <!-- TODO why??? -->
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         
         <dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-        <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.3.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsql.version}</version>
-        </dependency>
-
-        <dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
-		</dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.5</version>
-        </dependency>
-        
-        <!-- utils -->
 
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
 		</dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
-        </dependency> 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-		
-		
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>xml-apis</groupId> -->
-<!-- 			<artifactId>xml-apis</artifactId> -->
-<!-- 			<version>${xml-apis.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.javassist</groupId> -->
-<!-- 			<artifactId>javassist</artifactId> -->
-<!-- 			<version>${javassist.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>mysql</groupId> -->
-<!-- 			<artifactId>mysql-connector-java</artifactId> -->
-<!-- 			<version>${mysql-connector-java.version}</version> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.data</groupId> -->
-<!-- 			<artifactId>spring-data-jpa</artifactId> -->
-<!-- 			<version>${spring-data-jpa.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.h2database</groupId> -->
-<!-- 			<artifactId>h2</artifactId> -->
-<!-- 			<version>${h2.version}</version> -->
-<!-- 		</dependency> -->
+        </dependency>
 
-		<!-- validation -->
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hibernate</groupId> -->
-<!-- 			<artifactId>hibernate-validator</artifactId> -->
-<!-- 			<version>${hibernate-validator.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.el</groupId> -->
-<!-- 			<artifactId>javax.el-api</artifactId> -->
-<!-- 			<version>${javax.el-api.version}</version> -->
-<!-- 		</dependency> -->
 
     </dependencies>
 
-    <build>
-        <finalName>pioscontrol</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    
 
 </project>

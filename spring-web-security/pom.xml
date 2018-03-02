@@ -1,23 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+        <groupId>cz.kul.snippets</groupId>
+        <artifactId>snippets</artifactId>
+        <version>1.0-SNAPSHOT</version>
+  </parent>
 	<groupId>cz.kul.snippets</groupId>
 	<artifactId>spring-web-security</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Spring web security</name>
-
-	<properties>
-		<spring.version>4.2.5.RELEASE</spring.version>
-		<spring.security.version>4.0.4.RELEASE</spring.security.version>
-	</properties>
+	<name>spring-web-security</name>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
+			<artifactId>spring-context</artifactId>
 		</dependency>
 
 		<dependency>
@@ -29,19 +28,17 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
+			<version>${spring-security.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
 		</dependency>
 
 		<dependency>
@@ -59,17 +56,4 @@
 
 	</dependencies>
 
-	<build>
-		<finalName>spring-web-security</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-</project>
+	</project>
