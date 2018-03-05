@@ -8,6 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * TODO distinguish "annotation based config" and "component scan"
+ *
+ * TODO component scan does not allow you to have two beans with the same name
+ *
+ *
  * You can mark beans by annotations and spring then automatically find them.
  * 
  * You does not have to create xml configuration. It is more comfortable.

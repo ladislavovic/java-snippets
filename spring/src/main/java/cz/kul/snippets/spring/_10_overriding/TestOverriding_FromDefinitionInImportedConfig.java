@@ -9,36 +9,36 @@ import org.springframework.context.annotation.Import;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestOverride_JavaByJava_Definition_Import {
+public class TestOverriding_FromDefinitionInImportedConfig {
 
     @Configuration
-    @Import({Imported.class})
-    public static class Importing {
+    @Import({Importee.class})
+    public static class Importer {
 
         @Bean
         public Bean1 foo() {
-            return new Bean1("val");
+            return new Bean1("importer");
         }
 
     }
 
     @Configuration
-    public static class Imported {
+    public static class Importee {
 
         @Bean
         public Bean1 foo() {
-            return new Bean1("val_imported");
+            return new Bean1("importee");
         }
+
     }
 
     @Test
-    public void importingWins() {
-        SpringTestUtils.runInSpring(Importing.class, ctx -> {
-
+    public void importerWins() {
+        SpringTestUtils.runInSpring(Importer.class, ctx -> {
             // NOTE: it is OK, because bean is overriden so there is still only
             // one bean of type Bean1. in the context.
             Bean1 bean = ctx.getBean(Bean1.class);
-            assertEquals("val", bean.getVal());
+            assertEquals("importer", bean.getVal());
         });
     }
 
