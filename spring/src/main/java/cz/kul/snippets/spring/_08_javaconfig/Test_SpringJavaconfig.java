@@ -41,6 +41,8 @@ public class Test_SpringJavaconfig {
 		});
 	}
 
+
+
 	private static void configurationInheritance() {
 		try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
 			ctx.register(Config03_realConfiguration.class);

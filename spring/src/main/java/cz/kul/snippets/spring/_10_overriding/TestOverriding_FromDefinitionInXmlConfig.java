@@ -28,12 +28,14 @@ public class TestOverriding_FromDefinitionInXmlConfig {
      * You can normally override bean configured in imported
      * Java config, but you can't do it for bean configured in
      * imported xml config.
+     *
+     * https://jira.spring.io/browse/SPR-7028
      */
     @Test
     public void xmlWins() {
         SpringTestUtils.runInSpring(Importer.class, ctx -> {
             Bean1 bean = ctx.getBean(Bean1.class);
-            assertEquals("importer", bean.getVal());
+            assertEquals("xml", bean.getVal());
         });
     }
 
