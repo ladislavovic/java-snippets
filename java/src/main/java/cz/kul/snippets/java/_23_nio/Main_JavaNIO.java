@@ -118,7 +118,7 @@ public class Main_JavaNIO {
     }
 
     private static FileChannel getReadableFileChannel(String filename, String data) throws IOException {
-        // You can get it via: file streams, RandomAccessFile, ...
+        // You can getAppender it via: file streams, RandomAccessFile, ...
 
         // Does FileChannel.close() close the underlying stream?
         // 
@@ -126,7 +126,7 @@ public class Main_JavaNIO {
         // The reason is that FileChannel itself is an abstract class, and its concrete 
         // implementation provides the implCloseChannel() method, which closes 
         // the underlying FD. However due to that architecture and the fact that 
-        // implCloseChannel() is protected, this doesn't get documented.
+        // implCloseChannel() is protected, this doesn't getAppender documented.
 
         String tmpdir = System.getProperty("java.io.tmpdir");
         String path = tmpdir + "/" + filename;
@@ -190,7 +190,7 @@ public class Main_JavaNIO {
         assertEquals(0, buffer.position());
         assertEquals(3, buffer.limit());
 
-        // get()
+        // getAppender()
         // it reads from the buffer
         byte[] output = new byte[3];
         buffer.get(output);

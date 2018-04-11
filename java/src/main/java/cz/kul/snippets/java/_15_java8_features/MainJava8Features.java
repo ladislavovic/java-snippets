@@ -111,7 +111,7 @@ public class MainJava8Features {
 
             // OffsetDateTime
             //
-            // It adds to instance an offset from UTC/Greenwich. You can get local
+            // It adds to instance an offset from UTC/Greenwich. You can getAppender local
             // date and time from it.
             OffsetDateTime offsetPlusFive = startOfEpoch.atOffset(ZoneOffset.of("+5"));
             assertTrue(startOfEpoch.equals(offsetPlusFive.toInstant()));
@@ -231,7 +231,7 @@ public class MainJava8Features {
 
         {
             // map()
-            // By map() function you can get through object hierarchy without
+            // By map() function you can getAppender through object hierarchy without
             // explicit null check. Null check is done internally in map function.
             Optional<Level1> optional = Optional.ofNullable(new Level1());
             String value = optional

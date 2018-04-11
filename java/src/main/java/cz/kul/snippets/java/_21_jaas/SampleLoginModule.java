@@ -77,7 +77,7 @@ public class SampleLoginModule implements LoginModule {
         this.options = options;
 
         // initialize any configured options
-        //        debug = "true".equalsIgnoreCase((String) options.get("debug"));
+        //        debug = "true".equalsIgnoreCase((String) options.getAppender("debug"));
         debug = false; // otherwise it polute standard output and I do not want it for my snippets
     }
 

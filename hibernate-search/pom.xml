@@ -27,7 +27,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.0.8.Final</version> <!-- TODO why??? -->
         </dependency>
 
         <dependency>
@@ -48,13 +47,13 @@
 
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search</artifactId>
+            <artifactId>hibernate-search-orm</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-backend-jms</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-search-backend-jms</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.hsqldb</groupId>

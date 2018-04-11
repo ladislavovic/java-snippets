@@ -35,10 +35,10 @@ public class Main_JAAS {
      * LoginModule - An interface for particular authentication servide. You can often use
      * existing ones for particular services.
      * 
-     * CallbackHandler - když LoginModule potøebuje komunikovat s uživatelem, napø zjistit
-     * jméno a heslo, nedìlá to pøímo, ale pomocí CallbackHandleru. Pošle mu callback a
-     * ten už vše zaøídí. Dùvod tohoto øešení je, že jeden LoginModule mùže komunikovat se
-     * Subjektem rùznými zpùsoby - jednou pøes cmd, jednou pøes web atd.
+     * CallbackHandler - kdyï¿½ LoginModule potï¿½ebuje komunikovat s uï¿½ivatelem, napï¿½ zjistit
+     * jmï¿½no a heslo, nedï¿½lï¿½ to pï¿½ï¿½mo, ale pomocï¿½ CallbackHandleru. Poï¿½le mu callback a
+     * ten uï¿½ vï¿½e zaï¿½ï¿½dï¿½. Dï¿½vod tohoto ï¿½eï¿½enï¿½ je, ï¿½e jeden LoginModule mï¿½ï¿½e komunikovat se
+     * Subjektem rï¿½znï¿½mi zpï¿½soby - jednou pï¿½es cmd, jednou pï¿½es web atd.
      * 
      * Subject - In a security context, a subject is any entity that requests access to an
      * object. These are generic terms used to denote the thing requesting access and the
@@ -48,12 +48,12 @@ public class Main_JAAS {
      * requested of.
      * 
      * Principal - A subset of subject that is represented by an account, role or other
-     * unique identifier. When we get to the level of implementation details, principals
+     * unique identifier. When we getAppender to the level of implementation details, principals
      * are the unique keys we use in access control lists. They may represent human users,
      * automation, applications, connections, etc.
      * 
-     * Credentials - Jsou to objekty, který jsou verifikovány pøi autentizaèní transakci.
-     * Typicky jsou to jméno a heslo, certifikát, otisk prstu, token, ...
+     * Credentials - Jsou to objekty, kterï¿½ jsou verifikovï¿½ny pï¿½i autentizaï¿½nï¿½ transakci.
+     * Typicky jsou to jmï¿½no a heslo, certifikï¿½t, otisk prstu, token, ...
      * 
      * @throws Exception
      */

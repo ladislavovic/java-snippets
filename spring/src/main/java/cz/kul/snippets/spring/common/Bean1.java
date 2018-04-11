@@ -1,6 +1,10 @@
 package cz.kul.snippets.spring.common;
 
-public class Bean1 {
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+
+public class Bean1 implements BeanFactoryPostProcessor {
 	
 	private String val;
 
@@ -22,5 +26,9 @@ public class Bean1 {
 	public String toString() {
 		return "Bean1 [val=" + val + "]";
 	}
-	
+
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		System.out.println("AAAAAAAA");
+	}
 }

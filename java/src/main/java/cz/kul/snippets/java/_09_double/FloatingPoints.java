@@ -26,38 +26,38 @@ public class FloatingPoints {
     
     private static void exactRepresentation() {
         /* 
-        1. Ne všechny racionální èísla lze vyjádøit koneèným desetinným rozovjem.
-        2. Ne všechny èísla vyjádøené koneèným desetinným rozvojem lze vyjádøit
-           koneèným binárním rozvojem.
-        3. Všechny èísla vyjádøena koneèným binárním rozvojem lze vyjádøit koneèným
-           desetinným rozvojem.
-        4. Všechny celé èísla mají ve floating point pøesnou reprezentaci
+        1. Ne vï¿½echny racionï¿½lnï¿½ ï¿½ï¿½sla lze vyjï¿½dï¿½it koneï¿½nï¿½m desetinnï¿½m rozovjem.
+        2. Ne vï¿½echny ï¿½ï¿½sla vyjï¿½dï¿½enï¿½ koneï¿½nï¿½m desetinnï¿½m rozvojem lze vyjï¿½dï¿½it
+           koneï¿½nï¿½m binï¿½rnï¿½m rozvojem.
+        3. Vï¿½echny ï¿½ï¿½sla vyjï¿½dï¿½ena koneï¿½nï¿½m binï¿½rnï¿½m rozvojem lze vyjï¿½dï¿½it koneï¿½nï¿½m
+           desetinnï¿½m rozvojem.
+        4. Vï¿½echny celï¿½ ï¿½ï¿½sla majï¿½ ve floating point pï¿½esnou reprezentaci
         
-        Podrobnìjší vysvìtlení:
-        1. Mìjme zlomek a/b. Pokud existuje n takové, že (a/b)*10^n je celé èíslo,
-        pak jde èíslo vyjádøit koneèným desetinným rozvojem.
-        Pøíklad1: pro 11/500 existuje èísl 3: (11/500)*10^3 = 11000/500 = 22.
-        Pøíklad2: pro 1/3 takové n není. Mùžeme násobit jak dlouho chceme, ale
-        trojky ve jmenovateli se nezbavíme.
+        Podrobnï¿½jï¿½ï¿½ vysvï¿½tlenï¿½:
+        1. Mï¿½jme zlomek a/b. Pokud existuje n takovï¿½, ï¿½e (a/b)*10^n je celï¿½ ï¿½ï¿½slo,
+        pak jde ï¿½ï¿½slo vyjï¿½dï¿½it koneï¿½nï¿½m desetinnï¿½m rozvojem.
+        Pï¿½ï¿½klad1: pro 11/500 existuje ï¿½ï¿½sl 3: (11/500)*10^3 = 11000/500 = 22.
+        Pï¿½ï¿½klad2: pro 1/3 takovï¿½ n nenï¿½. Mï¿½ï¿½eme nï¿½sobit jak dlouho chceme, ale
+        trojky ve jmenovateli se nezbavï¿½me.
         
-        2. Prvnoèinitelé 10 jsou 2 a 5. Ve jmenovateli se zbavíme jenom takových
-        èísel, která mají taky prvnoèinitele 2 a 5. Pøíklady:
-        1/2 - prvoèinitele: 2 => koneèný des rozvoj (0.5)
-        1/3 - prvoèinitele: 3 => NEkoneèný des rozvoj
-        1/4 - prvoèinitele: 2, 2 => koneèný des rozvoj (0.25)
-        1/5 - prvoèinitele: 5 => koneèný des rozvoj (0.2)
-        1/6 - prvoèinitele: 2, 3 => NEkoneèný des rozvoj
+        2. Prvnoï¿½initelï¿½ 10 jsou 2 a 5. Ve jmenovateli se zbavï¿½me jenom takovï¿½ch
+        ï¿½ï¿½sel, kterï¿½ majï¿½ taky prvnoï¿½initele 2 a 5. Pï¿½ï¿½klady:
+        1/2 - prvoï¿½initele: 2 => koneï¿½nï¿½ des rozvoj (0.5)
+        1/3 - prvoï¿½initele: 3 => NEkoneï¿½nï¿½ des rozvoj
+        1/4 - prvoï¿½initele: 2, 2 => koneï¿½nï¿½ des rozvoj (0.25)
+        1/5 - prvoï¿½initele: 5 => koneï¿½nï¿½ des rozvoj (0.2)
+        1/6 - prvoï¿½initele: 2, 3 => NEkoneï¿½nï¿½ des rozvoj
         
-        3. Toto mùžeme zobecnit na všechny èíselné základy: koneèným rozvojem lze
-        vyjádøit pouze èísla, jejichž prvoèinitele jmenovatele jsou podmnožina
-        prvoèinitelù èíselné báze.
-        Takže napøíklad 1/3 lze vyjádøit koneèným rozovjem v soustavách o základu
+        3. Toto mï¿½ï¿½eme zobecnit na vï¿½echny ï¿½ï¿½selnï¿½ zï¿½klady: koneï¿½nï¿½m rozvojem lze
+        vyjï¿½dï¿½it pouze ï¿½ï¿½sla, jejichï¿½ prvoï¿½initele jmenovatele jsou podmnoï¿½ina
+        prvoï¿½initelï¿½ ï¿½ï¿½selnï¿½ bï¿½ze.
+        Takï¿½e napï¿½ï¿½klad 1/3 lze vyjï¿½dï¿½it koneï¿½nï¿½m rozovjem v soustavï¿½ch o zï¿½kladu
         3, 6, 9, 12, ...
         
-        4. Prvoèinitel èísla 2 je 2. Binární èísla lze tedy vyjádøit koneèným
+        4. Prvoï¿½initel ï¿½ï¿½sla 2 je 2. Binï¿½rnï¿½ ï¿½ï¿½sla lze tedy vyjï¿½dï¿½it koneï¿½nï¿½m
         rozvojem, jen pokud je jmenovatel mocnina 2.
-        Desetinná èísla mùžou mít ve jmenovateli 2 a 5, binární èísla s koneèným
-        rozvojem jsou tedy podmnožinou desetinných èísel s koneèným rozvojem.
+        Desetinnï¿½ ï¿½ï¿½sla mï¿½ï¿½ou mï¿½t ve jmenovateli 2 a 5, binï¿½rnï¿½ ï¿½ï¿½sla s koneï¿½nï¿½m
+        rozvojem jsou tedy podmnoï¿½inou desetinnï¿½ch ï¿½ï¿½sel s koneï¿½nï¿½m rozvojem.
         */
         
         Assert.assertTrue("0.1 has factors 2 and 5", new BigDecimal(0.1).compareTo(new BigDecimal("0.1")) != 0);
@@ -80,7 +80,7 @@ public class FloatingPoints {
         //
         // This example convert 4.6 to floating point representation
         float f = 4.6f;
-        // 1. First we get sign bit. It is 0 if the number is >= 0, 1 for
+        // 1. First we getAppender sign bit. It is 0 if the number is >= 0, 1 for
         //    negative numbers
         Assert.assertEquals("0", getSignPart(f));
         // 2. As second we convert number into normalised form - number

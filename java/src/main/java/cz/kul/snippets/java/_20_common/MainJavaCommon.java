@@ -126,7 +126,7 @@ public class MainJavaCommon {
     /**
      * When you create stirng by constructor you just create a new instance.
      * 
-     * When you create string by literal, you create new instace or get the instance from
+     * When you create string by literal, you create new instace or getAppender the instance from
      * string pool if it is there already. If the instance is not there it is added there
      * automatically.
      * 
@@ -137,8 +137,8 @@ public class MainJavaCommon {
      * implementation of flyweight design pattern.
      */
     private static void stringPool() {
-        String s1 = "foo"; // get from string pool or added there
-        String s2 = "foo"; // get from string pool or added there
+        String s1 = "foo"; // getAppender from string pool or added there
+        String s2 = "foo"; // getAppender from string pool or added there
         assertTrue(s1 == s2);
 
         String s3 = new String("foo"); // new instance created
@@ -187,7 +187,7 @@ public class MainJavaCommon {
     }
 
     /**
-     * By this method you can get resource, which is on the classpath.
+     * By this method you can getAppender resource, which is on the classpath.
      */
     private static void getResourceAsStream() {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

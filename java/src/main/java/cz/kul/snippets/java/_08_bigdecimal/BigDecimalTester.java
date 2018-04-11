@@ -106,7 +106,7 @@ public class BigDecimalTester {
         // in base 3, base 6, base 9, base 12, etc. and 1/7 could be expressed exactly 
         // in base 7, base 14, base 21, etc. 
         // BigDecimal advantages are that it is arbitrary precision and that humans are 
-        // used to the rounding errors you get in base 10.
+        // used to the rounding errors you getAppender in base 10.
     }
         
 }

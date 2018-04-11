@@ -1,6 +1,5 @@
 package cz.kul.snippets.spring._08_javaconfig;
 
-import cz.kul.snippets.spring._10_overriding.module1.Module1Bean;
 import cz.kul.snippets.spring.common.Bean1;
 import cz.kul.snippets.spring.common.SpringTestUtils;
 import org.junit.Before;
@@ -49,7 +48,7 @@ public class TestDoubleConfigImport {
     }
 
     @Configuration
-    @Import(Module1Bean.class)
+    @Import(Module1Config.class)
     public static class Module2Config {
 
         @Bean

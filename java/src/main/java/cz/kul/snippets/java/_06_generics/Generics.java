@@ -94,7 +94,7 @@ public class Generics {
         // a.add(10); // This is wrong!
         
         // "? super Integer" collections (Write only)
-        // reading: you can read but you can get only "Object type"
+        // reading: you can read but you can getAppender only "Object type"
         // writing: you can write "Integer" types into coll like this. This
         // the only type, which is secure to write.
         List<? super Integer> b = new ArrayList<Number>(Arrays.asList(10, 20));

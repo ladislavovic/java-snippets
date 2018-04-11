@@ -69,7 +69,7 @@ public class Main_Collections {
         // - map with defined keys order
         // - implemented by red-black tree
         // - order is defined by Comparator or campareTo method
-        // - log(n) speed of get, put and remove (so slower than HashMap)
+        // - log(n) speed of getAppender, put and remove (so slower than HashMap)
         NavigableMap<String, String> map = new TreeMap<String, String>();
         map.put("b", "foo");
         map.put("c", "bar");
@@ -106,7 +106,7 @@ public class Main_Collections {
         System.out.println("Map: " + a);
         System.out.println("Map contains 'null' key: " + a.containsKey(null));
         System.out.println("Value for 'null' key: " + a.get(null));
-        System.out.println("Value for 'foo' key: " + a.get("foo") + " (that means when 'get()' method returns null the key/value pair still can be present)");
+        System.out.println("Value for 'foo' key: " + a.get("foo") + " (that means when 'getAppender()' method returns null the key/value pair still can be present)");
     }
     
 

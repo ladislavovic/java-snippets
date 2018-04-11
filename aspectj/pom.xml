@@ -27,7 +27,12 @@
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>cz.kul.snippets</groupId>
+            <artifactId>snippets</artifactId>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
