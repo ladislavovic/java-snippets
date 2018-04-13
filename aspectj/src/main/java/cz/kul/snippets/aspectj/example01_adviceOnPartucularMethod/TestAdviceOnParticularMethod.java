@@ -14,17 +14,5 @@ public class TestAdviceOnParticularMethod extends SnippetsTest {
         assertMessageCountInLog(1, AspectParticularMethod.LOG_MSG);
     }
 
-
-
-    @Test
-    public void thisAndTargetPointcut() {
-        Account account = new Account();
-        AccountHandler accountHandler = new AccountHandler();
-        accountHandler.handleInsert(account, 20);
-        assertMessageCountInLog(1, "thisAndTarget");
-    }
-
-
-
 }
 

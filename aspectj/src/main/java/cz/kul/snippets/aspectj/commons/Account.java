@@ -2,7 +2,14 @@ package cz.kul.snippets.aspectj.commons;
 
 public class Account {
 
-    int balance = 20;
+    int balance;
+
+    public Account() {
+    }
+
+    public Account(int balance) {
+        this.balance = balance;
+    }
 
     public void withdraw(int amount) {
         if (balance < amount) {
@@ -15,5 +22,8 @@ public class Account {
        balance += amount;
     }
 
+    public int getBalance() {
+        return balance;
+    }
 
 }

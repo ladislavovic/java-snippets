@@ -8,6 +8,8 @@ public aspect AspectParticularMethod {
 
     private final static Logger logger = Logger.getLogger(AspectParticularMethod.class);
 
+    // NOTE: you have to write whole class name including packages, without that
+    //       I had a compilation error
     pointcut particularMethod() :
             call(void cz.kul.snippets.aspectj.commons.Account.withdraw(int));
 

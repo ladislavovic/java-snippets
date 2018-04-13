@@ -9,7 +9,7 @@ public class SnippetsTest {
     private FilesystemHelper filesystemHelper;
 
     @Before
-    public void before() {
+    public void snippetsTestBefore() {
         memmoryAppenderHelper = MemmoryAppenderHelper.getInstance();
         filesystemHelper = FilesystemHelper.getInstance();
     }
