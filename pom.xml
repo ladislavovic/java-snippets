@@ -122,6 +122,7 @@
         <module>spring-web-security</module>
         <module>sql</module>
         <module>web</module>
+        <module>xml</module>
     </modules>
 
     <dependencies>
