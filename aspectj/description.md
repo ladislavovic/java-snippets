@@ -33,5 +33,17 @@ There is several type of advices:
 It is a unit of modularity. It can contains several advices.
 It is like class in Java.
 
+### Call vs Execute
+There are these two similar pointcuts, but they are different in several
+aspects:
+  * call means when some code is called. The caller must be weaved. Callee
+    not.
+  * execute means when some code is executed. The calee is weaved here.
+Rule of thumb: The rule of thumb is that if you want to pick a join point
+that runs when an actual piece of code runs (as is often the case for
+tracing), use execution, but if you want to pick one that runs when
+a particular signature is called (as is often the case for production
+aspects), use call.
+
 TODO
 * what happen when aspect call method which has another aspect assign? Does it works?
