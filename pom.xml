@@ -121,6 +121,7 @@
         <module>spring-mvc</module>
         <module>spring-web-security</module>
         <module>sql</module>
+        <module>swt</module>
         <module>web</module>
         <module>xml</module>
     </modules>
