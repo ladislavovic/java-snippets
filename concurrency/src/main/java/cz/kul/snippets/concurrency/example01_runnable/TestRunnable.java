@@ -6,7 +6,7 @@ import org.junit.Test;
 
 /**
  * Create implementation of Runnable interface is one possible way, how to
- * create new thread.
+ * createNotInterruptable new thread.
  * 
  * Procedure (steps):
  * 
