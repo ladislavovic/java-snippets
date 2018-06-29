@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch._02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
 
 import org.apache.lucene.search.Query;
 import org.hibernate.SessionFactory;
@@ -17,7 +17,7 @@ import org.springframework.util.FileSystemUtils;
 import java.io.File;
 import java.util.List;
 
-import static cz.kul.snippets.hibernatesearch.HibernateUtils.doInTransaction;
+import static cz.kul.snippets.hibernatesearch.commons.HibernateUtils.doInTransaction;
 
 public class TestProgrammaticApproach {
 

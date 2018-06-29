@@ -13,7 +13,7 @@
     <bean id="hwSessionFactory" parent="mySessionFactory" primary="true">
         <property name="packagesToScan">
             <list>
-                <value>cz.kul.snippets.hibernatesearch._02_programmatic_approach</value>
+                <value>cz.kul.snippets.hibernatesearch.example02_programmatic_approach</value>
             </list>
         </property>
     </bean>

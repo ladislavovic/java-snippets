@@ -1,4 +1,4 @@
-package cz.kul.snippets.hsql._01_basics;
+package cz.kul.snippets.hsql.example02_databaseInMemmory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

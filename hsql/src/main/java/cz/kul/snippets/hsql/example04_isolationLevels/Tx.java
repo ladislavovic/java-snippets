@@ -1,4 +1,4 @@
-package cz.kul.snippets.hsql.tx;
+package cz.kul.snippets.hsql.example04_isolationLevels;
 
 import java.sql.Connection;
 import java.util.List;

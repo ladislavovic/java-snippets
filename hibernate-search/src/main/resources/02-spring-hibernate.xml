@@ -25,7 +25,7 @@
     </bean>
 
     <bean name="searchConfiguration"
-          class="cz.kul.snippets.hibernatesearch._02_programmatic_approach.SearchConfiguration"
+          class="cz.kul.snippets.hibernatesearch.example02_programmatic_approach.SearchConfiguration"
           factory-method="createSearchMapping"/>
 
     <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">

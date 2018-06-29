@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch;
+package cz.kul.snippets.hibernatesearch.commons;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

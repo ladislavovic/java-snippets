@@ -1,4 +1,4 @@
-package cz.kul.snippets.hsql._01_basics;
+package cz.kul.snippets.hsql.commons;
 
 import org.hsqldb.util.DatabaseManagerSwing;
 

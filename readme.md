@@ -32,3 +32,16 @@ My snippets have this structure:
 11. each example has its own directory in resources folder
 12. resource related to given example
 13. description of the project/technology. It contains terms, basic principles, ...
+
+
+### To clean
+* join hibernate and jpa projects
+* projects which use hsql database should create files in tmp
+  directory, not in project
+* hibernate search
+  * organize resources
+  * HibernateUtils - I think it should be removed
+  * describe
+* hsql
+  * refactor isolationLevels example
+  * describe

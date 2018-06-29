@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch._02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
 
 import org.hibernate.search.cfg.SearchMapping;
 
