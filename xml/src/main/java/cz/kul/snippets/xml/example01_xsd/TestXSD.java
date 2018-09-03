@@ -16,18 +16,14 @@ import java.io.StringReader;
 public class TestXSD extends SnippetsTest {
 
     @Test
-    public void simpleElement_string() {
+    public void simpleElement() {
         StringBuilder valid = new StringBuilder();
         valid.append("<?xml version=\"1.0\"?>              ");
         valid.append("<data xmlns=\"https://www.kul.com\"> ");
         valid.append("  <name>Jane</name>                  ");
+        valid.append("  <age>10</age>                      ");
+        valid.append("  <birthday>2001-01-20</birthday>    ");
         valid.append("</data>                              ");
-
-        StringBuilder invalid = new StringBuilder();
-        invalid.append("<?xml version=\"1.0\"?>              ");
-        invalid.append("<data xmlns=\"https://www.kul.com\"> ");
-        invalid.append("  <name>10</name>                    ");
-        invalid.append("</data>                              ");
 
         StringBuilder xsd = new StringBuilder();
         xsd.append("<?xml version=\"1.0\"?>                                ");
@@ -41,6 +37,8 @@ public class TestXSD extends SnippetsTest {
         xsd.append("    <xs:complexType>                                   ");
         xsd.append("      <xs:sequence>                                    ");
         xsd.append("        <xs:element name=\"name\" type=\"xs:string\"/> ");
+        xsd.append("        <xs:element name=\"age\" type=\"xs:integer\"/> ");
+        xsd.append("        <xs:element name=\"birthday\" type=\"xs:date\"/> ");
         xsd.append("      </xs:sequence>                                   ");
         xsd.append("    </xs:complexType>                                  ");
         xsd.append("  </xs:element>                                        ");
@@ -84,37 +82,28 @@ public class TestXSD extends SnippetsTest {
     }
 
     @Test
-    public void simpleElement_integer() {
+    public void attribute() {
         StringBuilder valid = new StringBuilder();
-        valid.append("<?xml version=\"1.0\"?>              ");
-        valid.append("<data xmlns=\"https://www.kul.com\"> ");
-        valid.append("  <age>25</age>                      ");
-        valid.append("</data>                              ");
-
-        StringBuilder invalid = new StringBuilder();
-        invalid.append("<?xml version=\"1.0\"?>              ");
-        invalid.append("<data xmlns=\"https://www.kul.com\"> ");
-        invalid.append("  <age>twenty</age>                  ");
-        invalid.append("</data>                              ");
+        valid.append("<?xml version=\"1.0\"?>                                     ");
+        valid.append("<data xmlns=\"https://www.kul.com\" source=\"wikipedia\" source2=\"aaa\"/> ");
 
         StringBuilder xsd = new StringBuilder();
-        xsd.append("<?xml version=\"1.0\"?>                                 ");
-        xsd.append("<xs:schema                                              ");
-        xsd.append("  xmlns=\"https://www.kul.com\"                         ");
-        xsd.append("  xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"         ");
-        xsd.append("  targetNamespace=\"https://www.kul.com\"               ");
-        xsd.append("  elementFormDefault=\"qualified\"                      ");
-        xsd.append(">                                                       ");
-        xsd.append("  <xs:element name=\"data\">                            ");
-        xsd.append("    <xs:complexType>                                    ");
-        xsd.append("      <xs:sequence>                                     ");
-        xsd.append("        <xs:element name=\"age\" type=\"xs:integer\"/>  ");
-        xsd.append("      </xs:sequence>                                    ");
-        xsd.append("    </xs:complexType>                                   ");
-        xsd.append("  </xs:element>                                         ");
-        xsd.append("</xs:schema>                                            ");
+        xsd.append("<?xml version=\"1.0\"?>                                       ");
+        xsd.append("<xs:schema                                                    ");
+        xsd.append("  xmlns=\"https://www.kul.com\"                               ");
+        xsd.append("  xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"               ");
+        xsd.append("  targetNamespace=\"https://www.kul.com\"                     ");
+        xsd.append("  elementFormDefault=\"qualified\"                            ");
+        xsd.append(">                                                             ");
+        xsd.append("  <xs:element name=\"data\">                                  ");
+        xsd.append("    <xs:complexType>                                          ");
+        xsd.append("      <xs:attribute name=\"source\" type=\"xs:string\"/>      ");
+        xsd.append("      <xs:attribute name=\"source2\" type=\"xs:string\"/>      ");
+        xsd.append("    </xs:complexType>                                         ");
+        xsd.append("  </xs:element>                                               ");
+        xsd.append("</xs:schema>                                                  ");
 
-        assertValidAndNotValidXml(xsd.toString(), valid.toString(), invalid.toString());
+        assertValidXml(xsd.toString(), valid.toString());
     }
 
     @Test

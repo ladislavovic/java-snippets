@@ -1,11 +1,10 @@
 package cz.kul.snippets.jpa.common.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Person {
@@ -14,11 +13,19 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String firstname;
-	
-	private String secondname;
+	private String name;
 	
 	private Date birthdate;
+
+	public Person() {
+	}
+
+	public Person(String name) {
+		this.name = name;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="person")
+	private Set<PersonDetail> details = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -28,20 +35,12 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getSecondname() {
-		return secondname;
-	}
-
-	public void setSecondname(String secondname) {
-		this.secondname = secondname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Date getBirthdate() {
@@ -52,10 +51,22 @@ public class Person {
 		this.birthdate = birthdate;
 	}
 
+	public Set<PersonDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(Set<PersonDetail> details) {
+		this.details = details;
+	}
+
+	public void addDetail(PersonDetail detail) {
+		details.add(detail);
+		detail.setPerson(this);
+	}
+
 	@Override
 	public String toString() {
-		return "Person [id=" + id + ", firstname=" + firstname + ", secondname=" + secondname + ", birthdate="
-				+ birthdate + "]";
+		return "Person [id=" + id + ", name=" + name + ", birthdate=" + birthdate + "]";
 	}
 	
 }

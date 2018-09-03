@@ -35,7 +35,7 @@ My snippets have this structure:
 
 
 ### To clean
-* join hibernate and jpa projects
+* OK join hibernate and jpa projects
 * projects which use hsql database should create files in tmp
   directory, not in project
 * hibernate search

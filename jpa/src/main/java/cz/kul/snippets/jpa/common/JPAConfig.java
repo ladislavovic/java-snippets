@@ -23,8 +23,6 @@ import com.google.common.base.Preconditions;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({ "classpath:app.properties" })
-//@ComponentScan({ "cz.kul.snippets.jpa.model" })
-//@EnableJpaRepositories(basePackages = "cz.kul.snippets.jpa.model")
 public class JPAConfig {
 
     @Autowired
