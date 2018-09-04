@@ -1,5 +1,6 @@
 package cz.kul.snippets.jpa.common;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -28,8 +29,12 @@ public class SpringContextInitializer {
 
     public AbstractApplicationContext initialize() {
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.register(configClasses);
-        ctx.scan(autoscanBasePackages);
+        if (ArrayUtils.isNotEmpty(configClasses)) {
+            ctx.register(configClasses);
+        }
+        if (ArrayUtils.isNotEmpty(autoscanBasePackages)) {
+            ctx.scan(autoscanBasePackages);
+        }
         MapPropertySource springContextInitializerSource = new MapPropertySource("springContextInitializerSource", properties);
         ctx.getEnvironment().getPropertySources().addFirst(springContextInitializerSource);
         log.info("### Context refreshing...");

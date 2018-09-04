@@ -108,6 +108,7 @@
         <module>concurrency</module>
         <module>commons</module>
         <module>commons-web</module>
+        <module>commons-jpa</module>
         <module>design-patterns</module>
         <module>util-libraries</module>
         <module>hibernate-search</module>
