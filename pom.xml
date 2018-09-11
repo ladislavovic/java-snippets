@@ -112,7 +112,7 @@
         <module>design-patterns</module>
         <module>util-libraries</module>
         <module>hibernate-search</module>
-        <module>hsql</module>
+        <module>hsqldb</module>
         <module>java</module>
         <module>jpa</module>
         <module>mockito</module>

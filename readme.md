@@ -36,7 +36,7 @@ My snippets have this structure:
 
 ### To clean
 * OK join hibernate and jpa projects
-* create common-jpa and use it with hibernate-search
+* OK create common-jpa and use it with hibernate-search
 * clear java project
 * clear mockito
 * move quartz into util-libraries
@@ -60,3 +60,4 @@ My snippets have this structure:
 * fix testListenerForEntitiesStoredDueToCascadeIsCalledFirst - when run more tests it fails
 * run maven install without errors
 * go again through hibernate search tutorial and update examples
+* more examples for string format
