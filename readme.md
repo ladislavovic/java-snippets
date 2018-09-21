@@ -61,3 +61,4 @@ My snippets have this structure:
 * run maven install without errors
 * go again through hibernate search tutorial and update examples
 * more examples for string format
+* java - nested classes

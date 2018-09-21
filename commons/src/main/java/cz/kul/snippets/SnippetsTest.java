@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
+import static org.junit.Assert.assertEquals;
+
 public class SnippetsTest {
 
     @Rule
@@ -40,7 +42,7 @@ public class SnippetsTest {
     }
 
     protected final void assertMessageCountInLog(int times, String message) {
-        Assert.assertEquals(times, getMemmoryAppender().findEventsCount(message));
+        assertEquals(times, getMemmoryAppender().findEventsCount(message));
     }
 
     protected void testOut(String pattern, Object... args) {
@@ -67,6 +69,10 @@ public class SnippetsTest {
      */
     public static <T extends Throwable> T assertThrows(Class<T> expectedType, Executable r) {
         return assertThrownExceptionCore(expectedType, false, r);
+    }
+
+    public static void assertMatches(String str, String pattern) {
+        assertEquals(true, str.matches(pattern));
     }
 
     private static <T extends Throwable> T assertThrownExceptionCore(
