@@ -4,7 +4,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
-public class Bean1 implements BeanFactoryPostProcessor {
+// Create another special bean which implements this interface
+// Keep Bean1 as simple as possible.
+//
+//public class Bean1 implements BeanFactoryPostProcessor {
+
+
+public class Bean1 {
 	
 	private String val;
 
@@ -27,8 +33,4 @@ public class Bean1 implements BeanFactoryPostProcessor {
 		return "Bean1 [val=" + val + "]";
 	}
 
-	@Override
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		System.out.println("AAAAAAAA");
-	}
 }

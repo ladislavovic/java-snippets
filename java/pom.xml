@@ -11,50 +11,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>java</name>
 
-	<profiles>
-		<profile>
-			<id>main_jaas</id>
-			<activation>
-				<property>
-					<name>main_jaas</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.6.0</version>
-						<configuration>
-							<executable>java</executable>
-							<arguments>
-								<argument>-classpath</argument>
-								<classpath />
-								<argument>cz.kul.snippets.java._21_jaas.Main_JAAS</argument>
-								<argument>-Djava.security.auth.login.config=c:\opt\sample_jaass.config</argument>
-							</arguments>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<dependencies>
-
-		<!-- <dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.2.2</version>
-			<type>jar</type>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.2.2</version>
-			<type>jar</type>
-		</dependency> -->
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

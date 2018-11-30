@@ -29,6 +29,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import cz.kul.snippets.agent.AgentLog;
+import cz.kul.snippets.agent.AgentManager;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -297,6 +299,57 @@ public class MainJava8Features {
             assertEquals(1, groups.get("W").size());
         }
 
+    }
+
+    @Test
+    public void colToMap() {
+        List<String> strings = Arrays.asList("monica", "rachel");
+        Map<String, String> firstLetterToString = strings
+                .stream()
+                .collect(Collectors.toMap(
+                        x -> x.substring(0, 1),
+                        x -> x
+                ));
+        assertEquals(2, firstLetterToString.size());
+        assertEquals("monica", firstLetterToString.get("m"));
+        assertEquals("rachel", firstLetterToString.get("r"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void colToMapDupliciteKeyError() {
+        List<String> strings = Arrays.asList("monica", "rachel", "mia");
+        Map<String, String> firstLetterToString = strings
+                .stream()
+                .collect(Collectors.toMap(
+                        x -> x.substring(0, 1),
+                        x -> x
+                ));
+    }
+
+    @Test()
+    public void colToMapDupliciteKeyMerge() {
+        List<String> strings = Arrays.asList("monica", "rachel", "mia", "maddison");
+        AgentManager.addAgent("colToMap", x -> x);
+
+        Map<String, String> firstLetterToString = strings
+                .stream()
+                .collect(Collectors.toMap(
+                        x -> x.substring(0, 1),
+                        x -> x,
+                        (x, y) ->  {
+                            // x and y params are values from original collection which produce the same key
+                            // So random pair from (monica, mia, maddison)
+                            String concat = x + "," + y;
+                            AgentManager.executeAgent("colToMap", concat);
+                            return concat;
+                        }
+                ));
+        assertEquals(2, firstLetterToString.size());
+        assertEquals("rachel", firstLetterToString.get("r"));
+        assertTrue(firstLetterToString.get("m").contains("monica"));
+        assertTrue(firstLetterToString.get("m").contains("mia"));
+        assertTrue(firstLetterToString.get("m").contains("maddison"));
+        assertEquals(2, AgentManager.getAgentLog("colToMap").getCallCount());
     }
 
 }

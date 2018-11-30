@@ -69,7 +69,7 @@ public class SpringTestUtils {
 	 */
 	public static boolean isBeanOverriding(String beanName, Class<?> oldConfigClass, Class<?> newConfigClass) {
 		StringBuilder pattern = new StringBuilder();
-		pattern.append("Overriding bean definition for bean '" + beanName + "' with a different definition.*");
+		pattern.append("Overriding bean definition for bean '" + beanName + "' with .*");
 		pattern.append("replacing.*");
 		pattern.append("defined in.*");
 		pattern.append(oldConfigClass.getSimpleName() + ".*");

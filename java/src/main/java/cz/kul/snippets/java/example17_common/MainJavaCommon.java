@@ -143,13 +143,10 @@ public class MainJavaCommon {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
         // does NOT give a slash at the beginning
-        assertNull(classLoader.getResourceAsStream("/res1.txt"));
+        assertNull(classLoader.getResourceAsStream("/example17/res1.txt"));
 
         // correct is to start WITHOUT slash
-        assertNotNull(classLoader.getResourceAsStream("res1.txt"));
-
-        // if you go to directory, use a slash
-        assertNotNull(classLoader.getResourceAsStream("dir/res2.txt"));
+        assertNotNull(classLoader.getResourceAsStream("example17/res1.txt"));
 
     }
 

@@ -97,6 +97,12 @@
 			<version>3.17</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
