@@ -115,7 +115,7 @@
         <module>hsqldb</module>
         <module>java</module>
         <module>jpa</module>
-        <module>mockito</module>
+        <module>liquidbase</module>
         <module>quartz</module>
         <module>spring</module>
         <module>spring-mvc</module>

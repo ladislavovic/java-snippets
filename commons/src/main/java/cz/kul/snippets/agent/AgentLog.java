@@ -1,7 +1,9 @@
 package cz.kul.snippets.agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AgentLog {
 
@@ -22,6 +24,10 @@ public class AgentLog {
 
     public Object getResult(int index) {
         return results.get(index).result;
+    }
+    
+    public List<Object> getResults() {
+        return results.stream().map(x -> x.result).collect(Collectors.toList());
     }
 
     public Object getFirstResult() {

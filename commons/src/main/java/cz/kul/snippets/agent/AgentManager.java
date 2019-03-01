@@ -2,6 +2,10 @@ package cz.kul.snippets.agent;
 
 import java.util.function.Function;
 
+/**
+ *  TODO make usage easier and docement it
+ *  TODO make agents generic
+ */
 public class AgentManager {
 
     private static final ThreadLocal<Agents> agents = new ThreadLocal<Agents>() {

@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example03_polymorphic_search;
 
 import cz.kul.snippets.hibernatesearch.commons.HibernateSearchTest;
 import org.apache.lucene.search.Query;
@@ -12,9 +12,9 @@ import org.junit.Test;
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
-public class TestProgrammaticApproach extends HibernateSearchTest {
+public class TestPolymorphicSearch extends HibernateSearchTest {
 
-    public static String TMP_DIR = "/var/hibernate-search-snippets/example3/lucene/indexes";
+    public static String TMP_DIR = "/var/hibernate-search-snippets/example2/lucene/indexes";
 
     @Override
     public String getTmpDir() {
@@ -22,7 +22,7 @@ public class TestProgrammaticApproach extends HibernateSearchTest {
     }
 
     @Test
-    public void testSearching() {
+    public void testSearchingByPolymorphicMethod() {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             entityManager.persist(new Person("Jana", "Novakova"));
             entityManager.persist(new Person("Petra", "Zavodna"));
@@ -34,6 +34,28 @@ public class TestProgrammaticApproach extends HibernateSearchTest {
             Query luceneQuery = queryBuilder
                     .keyword()
                     .onFields("wholeName")
+                    .matching("Petra")
+                    .createQuery();
+            FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, AbstractPerson.class);
+            List<AbstractPerson> results = fullTextQuery.list();
+            return results;
+        });
+        Assert.assertEquals(1, people.size());
+    }
+    
+    @Test
+    public void testSearchingByPolymorphicField() {
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            entityManager.persist(new Person("Jana", "Novakova"));
+            entityManager.persist(new Person("Petra", "Zavodna"));
+            return null;
+        });
+        List<? extends AbstractPerson> people = jpaService().doInTransactionAndFreshSession(session -> {
+            FullTextSession fullTextSession = Search.getFullTextSession(session);
+            QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(AbstractPerson.class).get();
+            Query luceneQuery = queryBuilder
+                    .keyword()
+                    .onFields("name")
                     .matching("Petra")
                     .createQuery();
             FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, AbstractPerson.class);

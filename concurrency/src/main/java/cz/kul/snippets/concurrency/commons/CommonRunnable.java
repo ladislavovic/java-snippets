@@ -30,6 +30,10 @@ public class CommonRunnable implements Runnable {
         return new CommonRunnable(livetime, false, task);
     }
 
+    public static CommonRunnable createInterruptable(long livetime, Runnable task) {
+        return new CommonRunnable(livetime, true, task);
+    }
+
     public static CommonRunnable createInfiniteNotInterruptable() {
         return new CommonRunnable(0, false, null);
     }

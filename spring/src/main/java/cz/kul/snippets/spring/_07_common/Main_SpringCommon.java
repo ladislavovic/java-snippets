@@ -3,6 +3,7 @@ package cz.kul.snippets.spring._07_common;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
 import org.springframework.util.AntPathMatcher;
 
 public class Main_SpringCommon {
@@ -18,5 +19,5 @@ public class Main_SpringCommon {
         assertFalse(matcher.match("/foo/*", "/foo/bar/baz"));
         assertTrue(matcher.match("/foo/**", "/foo/bar/baz"));
     }
-
+    
 }

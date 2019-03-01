@@ -27,7 +27,7 @@ public class TestJAAS extends SnippetsTest {
         ClassLoader classLoader = TestJAAS.class.getClassLoader();
         try (InputStream input = classLoader.getResourceAsStream(RESOURCE_CFG_FILE);
              FileOutputStream output = new FileOutputStream(jassCfgFile)) {
-            IOUtils.copy(input, output);
+             IOUtils.copy(input, output);
         }
         System.setProperty("java.security.auth.login.config", jassCfgFile.getPath());
     }

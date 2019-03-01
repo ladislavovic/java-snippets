@@ -93,5 +93,16 @@ public class _09_AliasesOverriding {
             assertEquals("config3", ((Bean1) ctx.getBean("b1_config1")).getVal());
         }
     }
+
+    @Test
+    public void aliasOverridesAlias() {
+        try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext()) {
+            ctx.register(Config1.class);
+            ctx.register(Config2.class);
+            ctx.refresh();
+
+            assertEquals("config2", ((Bean1) ctx.getBean("b1_alias")).getVal());
+        }
+    }
     
 }

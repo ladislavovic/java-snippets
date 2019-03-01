@@ -35,17 +35,11 @@ My snippets have this structure:
 
 
 ### To clean
-* OK join hibernate and jpa projects
-* OK create common-jpa and use it with hibernate-search
-* clear java project
-* clear mockito
 * move quartz into util-libraries
-* clear spring
 * prepare testing for webapps - run webapps and send http queries
 * clear spring-mvc
 * clear spring web security
 * clear sql
-* clear util libraries
 * clear xml
 * go through all description files
 * projects which use hsql database should create files in tmp
@@ -63,3 +57,7 @@ My snippets have this structure:
 * more examples for string format
 * java - nested classes
 * clear maven dependencies
+
+
+## TODO
+* what will happen when you persist persisted entity?

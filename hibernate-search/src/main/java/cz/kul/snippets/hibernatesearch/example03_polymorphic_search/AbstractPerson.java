@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example03_polymorphic_search;
 
 import javax.persistence.*;
 
@@ -57,7 +57,7 @@ public abstract class AbstractPerson {
     public void setSex(String sex) {
         this.sex = sex;
     }
-    
+
     @Override
     public String toString() {
         return "Person [id=" + id + ", name=" + name + ", surname=" + surname + "]";

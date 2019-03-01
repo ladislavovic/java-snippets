@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example03_polymorphic_search;
 
 import cz.kul.snippets.jpa.common.JPAConfig;
 import org.hibernate.search.cfg.SearchMapping;
@@ -15,7 +15,7 @@ public class Config extends JPAConfig {
     public Map<String, Object> additionalProperties() {
         Map<String, Object> properties = super.additionalProperties();
         properties.put("hibernate.search.default.directory_provider", "filesystem");
-        properties.put("hibernate.search.default.indexBase", TestProgrammaticApproach.TMP_DIR);
+        properties.put("hibernate.search.default.indexBase", TestPolymorphicSearch.TMP_DIR);
         properties.put("hibernate.search.model_mapping", searchConfiguration());
         return properties;
     }
@@ -23,8 +23,9 @@ public class Config extends JPAConfig {
     @Bean
     public SearchMapping searchConfiguration() {
         SearchMapping sm = new SearchMapping();
-        sm.entity(Person.class).indexed();
         sm.entity(AbstractPerson.class).property("wholeName", ElementType.METHOD).field().name("wholeName");
+        sm.entity(AbstractPerson.class).property("name", ElementType.FIELD).field().name("name");
+        sm.entity(Person.class).indexed();
         return sm;
     }
 }
