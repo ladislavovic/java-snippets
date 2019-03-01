@@ -7,11 +7,13 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
+@Ignore
 public class TestPolymorphicSearch extends HibernateSearchTest {
 
     public static String TMP_DIR = "/var/hibernate-search-snippets/example2/lucene/indexes";

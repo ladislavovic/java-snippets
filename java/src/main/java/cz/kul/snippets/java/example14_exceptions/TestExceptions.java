@@ -17,7 +17,7 @@ public class TestExceptions {
         Exception ex = createException();
         StackTraceElement[] stackTrace = ex.getStackTrace();
         Assert.assertEquals("createException", stackTrace[0].getMethodName());
-        Assert.assertEquals(28, stackTrace[0].getLineNumber());
+        Assert.assertEquals(24, stackTrace[0].getLineNumber());
     }
 
     private Exception createException() {

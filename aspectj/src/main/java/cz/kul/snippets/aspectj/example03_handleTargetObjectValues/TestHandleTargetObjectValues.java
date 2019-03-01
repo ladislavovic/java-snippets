@@ -4,8 +4,10 @@ import cz.kul.snippets.SnippetsTest;
 import cz.kul.snippets.aspectj.commons.Account;
 import cz.kul.snippets.aspectj.commons.AccountHandler;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class TestHandleTargetObjectValues extends SnippetsTest {
 
     private int ORIGINAL_BALANCE = 10;

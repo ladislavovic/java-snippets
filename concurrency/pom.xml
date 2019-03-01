@@ -10,5 +10,15 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>concurrency</name>
+    
+    <dependencies>
+
+        <dependency>
+            <groupId>cz.kul.snippets</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+
+
+    </dependencies>
 
 </project>

@@ -4,6 +4,7 @@ import cz.kul.snippets.agent.AgentManager;
 import cz.kul.snippets.jpa.common.JPATest;
 import cz.kul.snippets.jpa.example05_onPersistEventListener.model.Item;
 import cz.kul.snippets.jpa.example05_onPersistEventListener.model.Order;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -41,6 +42,7 @@ public class TestOnPersistEventListener extends JPATest {
      * Then the listener is called for entity witch has the cascade mapping.
      */
     @Test
+    @Ignore
     public void testListenerForEntitiesStoredDueToCascadeIsCalledFirst() {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             AgentManager.addAgent(ON_PERSIST_EVENT, x -> x);

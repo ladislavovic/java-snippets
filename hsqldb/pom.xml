@@ -18,5 +18,10 @@
             <artifactId>hsqldb</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cz.kul.snippets</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

@@ -60,7 +60,10 @@
             <!--<version>${assertj.version}</version>-->
         <!--</dependency>-->
 
-
+        <dependency>
+            <groupId>cz.kul.snippets</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
 
     </dependencies>
 

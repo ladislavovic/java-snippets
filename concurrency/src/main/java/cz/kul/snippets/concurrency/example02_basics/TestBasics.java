@@ -4,8 +4,10 @@ import cz.kul.snippets.SnippetsTest;
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
 import cz.kul.snippets.concurrency.commons.ThreadUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class TestBasics extends SnippetsTest {
 
     private long ONE_SECOND_IN_MILLS = 1_000;

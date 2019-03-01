@@ -1,5 +1,6 @@
 package cz.kul.snippets.springmvc._XX;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@ContextConfiguration(classes = {TestContext.class, WebAppContext.class})
 @ContextConfiguration(classes = {TestContext.class})
 @WebAppConfiguration
+@Ignore
 public class TodoControllerTest {
  
     private MockMvc mockMvc;

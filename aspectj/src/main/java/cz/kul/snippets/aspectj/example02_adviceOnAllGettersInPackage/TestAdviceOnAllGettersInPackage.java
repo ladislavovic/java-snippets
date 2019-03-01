@@ -5,8 +5,10 @@ import cz.kul.snippets.aspectj.commons.Account;
 import cz.kul.snippets.aspectj.example02_adviceOnAllGettersInPackage.pkg.Foo;
 import cz.kul.snippets.aspectj.example02_adviceOnAllGettersInPackage.pkg.subpkg.Bar;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class TestAdviceOnAllGettersInPackage extends SnippetsTest {
 
     private Foo foo;

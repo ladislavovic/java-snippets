@@ -1,6 +1,7 @@
 package cz.kul.snippets.java.example07_bigdecimal;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ public class TestBigDecimal {
     }
 
     @Test
+    @Ignore
     public void testNegativeScale() {
         // Scale can be negative. Than it "enlarge unscalled value" by adding zeros on the end.
         BigDecimal num = new BigDecimal(new BigInteger("512"), -2);

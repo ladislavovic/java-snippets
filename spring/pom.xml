@@ -43,6 +43,12 @@
 			<artifactId>spring-security-config</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>cz.kul.snippets</groupId>
+			<artifactId>commons</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

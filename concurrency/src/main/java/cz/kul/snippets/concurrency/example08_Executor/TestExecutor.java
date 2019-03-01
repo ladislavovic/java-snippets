@@ -2,6 +2,7 @@ package cz.kul.snippets.concurrency.example08_Executor;
 
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
@@ -24,6 +25,7 @@ public class TestExecutor {
     }
 
     @Test
+    @Ignore
     public void testShutdownNow_runningTasksAreInterrupted() throws InterruptedException {
         CommonRunnable task = CommonRunnable.create(3000);
         ExecutorService executor = Executors.newSingleThreadExecutor();

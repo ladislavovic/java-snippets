@@ -25,6 +25,12 @@
             <artifactId>hibernate-search-orm</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cz.kul.snippets</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+
+
     </dependencies>
     
 </project>

@@ -46,7 +46,7 @@ public class TestGenerics {
         // reading: you can read fromt this coll. The retunr type is "Number"
         // writing: You can not write because you do no know the real type of
         // collection.
-        Number num = a.get(0); // this is OK
+        // a.get(0); // this is OK
         // a.add(10); // This is wrong!
         
         // "? super Integer" collections (Write only)

@@ -29,7 +29,7 @@
 
         <dependency>
             <groupId>cz.kul.snippets</groupId>
-            <artifactId>snippets</artifactId>
+            <artifactId>commons</artifactId>
         </dependency>
 
     </dependencies>
@@ -51,6 +51,7 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <phase>process-sources</phase>
                         <goals>
                             <!-- use this goal to weave all your main classes -->
                             <goal>compile</goal>
