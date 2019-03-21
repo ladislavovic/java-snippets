@@ -2,6 +2,7 @@ package cz.kul.snippets.agent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 class Agents {
@@ -23,6 +24,10 @@ class Agents {
     public void execute(String name, Object input) {
         Agent agent = getAgent(name);
         agent.execute(input);
+    }
+    
+    public Set<String> getAgents() {
+        return agents.keySet();
     }
 
 }

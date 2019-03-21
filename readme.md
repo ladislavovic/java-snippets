@@ -34,13 +34,14 @@ My snippets have this structure:
 13. description of the project/technology. It contains terms, basic principles, ...
 
 
-### To clean
-* move quartz into util-libraries
+### TODO
+* before java platform
+  * refactor agents
+  * clear maven dependencies
 * prepare testing for webapps - run webapps and send http queries
 * clear spring-mvc
 * clear spring web security
 * clear sql
-* clear xml
 * go through all description files
 * projects which use hsql database should create files in tmp
   directory, not in project
@@ -52,12 +53,10 @@ My snippets have this structure:
   * refactor isolationLevels example
   * describe
 * fix testListenerForEntitiesStoredDueToCascadeIsCalledFirst - when run more tests it fails
-* run maven install without errors
 * go again through hibernate search tutorial and update examples
 * more examples for string format
 * java - nested classes
-* clear maven dependencies
-
+* remove @Ignore on tests
 
 ## TODO
 * what will happen when you persist persisted entity?

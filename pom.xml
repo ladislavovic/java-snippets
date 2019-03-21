@@ -100,6 +100,7 @@
         <guava.version>18.0</guava.version>
         <testcontainer.version>1.4.3</testcontainer.version>
         <tomcat.version>9.0.6</tomcat.version>
+        <javaee-api.version>8.0</javaee-api.version>
     </properties>
 
     <modules>
@@ -114,7 +115,6 @@
         <module>java</module>
         <module>jpa</module>
         <module>liquidbase</module>
-        <module>quartz</module>
         <module>spring</module>
         <module>spring-mvc</module>
         <module>spring-web-security</module>
@@ -632,6 +632,12 @@
                 <artifactId>commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${javaee-api.version}</version>                
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

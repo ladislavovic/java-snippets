@@ -8,6 +8,8 @@ import java.util.function.Function;
  */
 public class AgentManager {
 
+    // TODO Do I need store that in TL? I have problem with quartz with that, because they run
+    // in another thread.
     private static final ThreadLocal<Agents> agents = new ThreadLocal<Agents>() {
         @Override
         protected Agents initialValue() {
@@ -17,6 +19,15 @@ public class AgentManager {
 
     public static void addAgent(String name, Function<Object, Object> op) {
         getAgents().addAgent(name, op);
+    }
+    
+    public static void addAgentIfNotPresent(String name, Function<Object, Object> op) {
+        for (String agent : getAgents().getAgents()) {
+            if (agent.equals(name)) {
+                return;
+            }
+        }
+        addAgent(name, op);
     }
 
     public static void executeAgent(String name, Object input) {

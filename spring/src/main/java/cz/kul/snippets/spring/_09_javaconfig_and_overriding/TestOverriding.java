@@ -171,9 +171,12 @@ public class TestOverriding {
      * created BD from configurations found by component scan defined directly on the
      * class and later on other BDs. So BD from component scan are overriden for example by import
      * or ancestor. I do not think it is useful order.
+     * 
+     * 
+     * TODO the order described here is not correct. See TestOverridingByComponentScan: BD for components
+     * found by component scan are always first.
      */
     @Test
-    @Ignore // logging parsing was not working
     public void orderTest() {
         SpringTestUtils.runInSpring(TestOverriding.Root.class, ctx -> {
             Bean1 bean = (Bean1) ctx.getBean("bean1");

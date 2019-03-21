@@ -1,5 +1,6 @@
 package cz.kul.snippets;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import cz.kul.snippets.agent.AgentManager;
 import org.junit.Assert;
@@ -7,6 +8,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+import org.slf4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,6 +53,27 @@ public class SnippetsTest {
 
     protected void testOut(String pattern, Object... args) {
         System.out.printf(watcher.getTestId() + ": " + pattern + "\n", args);
+    }
+
+    public long measureTime(Runnable r) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        r.run();
+        stopwatch.stop();
+        return stopwatch.elapsed(TimeUnit.MILLISECONDS);
+    }
+
+    protected Process executeProcessAndRedirectOutput(String cmd, String[] env, File workingDirectory, Logger logger) {
+        try {
+            Runtime rt = Runtime.getRuntime();
+            Process p = rt.exec(cmd, env, null);
+            StreamGobbler out = new StreamGobbler(p.getInputStream(), "OUT", logger);
+            StreamGobbler err = new StreamGobbler(p.getErrorStream(), "ERR", logger);
+            out.start();
+            err.start();
+            return p;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
