@@ -1,14 +1,20 @@
 package cz.kul.snippets.java.example25_TODO;
 
 import cz.kul.snippets.SnippetsTest;
+import cz.kul.snippets.java.example25_TODO.mbean.PersonFactory;
+import cz.kul.snippets.java.example25_TODO.mbeanwithcomplextype.Bean1;
+import cz.kul.snippets.java.example25_TODO.mbeanwithcomplextype.Bean1ComplexValue;
+import cz.kul.snippets.java.example25_TODO.mxbeanwithcomplextype.Bean2Impl;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.management.*;
-import java.lang.management.ManagementFactory;
+import javax.management.openmbean.CompositeData;
+import java.lang.management.*;
+import java.util.List;
 
 
 public class TestTODO extends SnippetsTest {
@@ -40,28 +46,81 @@ public class TestTODO extends SnippetsTest {
         System.out.println(System.getProperty("java.ext.dirs"));
     }
     
-    
-    /**
-     * JMX was introduced in Java 1.5
-     */
-    @Ignore
     @Test
-    public void jmx() throws
-            MalformedObjectNameException,
-            NotCompliantMBeanException,
-            InstanceAlreadyExistsException,
-            MBeanRegistrationException,
-            InterruptedException {
+    public void mBean() throws Exception {
         PersonFactory personFactory = new PersonFactory();
         MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-        ObjectName mbeanName = new ObjectName("cz.kul.snippets.java.example25_TODO:type=PersonFactory");
-        server.registerMBean(personFactory, mbeanName);
+        ObjectName mbeanName = new ObjectName("cz.kul.snippets.java:name=PersonFactory");
         
+        server.registerMBean(personFactory, mbeanName);
+        Assert.assertEquals(0, server.getAttribute(mbeanName, "NumberOfPersons"));
+
         for (int i = 100; i > 0; i--) {
             personFactory.createPerson(RandomStringUtils.randomAlphabetic(5));
-            Thread.sleep(3000);
         }
+        Assert.assertEquals(100, server.getAttribute(mbeanName, "NumberOfPersons"));
+    }
+    
+    @Test
+    public void mxBeanWithComplexValue() throws Exception {
+        Bean1 bean1 = new Bean1();
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        ObjectName mbeanName = new ObjectName("cz.kul.snippets.java:name=Bean1");
 
+        server.registerMBean(bean1, mbeanName);
+        Bean1ComplexValue value = (Bean1ComplexValue) server.getAttribute(mbeanName, "Value");
+        Assert.assertEquals("foo", value.getVal1());
+    }
+    
+    @Test
+    public void mxBean() throws Exception {
+        Bean2Impl bean2 = new Bean2Impl();
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        ObjectName mbeanName = new ObjectName("cz.kul.snippets.java:name=Bean2");
+
+        server.registerMBean(bean2, mbeanName);
+        CompositeData data = (CompositeData) server.getAttribute(mbeanName, "Value");
+        Assert.assertEquals("foo", data.get("val1"));
+    }
+    
+    @Test
+    public void standardJVMMXBeans() throws Exception {
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        {
+            ClassLoadingMXBean bean = ManagementFactory.getClassLoadingMXBean();
+            LOGGER.info("### " + bean.getClass().getSimpleName());
+            LOGGER.info("LoadedClassCount: " + bean.getLoadedClassCount());
+            LOGGER.info("");
+        }
+        {
+            MemoryMXBean bean = ManagementFactory.getMemoryMXBean();
+            LOGGER.info("### " + bean.getClass().getSimpleName());
+            LOGGER.info("HeapMemoryUsage: " + bean.getHeapMemoryUsage());
+            LOGGER.info("");
+        }
+        {
+            OperatingSystemMXBean bean = ManagementFactory.getOperatingSystemMXBean();
+            LOGGER.info("### " + bean.getClass().getSimpleName());
+            LOGGER.info("Name: " + bean.getName());
+            LOGGER.info("Arch: " + bean.getArch());
+            LOGGER.info("Version: " + bean.getVersion());
+            LOGGER.info("AvailableProcessors: " + bean.getAvailableProcessors());
+            LOGGER.info("SystemLoadAverage: " + bean.getSystemLoadAverage());
+            LOGGER.info("");
+        }
+        {
+            RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+            LOGGER.info("### " + bean.getClass().getSimpleName());
+            LOGGER.info("BootClassPath: " + bean.getBootClassPath());
+            LOGGER.info("ClassPath: " + bean.getClassPath());
+            LOGGER.info("");
+        }
+        {
+            ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+            LOGGER.info("### " + bean.getClass().getSimpleName());
+            LOGGER.info("CurrentThreadCpuTime: " + bean.getCurrentThreadCpuTime());
+            LOGGER.info("");
+        }
     }
     
 }

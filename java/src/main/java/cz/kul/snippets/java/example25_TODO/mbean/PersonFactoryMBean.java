@@ -1,4 +1,4 @@
-package cz.kul.snippets.java.example25_TODO;
+package cz.kul.snippets.java.example25_TODO.mbean;
 
 public interface PersonFactoryMBean {
     

@@ -1,4 +1,6 @@
-package cz.kul.snippets.java.example25_TODO;
+package cz.kul.snippets.java.example25_TODO.mbean;
+
+import cz.kul.snippets.java.example25_TODO.Person;
 
 public class PersonFactory implements PersonFactoryMBean {
     

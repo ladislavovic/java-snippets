@@ -40,13 +40,28 @@ can not for example override String implementation. Now the Endorsed mechanism i
 Environment variables are set in OS befor the JVM is executed and they can not be changed in running JVM.
 Properties are set by JVM and are modifyable.
 
+### Java Management Extensions (JMX)
+* From my perspective is is overengineered. It contains lot of components and lot of rules for so somple problem.
+* technology for managing and monitoring applications
+* since Java 5
+* architecture:
+  Layer1 - Probe level - MBeans
+  Layer2 - Agent level - MBeanServer (MBeans are registered there)
+  Layer3 - Remote Management - The client which can communicate with MBeanServer. It can communicate through RMI, WS, ...
+* MBean vs MXBean
+  * MXBean is a special case of MBean. It has more strict rules.
+  * MBean can use custom model classes. JMX client than also need to have the class to communicate with the server.
+    When MXBean use custom model class, it is converted to some general data structures. See javax.management.openbean
+    package.
+  * MXBean does not have so stupid naming rules. MBean must use interface <Name>MBean and imlementing class must name
+    <Name>. MXBean does not have so strict rules. Interface can be marked by MXBean annotation and implementation
+    can have any name.
+* ObjectName has following structure: <domain>:<properties>. I do not know if properties are somehow standardized.
+
+
+
 * java and monitoring
-  * https://www.baeldung.com/java-management-extensions
-  * JMX
-  * MXBeans
-  * MBean vs mxBean
   * Flight Recorder
-  * list of standard MBeans: https://vsadnajavu.cz/2010-08/odborne/java/java-monitoring-monitorovani-jvm/
 * java and assertions
 * JVM tuning
 * XProf
