@@ -1,4 +1,4 @@
-package cz.kul.snippets.concurrency.commons;
+package cz.kul.snippets;
 
 import java.util.Collection;
 

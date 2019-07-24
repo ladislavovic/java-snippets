@@ -7,6 +7,7 @@ import cz.kul.snippets.java.example25_TODO.mbeanwithcomplextype.Bean1ComplexValu
 import cz.kul.snippets.java.example25_TODO.mxbeanwithcomplextype.Bean2Impl;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,11 @@ import org.slf4j.LoggerFactory;
 import javax.management.*;
 import javax.management.openmbean.CompositeData;
 import java.lang.management.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 public class TestTODO extends SnippetsTest {
@@ -39,6 +44,24 @@ public class TestTODO extends SnippetsTest {
             System.out.println(classLoader.toString() + " class: " + classLoader.getClass().getName());
             
         } while ((classLoader = classLoader.getParent()) != null);
+        System.out.println("NOTE: The root class loader is not visible here because it is naive component, does not have Java implementation.");
+    }
+    
+    @Test
+    @Ignore("It manipulates with current thread etc., I want to run it explicitelly only.")
+    public void classLoaderOfClass() throws Exception {
+//        ClassLoader customClassLoader = new CustomClassLoader(this.getClass().getClassLoader());
+        ClassLoader customClassLoader = new JarClassLoader(this.getClass().getClassLoader());
+        Thread.currentThread().setContextClassLoader(customClassLoader);
+        
+        Class<?> classA = Class.forName("cz.kul.snippets.java.example25_TODO.A", true, customClassLoader);
+        Object a = classA.newInstance();
+
+        Field bField = classA.getDeclaredField("b");
+        B bObject = (B) bField.get(a);
+
+        System.out.println(classA.getClassLoader());
+        System.out.println(bObject.getClass().getClassLoader());
     }
     
     @Test
@@ -120,6 +143,54 @@ public class TestTODO extends SnippetsTest {
             LOGGER.info("### " + bean.getClass().getSimpleName());
             LOGGER.info("CurrentThreadCpuTime: " + bean.getCurrentThreadCpuTime());
             LOGGER.info("");
+        }
+    }
+    
+    @Test
+    public void heapDump() throws InterruptedException {
+        int num = 10_000_000;
+        List<String> strings = new ArrayList<>(num);
+        List<Date> dates = new ArrayList<>(num);
+        List<Person> people = new ArrayList<>(num);
+        for (int i = 0; i < num; i++) {
+            strings.add(RandomStringUtils.random(10));
+            dates.add(new Date());
+            people.add(new Person(
+                    RandomStringUtils.randomAlphabetic(10),
+                    RandomStringUtils.randomAlphabetic(10),
+                    new Date(),
+                    1
+            ));
+        }
+        
+        int i = 0;
+        long lastStart = System.currentTimeMillis();
+        while (true) {
+            long diff = System.currentTimeMillis() - lastStart;
+            if (diff > 200) {
+                System.out.println("The big diff: " + diff);
+            }
+            lastStart = System.currentTimeMillis();
+            System.out.println(i++);
+            if (i > 9) {
+                i = 0;
+            }
+            Thread.sleep(100);
+        }
+        
+        
+    }
+    
+    public static class Person {
+        String name, surname;
+        Date birth;
+        int sex;
+
+        public Person(String name, String surname, Date birth, int sex) {
+            this.name = name;
+            this.surname = surname;
+            this.birth = birth;
+            this.sex = sex;
         }
     }
     

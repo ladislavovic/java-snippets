@@ -2,11 +2,11 @@ package cz.kul.snippets.aspectj.example01_adviceOnPartucularMethod;
 
 import org.apache.log4j.Logger;
 
-public aspect AspectParticularMethod {
+public aspect ParticularMethodAspect {
 
     public static String LOG_MSG = "particularMethod";
 
-    private final static Logger logger = Logger.getLogger(AspectParticularMethod.class);
+    private final static Logger logger = Logger.getLogger(ParticularMethodAspect.class);
 
     // NOTE: you have to write whole class name including packages, without that
     //       I had a compilation error

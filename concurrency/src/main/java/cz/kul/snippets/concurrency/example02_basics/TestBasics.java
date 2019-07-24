@@ -2,7 +2,7 @@ package cz.kul.snippets.concurrency.example02_basics;
 
 import cz.kul.snippets.SnippetsTest;
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
-import cz.kul.snippets.concurrency.commons.ThreadUtils;
+import cz.kul.snippets.ThreadUtils;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

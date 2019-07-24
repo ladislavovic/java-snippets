@@ -3,10 +3,7 @@ package cz.kul.snippets.java.example19_nio;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.ByteChannel;
 import java.nio.channels.FileChannel;
@@ -19,17 +16,21 @@ import java.nio.file.Paths;
 
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
+import cz.kul.snippets.SnippetsTest;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * NOTE:
  * <ul>
- * <li>it means Non-blocking IO</li>
+ * <li>NIO = Non-blocking IO</li>
  * <li>from Java 1.4</li>
  * <li>Alternative for Java IO and Java Networking</li>
  * </ul>
+ * 
+ * NIO TODO: how to create file?;
  */
-public class TestNIO {
+public class TestNIO extends SnippetsTest {
 
     @Test
     public void path() {
@@ -43,7 +44,7 @@ public class TestNIO {
         //   * FileNotFoundException from old api is throwen in many cases: when file does not exists, when you do not
         //     have permission, when symbolic links are in a cycle, ...
         //   * with FileSystemProvider from new API, you can simply mock file operations during testing
-        //   * RESULT: java.io.File is no deprecated, but java.nio.file package is the preffered for new code
+        //   * RESULT: java.io.File is not deprecated, but java.nio.file package is the preffered for new code
 
         // Create absolute path
         {
@@ -67,11 +68,43 @@ public class TestNIO {
 
     @Test
     public void fileChannels() throws IOException {
+        /*
+        
+        Java NIO Channels are similar to streams with a few differences:
+        * You can both read and write to a Channels. Streams are typically one-way (read or write).
+        * Channels can be read and written asynchronously.
+        * Channels always read to, or write from, a Buffer.
+        
+        */
         // NOTE: file channel can not be non-blocking
 
-        getReadableFileChannel("foo", "bar");
-        readFromFileChannel();
-        writeToFileChannel();
+        {
+            String dirPath = getFilesystemHelper().createRandomDirPath();
+            String filePath = dirPath + "/nio-data.txt";
+            (new File(dirPath)).mkdirs();
+            (new File(filePath)).createNewFile();
+            
+            try (RandomAccessFile file = new RandomAccessFile(filePath, "rw")) {
+                FileChannel channel = file.getChannel();
+                ByteBuffer buffer = ByteBuffer.allocate(48);
+
+                // write to file
+                buffer.putChar('h');
+                buffer.putChar('i');
+                channel.write(buffer);
+
+                // read from the file
+                int bytesRead = channel.read(buffer);
+                Assert.assertEquals(2, bytesRead);
+                Assert.assertEquals('h', buffer.getChar());
+                Assert.assertEquals('i', buffer.getChar());
+            }
+        }
+        
+        
+//        getReadableFileChannel("foo", "bar");
+//        readFromFileChannel();
+//        writeToFileChannel();
 
     }
 

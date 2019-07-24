@@ -3,6 +3,9 @@ package cz.kul.snippets;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import cz.kul.snippets.agent.AgentManager;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.helpers.Loader;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -12,6 +15,8 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -60,6 +65,21 @@ public class SnippetsTest {
         r.run();
         stopwatch.stop();
         return stopwatch.elapsed(TimeUnit.MILLISECONDS);
+    }
+
+    public void reconfigureLog4jByStandardPropertyFile() {
+        resetLog4JConfiguration();
+        URL resource = Loader.getResource("log4j.properties");
+        PropertyConfigurator.configure(resource);
+    }
+
+    public void reconfigureLog4jByProperties(Properties props) {
+        resetLog4JConfiguration();
+        PropertyConfigurator.configure(props);
+    }
+    
+    public void resetLog4JConfiguration() {
+        BasicConfigurator.resetConfiguration();
     }
 
     protected Process executeProcessAndRedirectOutput(String cmd, String[] env, File workingDirectory, Logger logger) {

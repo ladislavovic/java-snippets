@@ -8,18 +8,23 @@ package cz.kul.snippets.java.example15_date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 public class TestDate {
     
     @Test
-    public void timeZoneInJavaUtilDate() {
-        // java.util.Date is timeZone specific. When you call getHours() or
-        // toString(), the time in local time zone (time zone of JVM) is
-        // used
-        
-        int hours = 5;
-        int localTimeZoneOffset = 1;
-        java.util.Date date = new java.util.Date(3600 * 1000 * hours); // 1970-01-01 05:00:00 UTC
-        Assert.assertEquals(hours + localTimeZoneOffset, date.getHours());
+    public void dateToStringIsTimezoneSpecific() {
+        // To
+        // When you create Date instance, the date parameter is the milliseconds since January 1, 1970, 00:00:00 GMT.
+        // So it is not timezone specific. But Whne you call toString it print local time.
+        Date date = new Date(0);
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Moscow"));
+        String moscowTime = date.toString();
+        TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+        String newYorkTime = date.toString();
+        Assert.assertNotEquals(moscowTime, newYorkTime);
+        TimeZone.setDefault(null);
     }
 
     @Test

@@ -58,13 +58,34 @@ Properties are set by JVM and are modifyable.
     can have any name.
 * ObjectName has following structure: <domain>:<properties>. I do not know if properties are somehow standardized.
 
+### Heap dump
+* there is more ways how to get heap dump - VisualVM, jmap (deprecated), calling JMX bean, ...
+* when you are taking heap dump it stops java process for a while. On my computer (Core i7 3GHz, SSD) to create 3.5 GB
+  dump it takes about 30s.
+  
+### Annotation processor
+* In essence, any Java class could become a full-blow annotation processor just by implementing a single interface:
+ javax.annotation.processing.Processor
+* each implementation must provide a public no-argument constructor
 
+### VisualVM
+* a tool for JVM monitoring
+* it is newer than JConsole (part of JDK since version 6 Update 7). In comparison with that JConsole uses JMX only but 
+  Visual VM uses also other APIs to monitore JVM (Jvmstat, Attach API and SA).
+  
+### Java vs Javaw
+* java - run a java application and associate it with console
+* java - run a java application and do not associate it with console. So the user can not see
+         black console window, the standard output is not visible etc. Used mainly for GUI
+         applications.
 
-* java and monitoring
-  * Flight Recorder
-* java and assertions
+* nio
+  * http://tutorials.jenkov.com/java-nio/index.html
+  * https://dzone.com/articles/java-nio-vs-io
+* nio2
 * JVM tuning
 * XProf
 * https://www.oracle.com/technetwork/java/whitepaper-135217.html
 * security manager
 * interesting articles: https://www.javacodegeeks.com/2015/09/advanced-java.html
+* look on all tools in bin directory

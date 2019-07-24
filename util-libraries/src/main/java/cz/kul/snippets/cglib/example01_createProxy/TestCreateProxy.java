@@ -29,6 +29,16 @@ public class TestCreateProxy {
         bean.setVal1("ahoj");
         assertEquals("PROXY_ahoj", bean.getVal1());
     }
+
+    @Test
+    public void proxyIsASubclass() {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(MyBean.class);
+        enhancer.setCallback((MethodInterceptor) (o, method, args, methodProxy) ->  null );
+        MyBean bean = (MyBean) enhancer.create();
+        String parent = bean.getClass().getSuperclass().getSimpleName();
+        assertEquals("MyBean", parent);
+    }
     
 }
 

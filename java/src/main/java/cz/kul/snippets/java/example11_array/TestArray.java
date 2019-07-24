@@ -33,4 +33,28 @@ public class TestArray {
         Assert.assertEquals(Integer.MAX_VALUE - 1500000000, arr.length);
     }
     
+    @Test
+    public void javaPassTheRerenceToTheArrayNotTheArray() {
+        // Java pass all params by value. And array is not an exception. It pass reference to the array
+        // by value so the function works with the same array
+        int[] arr = {1, 2, 3};
+        func(arr);
+        Assert.assertEquals(10, arr[0]);;
+    }    
+    
+    private void func(int[] arr) {
+        arr[0] = 10;
+    }
+    
+    @Test
+    public void arrayEqualsReturnsTrueOnlyForIdenticalObjects() {
+        int[] arr1 = new int[] {1, 2, 3};
+        int[] arr2 = new int[] {1, 2, 3};
+        Assert.assertTrue(arr1.equals(arr1));
+        Assert.assertFalse(arr1.equals(arr2));
+        Assert.assertFalse(arr1.hashCode() == arr2.hashCode());
+    }
+    
+    
+    
 }

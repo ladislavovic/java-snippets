@@ -1,5 +1,6 @@
 package cz.kul.snippets.java.example03_collections;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -94,5 +95,18 @@ public class TestCollections {
         assertEquals("valueWithNullKey", map.get(null));
     }
     
+    @Test
+    public void arrayListEqualsAndHashCode() {
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(1);
+        list1.add(2);
+        list1.add(3);
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(1);
+        list2.add(2);
+        list2.add(3);
+        Assert.assertTrue(list1.equals(list2));
+        Assert.assertTrue(list1.hashCode() == list2.hashCode());
+    }
 
 }

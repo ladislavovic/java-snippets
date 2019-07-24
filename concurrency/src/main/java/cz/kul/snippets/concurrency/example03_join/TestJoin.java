@@ -1,5 +1,6 @@
 package cz.kul.snippets.concurrency.example03_join;
 
+import cz.kul.snippets.ThreadUtils;
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
 import org.junit.Assert;
 import org.junit.Test;
@@ -39,6 +40,24 @@ public class TestJoin {
 
 		Date end = new Date();
 		Assert.assertEquals(1000, end.getTime() - start.getTime(), 300);
+	}
+
+	@Test
+	public void itIsPossibleToJoinToTerminatedThread_thenItJustDoesNotWait() throws InterruptedException {
+		Thread t1 = new Thread(CommonRunnable.createNotInterruptable(1000));
+		t1.start();
+		ThreadUtils.sleep(2000);
+		Assert.assertEquals(Thread.State.TERMINATED, t1.getState());
+		t1.join();
+	}
+
+	@Test
+	public void itIsPossibleToJoinToNewThread_thenItJustDoesNotWait() throws InterruptedException {
+		Thread t1 = new Thread(CommonRunnable.createNotInterruptable(1000));
+		ThreadUtils.sleep(2000);
+		Assert.assertEquals(Thread.State.NEW, t1.getState());
+		t1.join();
+		Assert.assertEquals(Thread.State.NEW, t1.getState());
 	}
 
 }

@@ -5,10 +5,6 @@
  */
 package cz.kul.snippets.java.example13_java8features;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,12 +23,15 @@ import java.util.function.Function;
 import java.util.function.IntBinaryOperator;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import cz.kul.snippets.agent.AgentLog;
 import cz.kul.snippets.agent.AgentManager;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Java 8 brings a lot of new features. Some of them are covered by following
@@ -122,68 +121,6 @@ public class MainJava8Features {
     public void interfaceWithDefaultMethod() {
         InterfaceWithDefaultImpl inst = new InterfaceWithDefaultImpl();
         inst.defaultMethod();
-    }
-
-    // TODO move it to standalone example
-    @Test
-    public void date() {
-        // Advantages in comparison with old API
-        // * new API is immutable - no setters. So it is thread safe.
-        // * old API has poor design - month starts from 1, days starts from 0
-        // * much easier timezone handling
-
-        {
-            // Local Date and time
-            //
-            // Use this when you do not need to handle timezone.
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            LocalDate currentDate = LocalDate.now();
-            LocalTime currentTime = LocalTime.now();
-
-            LocalDate particularDate = LocalDate.of(2017, Month.JANUARY, 10);
-            Assert.assertEquals(1, particularDate.getMonthValue());
-
-            LocalDate first = particularDate.withDayOfMonth(1);
-            Assert.assertEquals(1, first.getDayOfMonth());
-
-            LocalDate parsedDate = LocalDate.parse("2017-01-02");
-            Assert.assertEquals(2017, parsedDate.getYear());
-            Assert.assertEquals(1, parsedDate.getMonthValue());
-            Assert.assertEquals(2, parsedDate.getDayOfMonth());
-
-            LocalTime parsedTime = LocalTime.parse("16:10:22");
-            Assert.assertEquals(16, parsedTime.getHour());
-            Assert.assertEquals(10, parsedTime.getMinute());
-            Assert.assertEquals(22, parsedTime.getSecond());
-        }
-
-        {
-            // Instant
-            //
-            // It is just point on the timeline. It has different local time in every
-            // timezone.
-            // But this instance does not know nothing about timezone or offset.
-            Instant startOfEpoch = Instant.ofEpochSecond(0);
-
-            // OffsetDateTime
-            //
-            // It adds to instance an offset from UTC/Greenwich. You can getAppender local
-            // date and time from it.
-            OffsetDateTime offsetPlusFive = startOfEpoch.atOffset(ZoneOffset.of("+5"));
-            assertTrue(startOfEpoch.equals(offsetPlusFive.toInstant()));
-            assertEquals(5, offsetPlusFive.getHour());
-            LocalDateTime local = offsetPlusFive.toLocalDateTime();
-            assertEquals(5, local.getHour());
-
-            // ZonedDateTime
-            //
-            // Add complete zone information (daylight saving, ... not the offset only)
-            // to instance
-            ZonedDateTime newYork = startOfEpoch.atZone(ZoneId.of("America/New_York"));
-            assertTrue(startOfEpoch.equals(newYork.toInstant()));
-            assertEquals(1969, newYork.toLocalDate().getYear());
-        }
-
     }
 
     /**
@@ -297,6 +234,18 @@ public class MainJava8Features {
             assertEquals(2, groups.get("H").size());
             assertEquals(1, groups.get("G").size());
             assertEquals(1, groups.get("W").size());
+        }
+        
+        {
+            // Find out if any of the long numbers is odd
+            assertTrue(LongStream.of(2L, 4L, 5L).anyMatch(x -> x % 2 == 1));
+            assertFalse(LongStream.of(2L, 4L, 6L).anyMatch(x -> x % 2 == 1));
+        }
+        
+        {
+            // Stream to array
+            assertArrayEquals(new String[] {"hi", "by"}, Stream.of("hi", "by").toArray(size -> new String[size]));
+            assertArrayEquals(new String[] {"hi", "by"}, Stream.of("hi", "by").toArray(String[]::new));
         }
 
     }

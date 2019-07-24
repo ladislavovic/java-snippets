@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 
 public class TestRunTestProgrammatically {
     
@@ -36,5 +37,23 @@ public class TestRunTestProgrammatically {
         );
     }
     
+    @Test
+    public void getResults() {
+        JUnitCore junit = new JUnitCore();
+        
+        Result result = junit.run(SampleTestFailureNPE.class);
+        Assert.assertEquals(false, result.wasSuccessful());
+        Assert.assertEquals(1, result.getRunCount());
+        Assert.assertEquals(1, result.getFailureCount());
+        Assert.assertEquals(1, result.getFailures().size());
+        Assert.assertEquals(NullPointerException.class, result.getFailures().get(0).getException().getClass());
+
+        result = junit.run(SampleTestFailureAssertion.class);
+        Assert.assertEquals(false, result.wasSuccessful());
+        Assert.assertEquals(1, result.getRunCount());
+        Assert.assertEquals(1, result.getFailureCount());
+        Assert.assertEquals(1, result.getFailures().size());
+        Assert.assertEquals(AssertionError.class, result.getFailures().get(0).getException().getClass());
+    }
     
 }

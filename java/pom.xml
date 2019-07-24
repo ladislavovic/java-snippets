@@ -67,4 +67,29 @@
 
 	</dependencies>
 
+	<build>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version.source}</source>
+					<target>${java.version.target}</target>
+					<annotationProcessors>
+						<proc>cz.kul.snippets.annotationProcessor.AnnotationProcessor1</proc>
+					</annotationProcessors>
+					<compilerArgs>
+						<arg>-AprojectVersion=${project.version}</arg>
+					</compilerArgs>
+				</configuration>
+				
+			</plugin>
+			
+		</plugins>
+		
+	</build>
+	
+
 </project>

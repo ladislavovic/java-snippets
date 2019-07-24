@@ -9,8 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.DayOfWeek;
-import java.util.LinkedHashSet;
-import java.util.Properties;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -150,5 +149,75 @@ public class TestJavaCommon {
         assertNotNull(classLoader.getResourceAsStream("example17/res1.txt"));
 
     }
+    
+    private B bInstance = new B();
+    
+    @Test
+    public void myTest() {
+        A a = new A();
+        B b = new B();
+        bInstance.as.add(a);
+        b.as.add(a);
+        b.a = a;
+        System.out.println("a");
+    }
+    
+    @Test
+    public void perfUT() {
+        Scanner scanner = new Scanner(System.in);
+        String myString = scanner.next();
+        scanner.close();
+        
+        perfTest();
+    }
+    
+    public static void main(String [] args) {
+        Object o = new Object();
+        ArrayList<Long> list = new ArrayList<>(11_000_000);
+        Set<Long> set = new HashSet<>();
+        long[] arr = new long[10_000_000];
+        Long[] arr2 = new Long[10_000_000];
+
+        long t = System.currentTimeMillis();
+        for (long i = 0; i < 10_000_000; i++) {
+//            list.add(i);
+//            set.add(i);
+            arr[(int)i] = i;
+//            arr2[(int)i] = i;
+        }
+        t = System.currentTimeMillis() - t;
+        System.out.println("Time: " + t);
+        
+        
+//        Scanner scanner = new Scanner(System.in);
+//        String myString = scanner.next();
+//        scanner.close();
+//
+//        TestJavaCommon testJavaCommon = new TestJavaCommon();
+//        testJavaCommon.perfTest();
+    }
+    
+    
+    public void perfTest() {
+        for (int i = 0; i < 100; i++) {
+            m1(i);
+        }
+    }
+    
+    private void m1(int i) {
+        m2(i);
+    }
+    
+    private void m2(int i) {
+        System.out.println("i: " + i);
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    
+    
 
 }

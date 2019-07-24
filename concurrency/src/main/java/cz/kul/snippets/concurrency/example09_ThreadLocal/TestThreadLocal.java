@@ -1,7 +1,7 @@
 package cz.kul.snippets.concurrency.example09_ThreadLocal;
 
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
-import cz.kul.snippets.concurrency.commons.ThreadUtils;
+import cz.kul.snippets.ThreadUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -72,7 +72,7 @@ public class TestThreadLocal {
     }
     
     @Test
-    public void howToCleanThreadLocalValues() throws ReflectiveOperationException {
+    public void howToCleanThreadLocalValuesForAllThreads() throws ReflectiveOperationException {
         Thread thread = Thread.currentThread();
         
         // Set thread local value for current thread
