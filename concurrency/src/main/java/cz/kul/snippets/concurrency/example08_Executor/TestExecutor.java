@@ -1,5 +1,6 @@
 package cz.kul.snippets.concurrency.example08_Executor;
 
+import cz.kul.snippets.SnippetsTest;
 import cz.kul.snippets.ThreadUtils;
 import cz.kul.snippets.concurrency.commons.CommonRunnable;
 import org.junit.Assert;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestExecutor {
+public class TestExecutor extends SnippetsTest {
 
     @Test
     public void threadPoolExecutor() {
@@ -59,36 +60,38 @@ public class TestExecutor {
     }
     
     @Test
-    public void testShutdownVsShutdownNow_ifShutdownThanAlreadyRunningTasksContinueInWork() throws InterruptedException {
-        CommonRunnable task = CommonRunnable.create(1000);
+    public void shutdownCauseNoNewTaskCanBeSubmittedButSubmittedTasksWillBeFinished() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(task);
-        Thread.sleep(100);
-
+        CommonRunnable task1 = CommonRunnable.create(100);
+        CommonRunnable task2 = CommonRunnable.create(100);
+        executor.execute(task1);
+        executor.execute(task2);
         executor.shutdown();
-        Thread.sleep(2000);
 
-        assertTrue(task.isFinished());
-        assertFalse(task.getStat().isInterrupted());
+        assertThrows(RejectedExecutionException.class, () -> executor.execute(CommonRunnable.create(100)));
+        
+        ThreadUtils.sleep(500);
+        assertTrue(task1.isFinished());
+        assertTrue(task2.isFinished());
+        assertFalse(task1.getStat().isInterrupted());
+        assertFalse(task2.getStat().isInterrupted());
     }
-
+    
     @Test
-    @Ignore
-    public void testShutdownVsShutdownNow_ifShutdownNowThanRunningTasksAreInterrupted() throws InterruptedException {
-        CommonRunnable task = CommonRunnable.create(3000);
+    public void shutdownNowInterruptAllRunningTasksAndDoNotExecuteTasksInQueue() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.submit(task);
-        Thread.sleep(100);
-
-        System.out.println("Shutdown now!");
+        CommonRunnable task1 = CommonRunnable.create(100);
+        CommonRunnable task2 = CommonRunnable.create(100);
+        executor.execute(task1);
+        executor.execute(task2);
         executor.shutdownNow();
-        Thread.sleep(5000);
 
-        System.out.println(task.getStat().getLivetime());
-        System.out.println(task.getStat().isInterrupted());
-
-        assertTrue(task.isFinished());
-        assertTrue(task.getStat().isInterrupted());
+        ThreadUtils.sleep(500);
+        assertTrue(task1.wasExecuted());
+        assertTrue(task1.isFinished());
+        assertTrue(task1.getStat().isInterrupted());
+        assertFalse(task2.wasExecuted());
     }
+    
     
 }

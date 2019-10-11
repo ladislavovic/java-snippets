@@ -6,15 +6,18 @@ import org.junit.Test;
 public class TestStringFormat {
 
     @Test
-    public void testBasics() {
-        Assert.assertEquals("an integer: 10", String.format("an integer: %d", 10));
-        Assert.assertEquals("an short: 10", String.format("an short: %d", (short)10));
-        Assert.assertEquals("a string: foo", String.format("a string: %s", "foo"));
-    }
-
-    @Test
-    public void testFloating() {
-        // TODO
+    public void test() {
+        // the format has the following syntax: 
+        // %[argument_index$][flags][width][.precision]conversion
+        
+        Assert.assertEquals("b", String.format("%2$s", "a", "b"));
+        Assert.assertEquals("  b", String.format("%2$3s", "a", "b"));
+        Assert.assertEquals("b  ", String.format("%2$-3s", "a", "b")); // flag '-' beans left justified
+        
+        Assert.assertEquals("10", String.format("%d", 10));
+        Assert.assertEquals("10.000", String.format("%.3f", 10.0));
+        Assert.assertEquals("  10.000", String.format("%8.3f", 10.0));
+        Assert.assertEquals("0010.000", String.format("%08.3f", 10.0));
     }
 
 }

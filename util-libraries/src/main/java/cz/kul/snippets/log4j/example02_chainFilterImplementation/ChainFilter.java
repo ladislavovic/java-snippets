@@ -64,10 +64,12 @@ public class ChainFilter extends Filter {
     }
 
     private void initializeWithDelay() {
-        Thread initThread = new Thread(
-                new DelayedInitializer(this, INITIALIZATION_DELAY),
-                ChainFilter.class.getSimpleName() + "_initThread");
-        initThread.start();
+//        Thread initThread = new Thread(
+//                new DelayedInitializer(this, INITIALIZATION_DELAY),
+//                ChainFilter.class.getSimpleName() + "_initThread");
+//        initThread.start();
+        DelayedInitializer delayedInitializer = new DelayedInitializer(this, INITIALIZATION_DELAY);
+        delayedInitializer.initWithoutDelay();
     }
 
     public String getFilterClassNames() {
@@ -105,6 +107,14 @@ public class ChainFilter extends Filter {
             this.delay = delay;
         }
 
+        public void initWithoutDelay() {
+            try {
+                initialize();
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+            }
+        }
+        
         @Override
         public void run() {
             try {

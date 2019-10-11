@@ -4,4 +4,4 @@ JGraphT
 * simple graph - graph which does not allows self-loops and multiple edges
 * multiple edges - allows more than one edge between the same vertex pair. In a directed graph, two edges between the 
   same vertex pair but with opposite direction do not count as multiple edges
-  
+* simple path - a simple path is a path in a graph which does not have repeating vertices.

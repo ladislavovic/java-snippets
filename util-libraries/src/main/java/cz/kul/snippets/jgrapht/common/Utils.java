@@ -132,4 +132,10 @@ public class Utils {
     public static long matrixCoordinatesToLong(int column, int row, int width) {
         return row * (long)width + column; 
     }
+    
+    public static int[] toCoordinates(long coordinates, int width) {
+        int row = (int) (coordinates / width);
+        int column = (int) (coordinates - row * width);
+        return new int [] {column, row};
+    }
 }

@@ -9,6 +9,7 @@ public class CommonRunnable implements Runnable {
     private Runnable task;
 
     volatile private Stat stat;
+    volatile private boolean wasExecuted;
 
     public static CommonRunnable create(long livetime) {
         return new CommonRunnable(livetime, true, null);
@@ -46,10 +47,11 @@ public class CommonRunnable implements Runnable {
 
     @Override
     public void run() {
+        wasExecuted = true;
         long startTime = System.currentTimeMillis();
         long endTime = livetime > 0 ? startTime + livetime : 0;
         while (endTime == 0 || endTime > System.currentTimeMillis()) {
-            if (interruptable && Thread.currentThread().interrupted()) {
+            if (interruptable && Thread.currentThread().isInterrupted()) {
                 break;
             }
             if (task != null) {
@@ -73,6 +75,10 @@ public class CommonRunnable implements Runnable {
 
     public boolean isFinished() {
         return stat != null;
+    }
+    
+    public boolean wasExecuted() {
+        return wasExecuted;
     }
 
     public static class Stat {

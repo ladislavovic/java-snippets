@@ -1,6 +1,7 @@
 package cz.kul.snippets.cglib.example01_createProxy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -25,7 +26,10 @@ public class TestCreateProxy {
             }
             return result;
         });
+        
         MyBean bean = (MyBean) enhancer.create();
+        assertTrue(bean.getClass().getSimpleName().matches("MyBean\\$\\$EnhancerByCGLIB\\$\\$.+"));
+
         bean.setVal1("ahoj");
         assertEquals("PROXY_ahoj", bean.getVal1());
     }

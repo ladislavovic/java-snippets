@@ -10,6 +10,7 @@ public class AgentManager {
 
     // TODO Do I need store that in TL? I have problem with quartz with that, because they run
     // in another thread.
+    // TODO Yes, I definitelly must store it on another plce, it is not useable for any multithread code
     private static final ThreadLocal<Agents> agents = new ThreadLocal<Agents>() {
         @Override
         protected Agents initialValue() {

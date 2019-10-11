@@ -1,7 +1,10 @@
 package cz.kul.snippets.java.example05_generics;
 
 import org.junit.Test;
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,5 +61,5 @@ public class TestGenerics {
         b.add(10); // correct, you can do it for List<Integer>, List<Number>,
                    // List<Object>. So it is ok.
     }
-
+    
 }

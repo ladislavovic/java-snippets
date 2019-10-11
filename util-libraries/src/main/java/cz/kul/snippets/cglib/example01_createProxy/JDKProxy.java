@@ -10,12 +10,21 @@ import java.lang.reflect.Proxy;
 public class JDKProxy {
     
     @Test
-    public void testJDKProxy() {
+    public void createSimpleProxy() {
         Bean proxy = (Bean) Proxy.newProxyInstance(
                 this.getClass().getClassLoader(),
                 new Class[]{Bean.class},
                 new ReturnsNullAlways());
         Assert.assertNull(proxy.getName());
+    }
+    
+    @Test
+    public void itCreatesDynamicClass() {
+        Bean proxy = (Bean) Proxy.newProxyInstance(
+                this.getClass().getClassLoader(),
+                new Class[]{Bean.class},
+                new ReturnsNullAlways());
+        Assert.assertTrue(proxy.getClass().getSimpleName().matches("\\$Proxy.+"));
     }
     
 }

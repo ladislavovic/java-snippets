@@ -79,6 +79,53 @@ Properties are set by JVM and are modifyable.
          black console window, the standard output is not visible etc. Used mainly for GUI
          applications.
 
+### 'Hiding' terms
+
+#### Overloading
+void m(int i) {...}
+void m(String s) {...}
+
+#### Overriding
+Just method overriding in descendant
+
+#### Shadowning
+```Java
+class C {
+    int i = 0;
+
+    void m() {
+        int i = 1;
+        System.out.println(i); // local i variable shadow i field. You must use this.i to access field
+    }
+}
+```
+
+#### Hiding
+```Java
+class Animal {
+    int legs = 2;
+}
+
+class Dog extends Animal {
+    int legs = 4; // Dog.legs hides Animal.legs = 4. Use super.legs to access superclass field
+}
+```
+
+#### Obscuring
+```Java
+class C {
+    void m() {
+        String System = "";
+        System.out.println("Hello World"); 
+        // Will not compile. System is obscured by the local variable. You must use static import
+        // or full name java.lang.System
+    }
+}
+```
+
+
+
+
 * nio
   * http://tutorials.jenkov.com/java-nio/index.html
   * https://dzone.com/articles/java-nio-vs-io
@@ -89,3 +136,4 @@ Properties are set by JVM and are modifyable.
 * security manager
 * interesting articles: https://www.javacodegeeks.com/2015/09/advanced-java.html
 * look on all tools in bin directory
+

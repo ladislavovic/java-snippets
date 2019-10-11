@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 public class TestComponentWithMoreNames {
 
     @Configuration
-    @ComponentScan("cz.kul.snippets.spring._03_annotation_based_config")
+    @ComponentScan("cz.kul.snippets.spring._03_annotation_based_config") // TODO move all for this test to separated package because it scan more components that needed
     public static class Config { }
 
     @Test

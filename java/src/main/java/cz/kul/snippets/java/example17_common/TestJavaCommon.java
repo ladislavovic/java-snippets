@@ -140,16 +140,28 @@ public class TestJavaCommon {
      */
     @Test
     public void getResourceAsStream() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        // does NOT give a slash at the beginning
-        assertNull(classLoader.getResourceAsStream("/example17/res1.txt"));
-
-        // correct is to start WITHOUT slash
-        assertNotNull(classLoader.getResourceAsStream("example17/res1.txt"));
-
+        // You need to use classloader for that.
+        // You must use relative path, it can not start with slash
+        ClassLoader classLoader = getClass().getClassLoader();
+        assertTrue(classLoader.getResource("/example17/res1.txt") == null);
+        assertTrue(classLoader.getResource("example17/res1.txt") != null);
+        
+        // You can also use Class object for that.
+        // Then it depends if you call it with absolute or relative name. If you use relative name,
+        // the name is converted to class_package + your_path. If you use absolute path, the first
+        // slash is removed and it is delegated to classloader.
+        assertTrue(getClass().getResource("res2.txt") != null);
+        assertTrue(getClass().getResource("/res2.txt") == null);
+        assertTrue(getClass().getResource("/example17/res1.txt") != null);
     }
-    
+
+    @Test
+    public void arrayRetyping() {
+        Long[] arr = (Long[]) new Object[10];
+        arr[0] = 10L;
+        System.out.println(arr[0]);
+    }
+
     private B bInstance = new B();
     
     @Test

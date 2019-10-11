@@ -14,11 +14,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntBinaryOperator;
 import java.util.function.Predicate;
@@ -251,17 +247,52 @@ public class MainJava8Features {
     }
 
     @Test
-    public void colToMap() {
+    public void simpleColToMap() {
         List<String> strings = Arrays.asList("monica", "rachel");
         Map<String, String> firstLetterToString = strings
                 .stream()
                 .collect(Collectors.toMap(
-                        x -> x.substring(0, 1),
-                        x -> x
+                        x -> x.substring(0, 1), // function which generate key
+                        x -> x                  // function which generate value
                 ));
         assertEquals(2, firstLetterToString.size());
         assertEquals("monica", firstLetterToString.get("m"));
         assertEquals("rachel", firstLetterToString.get("r"));
+    }
+    
+    @Test
+    public void complexColToMap() {
+        // This is a complex example how to use toMap. But in this particular example it is
+        // easier to use groupingBy
+        HashMap<String, List<String>> map = Stream
+                .of("monica", "rachel", "mia")
+                .collect(Collectors.toMap(
+                        x -> x.substring(0, 1), // generate key
+                        Arrays::asList, // generate value
+                        (List<String> x, List<String> y) -> { // merge values with the same key
+                            List<String> newList = new ArrayList<>();
+                            newList.addAll(x);
+                            newList.addAll(y);
+                            return newList;
+                        },
+                        HashMap::new
+                ));
+        assertEquals(2, map.size());
+        assertEquals(2, map.get("m").size());
+        assertTrue(map.get("m").contains("monica"));
+        assertTrue(map.get("m").contains("mia"));
+    }
+    
+    @Test
+    public void testGroupingBy() {
+        Map<String, List<String>> map = Stream
+                .of("monica", "rachel", "mia")
+                .collect(Collectors.groupingBy((String x) -> x.substring(0, 1)));
+        
+        assertEquals(2, map.size());
+        assertEquals(2, map.get("m").size());
+        assertTrue(map.get("m").contains("monica"));
+        assertTrue(map.get("m").contains("mia"));
     }
 
     @Test(expected = IllegalStateException.class)
