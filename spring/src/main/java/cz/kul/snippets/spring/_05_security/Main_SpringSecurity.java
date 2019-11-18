@@ -51,7 +51,7 @@ public class Main_SpringSecurity {
             System.out.println("Authentication failed: " + e.getMessage());
         }
     }
-    
+        
     private static void logRoles() {
         System.out.println("\nRoles:");
         Authentication a = SecurityContextHolder.getContext().getAuthentication();

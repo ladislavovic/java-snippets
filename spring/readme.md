@@ -34,8 +34,12 @@ Spring and AOP
 * If you want to use AspectJ aspect declaration style you must:
   1. switch it on by @EnableAspectJAutoProxy
   2. to have aspectjweaver.jar
+* If you want use AspectJ library for AOP you need:
+  1. add spring-aspects.jar on the classpath
+* features you can achieve by AspectJ
+  * 
   
-continue with: 5.10. Using AspectJ with Spring Applications
+continue with: 5.10.2. Other Spring aspects for AspectJ
 
 
 Tests

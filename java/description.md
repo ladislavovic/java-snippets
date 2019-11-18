@@ -123,6 +123,15 @@ class C {
 }
 ```
 
+### Services
+Java has a services feature out of the box. For more details see ServiceLoader javadoc.
+
+The main idea is there is an interface or set or interfaces (it is called a Service) and there is also one
+or more implementations of the service (implementation is called the Service Provider). There is
+also configuration file META-INF/services/package.and.name.of.the.Service, which contains all
+implementations of the service, again class with the full name. In the runtime you can get particular
+provider by the ServiceLoader class.
+
 
 
 

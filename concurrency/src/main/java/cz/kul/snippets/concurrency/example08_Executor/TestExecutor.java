@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 import static org.junit.Assert.assertEquals;
@@ -93,5 +95,33 @@ public class TestExecutor extends SnippetsTest {
         assertFalse(task2.wasExecuted());
     }
     
+    @Test
+    public void waitTillAllTasksAreDone() throws InterruptedException {
+        int N = 10;
+        List<CommonRunnable> tasks = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            tasks.add(CommonRunnable.create(100));
+        }
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(1);
+        tasks.forEach(x -> executor.execute(x));
+        assertEquals(N, executor.getTaskCount());
+
+        executor.shutdown();
+        executor.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+        
+        assertEquals(N, executor.getCompletedTaskCount());
+    }
+    
+    @Test
+    public void waitTillAllTasksAreDoneByInvokeAll() throws InterruptedException {
+        int N = 100;
+        List<Callable<Void>> tasks = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            tasks.add(CommonRunnable.create(100));
+        }
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        List<Future<Void>> futures = executor.invokeAll(tasks); // blocking method, wait until all tasks are done
+        assertEquals(N, executor.getCompletedTaskCount());
+    }
     
 }

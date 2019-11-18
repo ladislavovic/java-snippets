@@ -1,6 +1,8 @@
 package cz.kul.snippets.concurrency.commons;
 
-public class CommonRunnable implements Runnable {
+import java.util.concurrent.Callable;
+
+public class CommonRunnable implements Runnable, Callable<Void> {
 
     private static int SLEEP_INTERVAL = 10;
 
@@ -67,6 +69,12 @@ public class CommonRunnable implements Runnable {
         stat.interrupted = Thread.interrupted();
         stat.livetime = System.currentTimeMillis() - startTime;
         stat.daemon = Thread.currentThread().isDaemon();
+    }
+
+    @Override
+    public Void call() {
+        run();
+        return null;
     }
 
     public Stat getStat() {
