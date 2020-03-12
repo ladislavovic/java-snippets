@@ -25,7 +25,14 @@ import java.util.Random;
 public class TestTODO extends SnippetsTest {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TestTODO.class);
-    
+
+    @Test
+    public void name() {
+        
+        LOGGER.debug("aaa");
+        
+    }
+
     @Test
     public void verboseClass() throws InterruptedException {
 

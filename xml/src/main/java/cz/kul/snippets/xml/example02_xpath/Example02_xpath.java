@@ -2,18 +2,34 @@ package cz.kul.snippets.xml.example02_xpath;
 
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
+import org.jaxen.SimpleNamespaceContext;
 import org.junit.Assert;
 import org.junit.Test;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Example02_xpath {
 
     @Test
-    public void testXpath() throws DocumentException {
+    public void testXpath() throws DocumentException, IOException, SAXException, XPathExpressionException, ParserConfigurationException {
         StringBuilder xml = new StringBuilder();
-        xml.append("<AAA>                                        ");
+//        xml.append("<AAA>                                        ");
+        xml.append("<AAA xmlns=\"https://www.kul.com\">          ");
         xml.append("  <BBB/>                                     ");
         xml.append("  <CCC>ccc</CCC>                             ");
         xml.append("  <BBB a='5' b='foo' />                      ");
@@ -31,6 +47,25 @@ public class Example02_xpath {
         SAXReader reader = new SAXReader();
         Document document = reader.read(new StringReader(xml.toString()));
 
+        // Plain Java Example
+        {
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            org.w3c.dom.Document xmlDocument = builder.parse(new ByteArrayInputStream(xml.toString().getBytes(StandardCharsets.UTF_8)));
+            
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            org.springframework.util.xml.SimpleNamespaceContext ctx = new org.springframework.util.xml.SimpleNamespaceContext();
+//            ctx.bindDefaultNamespaceUri("https://www.kul.com");
+            ctx.bindNamespaceUri("aa", "https://www.kul.com");
+            xPath.setNamespaceContext(ctx);
+            
+            String expression = "/AAA/DDD/BBB";
+//            String expression = "/aa:AAA/aa:DDD/aa:BBB";
+            
+            NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
+            Assert.assertEquals(1, nodeList.getLength());
+        }
+        
         // Exact path
         {
             List nodes = document.selectNodes("/AAA/DDD/BBB");

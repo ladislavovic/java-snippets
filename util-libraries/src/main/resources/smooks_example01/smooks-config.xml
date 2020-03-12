@@ -11,6 +11,7 @@
         <jb:wiring property="orderItems" beanIdRef="orderItems" />
     </jb:bean>
 
+     
     <!--
     Create an ArrayList bean instance when we visit the start of the <order> element.
     This bean is wired into the "order" bean.

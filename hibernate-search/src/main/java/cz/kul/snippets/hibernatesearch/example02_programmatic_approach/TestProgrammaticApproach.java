@@ -14,12 +14,17 @@ import java.util.List;
 @SuppressWarnings("Duplicates")
 public class TestProgrammaticApproach extends HibernateSearchTest {
 
-    public static String TMP_DIR = "/var/hibernate-search-snippets/example3/lucene/indexes";
+    public static String TMP_DIR = "/var/hibernate-search-snippets/example2/lucene/indexes";
 
     @Override
     public String getTmpDir() {
         return TMP_DIR;
     }
+
+//    @Override
+//    public Class<?>[] getConfigClasses() {
+//        return new Class[] {Config.class};
+//    }
 
     @Test
     public void testSearching() {
@@ -31,9 +36,10 @@ public class TestProgrammaticApproach extends HibernateSearchTest {
         List<? extends AbstractPerson> people = jpaService().doInTransactionAndFreshSession(session -> {
             FullTextSession fullTextSession = Search.getFullTextSession(session);
             QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(AbstractPerson.class).get();
+
             Query luceneQuery = queryBuilder
                     .keyword()
-                    .onFields("wholeName")
+                    .onFields("wholeNameLuceneField")
                     .matching("Petra")
                     .createQuery();
             FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, AbstractPerson.class);

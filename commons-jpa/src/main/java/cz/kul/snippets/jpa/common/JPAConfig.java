@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,10 +43,24 @@ public class JPAConfig {
         String packages = env.getProperty("entityManagerFactory.packagesToScan");
         String[] packagesArr = packages.split(",");
         em.setPackagesToScan(packagesArr);
-
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+
+//        final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
+//
+//            @Override
+//            public void postProcessEntityManagerFactory(EntityManagerFactory emf) {
+//                SessionFactory sf = emf.unwrap(SessionFactory.class);
+//                sf.getSessionFactoryOptions().getEntityTuplizerFactory().registerDefaultTuplizerClass();
+//
+//                super.postProcessEntityManagerFactory(emf);
+//            }
+//        };
+        
+        
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaPropertyMap(additionalProperties());
+        
+        
         return em;
     }
 

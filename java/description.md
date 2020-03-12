@@ -129,9 +129,20 @@ Java has a services feature out of the box. For more details see ServiceLoader j
 The main idea is there is an interface or set or interfaces (it is called a Service) and there is also one
 or more implementations of the service (implementation is called the Service Provider). There is
 also configuration file META-INF/services/package.and.name.of.the.Service, which contains all
-implementations of the service, again class with the full name. In the runtime you can get particular
+implementations     of the service, again class with the full name. In the runtime you can get particular
 provider by the ServiceLoader class.
 
+### Serialization
+* only class implementing Serializable interface can be serialized
+* all subtypes of class which implement Serializable are also serializable
+* you can customize serialization by magic methods writeObject() and readObject()
+* you can write completely new serialization protocol by implementing Externalizable interface
+* some changes on the class are incompatible and cause you can not deserialize the old class anymore.
+  It is recommended to have always seraialVersionUID to enable deserialization after modifications. Modifications:
+  * add a field - compatible
+  * remove a field - compatible
+  * move class in hierarchy - incompatible
+  * change a field type - incompatible
 
 
 

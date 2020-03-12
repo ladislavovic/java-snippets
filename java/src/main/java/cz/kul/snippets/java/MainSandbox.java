@@ -4,16 +4,26 @@ import org.junit.Assert;
 
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainSandbox {
     
     public static void main(String[] args) {
 
-        
+        List<Integer> integers = Arrays.asList(1, 2, 3);
+        System.out.println(integers.subList(3, 3));
+
+    }
+    
+    
+    
+    public static void probeDataGenerator() {
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(String.format("NE:BUILDING_Ostrava/NE%1$s:  :1:FE::  :Network Element %1$s:10.0.0.1:255.0.0.0\n\n", i));
+            
+        }
     }
     
     public static void voucherCodeGenerator() {

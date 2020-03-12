@@ -1,0 +1,574 @@
+<?xml version="1.0"?>
+<!-- Cross synchro schema definiton. Vladimir Martinek, September 11th 2017.
+2017-09-26 Version 1.0
+2017-09-26 Version 1.1 (additional asserts on link)
+2017-10-16 Version 1.2 (added preferences and coordinateSystem)
+2017-11-02 Version 1.3 (id must be simple string)
+2017-11-02 Version 1.4 (link routing support)
+2017-11-10 Version 1.5 (EnumItemType in EnumItem is now reference)
+2017-11-20 Version 1.6 (CHANNEL assert disabled because of bug in xerces)
+2017-12-04 Version 1.6 (added preference implicitRemove)
+2017-12-19 Version 1.7 (non-empty typeDiscriminator attribute is required for typedCustomAttributesType, non-empty name attribute is required for customAttributeType)
+2018-01-19 Version 1.8 (customTown is required for customStreet insert/update)
+2018-07-24 Version 1.9 (added technologies for nodes and links)
+2019-01-18 Version 2.0 (added fibril counts for link)
+2019-07-09 Version 2.1 (added support for services)
+2019-09-17 Version 2.2 (customAttributes is not mandatory in categoryType)
+-->
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+    xmlns:ex="http://cross-ni.com/synchro/exchange"
+    vc:minVersion="1.1"
+    targetNamespace="http://cross-ni.com/synchro/exchange"
+    elementFormDefault="qualified">
+
+    <xs:element name="entities">
+        <xs:annotation>
+            <xs:documentation>Document root. Each child represents a cross entity top be inserted, updated or deleted.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+        	<xs:sequence>
+        		<xs:choice minOccurs="0">
+        			<xs:element name="preferences" type="ex:preferenceType"/>
+        		</xs:choice>
+            	<xs:choice minOccurs="0" maxOccurs="unbounded">
+                	<xs:element name="node" type="ex:nodeType" minOccurs="0" maxOccurs="unbounded"/>
+                	<xs:element name="link" type="ex:linkType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="materialLink" type="ex:materialLinkType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="materialNode" type="ex:materialNodeType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="materialTemplate" type="ex:materialTemplateType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="customTown" type="ex:customTownType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="customStreet" type="ex:customStreetType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="customAddress" type="ex:customAddressType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="enumItem" type="ex:enumItemType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="subnetwork" type="ex:subnetworkType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="service" type="ex:serviceType" minOccurs="0" maxOccurs="unbounded" />
+                	<xs:element name="serviceComponent" type="ex:serviceComponentType" minOccurs="0" maxOccurs="unbounded" />
+            	</xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="entityType">
+        <xs:annotation>
+            <xs:documentation>Base entity type.</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="id" type="ex:notEmptyStringType" minOccurs="1">
+                <xs:annotation><xs:documentation>Entity ID. The entity can be referenced using this ID later.</xs:documentation></xs:annotation> 
+            </xs:element>
+        </xs:choice>
+        <xs:attribute name="operation" type="ex:operationType" use="required"/>
+       
+        
+    </xs:complexType>
+    
+    <!-- Node definition (Node) -->
+    <xs:complexType name="nodeType">
+        <xs:annotation>
+            <xs:documentation>Node entity type. Represents CROSS Node.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Name of the node.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="nodeType" minOccurs="0" maxOccurs="unbounded"	type="ex:notEmptyStringType">
+                        <xs:annotation><xs:documentation>Node type discriminator. A node can be of multiple types (e.g. SHELF and NETWORK_ELEMENT). See CROSS Configuration Node types for valid values.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="status" type="ex:notEmptyStringType"	minOccurs="0">
+                        <xs:annotation><xs:documentation>Node status discriminator. See CROSS Configuration Node States for valid values.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="description" type="xs:string"	minOccurs="0">
+                        <xs:annotation><xs:documentation>Node description.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="namingRule" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to node naming rule.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="material" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to node material.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="parentNodes" type="ex:referenceListType" minOccurs="0">
+                        <xs:annotation><xs:documentation>List of references to parent nodes.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="customAttributes" type="ex:typedCustomAttributesType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation><xs:documentation>Custom attributes. Each node type adds own set of custom attributes.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="location" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>WKT point geometry.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="alias" type="ex:notEmptyStringType" minOccurs="0" maxOccurs="unbounded">
+                        <xs:annotation>
+                            <xs:documentation>Node alias. A node can have any number of aliases.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="categories" type="ex:categoriesType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Categories connected to node. Category is connected through node type,
+                                each node type can have several categories.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:choice>
+                <!-- Bunch of asserts to refine requirements for different types of operations -->
+                <!-- Insert requires name, status and at least one node type -->
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Link definition (Link) -->
+    <xs:complexType name="linkType">
+        <xs:annotation>
+            <xs:documentation>Link entity type. Represents CROSS Link.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Name of the link.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="linkType" minOccurs="0" type="ex:notEmptyStringType">
+                        <xs:annotation><xs:documentation>Link type discriminator. See CROSS Configuration Link types for valid values.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="status" type="ex:notEmptyStringType"	minOccurs="0">
+                        <xs:annotation><xs:documentation>Link status discriminator. See CROSS Configuration Link States for valid values.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="routingPolicy" type="xs:string" minOccurs="0">
+                        <xs:annotation><xs:documentation>Link routing policy.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="mainFibrilCount" type="xs:integer" minOccurs="0">
+                        <xs:annotation><xs:documentation>Main fibril count. Must be present if routing strategy is specified.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="protectFibrilCount" type="xs:integer" minOccurs="0">
+                        <xs:annotation><xs:documentation>Protect fibril count. Must be present if routing strategy is specified.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    
+                    <xs:element name="routing" type="ex:routingType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Link routing.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="description" type="xs:string"	minOccurs="0">
+                        <xs:annotation><xs:documentation>Link description.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="namingRule" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to link naming rule.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="material" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to link material.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Custom attributes, defined by specified link type.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="channelNumber" type="xs:integer" minOccurs="0">
+                        <xs:annotation><xs:documentation>Channel number.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="startNode" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to link start node.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="endNode" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to link end node.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="route" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>WKT LineString geometry</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="categories" type="ex:categoriesType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Categories connected to link.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:choice>
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Material definition (Material, MaterialLink, MaterialNode) -->
+    <xs:complexType name="materialType">
+        <xs:annotation>
+            <xs:documentation>Material entity type. Base type for Material Link and Material Node types.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Name of the material template.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="status" type="ex:materialStatusType"	minOccurs="0">
+                        <xs:annotation><xs:documentation>Status of the material template.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="shortcut" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="optionalTemplates" type="ex:referenceListType" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>List of references to other material templates. The optional templates list contains templates that can be inserted into the current template, e.g. list of card templates that can be inserted into a slot template.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="materialLinkType">
+        <xs:complexContent>
+            <xs:extension base="ex:materialType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="linkType" minOccurs="0" type="ex:notEmptyStringType" />
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                </xs:choice>
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="materialNodeType">
+        <xs:complexContent>
+            <xs:extension base="ex:materialType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="nodeType" minOccurs="0" maxOccurs="unbounded"	type="ex:notEmptyStringType" />
+                    <xs:element name="customAttributes" type="ex:typedCustomAttributesType" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Material template definition (MaterialTemplate) -->
+    <xs:complexType name="materialTemplateType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="status" type="ex:notEmptyStringType"	minOccurs="0"/>
+                    <xs:element name="shortcut" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="templateType" type="ex:materialTemplateTypeType" minOccurs="0" />
+                    <xs:element name="materialTemplateItem" type="ex:materialTemplateItemType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Material template item definition (MaterialTemplateItem) -->
+    <xs:complexType name="materialTemplateItemType">
+        <xs:annotation><xs:documentation>MaterialTemplateItem defines use of material within a template.</xs:documentation></xs:annotation>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+               <xs:element name="id" type="ex:notEmptyStringType" minOccurs="1"/>
+               <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+              <xs:element name="customAttributes" type="ex:typedCustomAttributesType" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element name="material" type="ex:referenceSingleType" minOccurs="0">
+                   <xs:annotation><xs:documentation>Reference to material.</xs:documentation></xs:annotation>
+               </xs:element>
+               <xs:element name="parentItems" type="ex:referenceListType" minOccurs="0">
+                   <xs:annotation><xs:documentation>Reference to material template.</xs:documentation></xs:annotation>
+               </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    
+    
+    <!-- Town definiton (Town, CustomTown) -->
+    <xs:complexType name="townType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="description" minOccurs="0" type="ex:notEmptyStringType" />
+                    <xs:element name="valid" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="geometry" type="xs:string" minOccurs="0">
+                        <xs:annotation><xs:documentation>WKT GeometryCollection.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                </xs:choice>
+                </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="customTownType">
+        <xs:complexContent>
+            <xs:extension base="ex:townType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="country" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to country.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Street definiton (Street, CustomStreet) -->
+    <xs:complexType name="streetType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="valid" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="geometry" type="xs:string" minOccurs="0">
+                        <xs:annotation><xs:documentation>WKT GeometryCollection.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="customStreetType">
+        <xs:complexContent>
+            <xs:extension base="ex:streetType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="customTown" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to custom town.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Address definiton (Address, CustomAddress) -->
+    <xs:complexType name="addressType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="valid" type="xs:boolean" minOccurs="0"/>
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                    <xs:element name="location" type="xs:string" minOccurs="0">
+                        <xs:annotation><xs:documentation>WKT point geometry.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="country" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to country.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="customAddressType">
+        <xs:complexContent>
+            <xs:extension base="ex:addressType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="modelCustomAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                    <xs:element name="customTown" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to custom town.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="customStreet" type="ex:referenceSingleType" minOccurs="0">
+                        <xs:annotation><xs:documentation>Reference to custom street.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Enumerator Item  definition (CAEnumItem) -->
+    <xs:complexType name="enumItemType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="enumType" type="ex:referenceSingleType" minOccurs="0"/>
+                    <xs:element name="active" type="xs:boolean" minOccurs="0"></xs:element>
+                    <xs:element name="order" type="xs:int" minOccurs="0"></xs:element>
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <!-- Subnetwork definition -->
+    <xs:complexType name="subnetworkType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="subnetworkType" type="ex:referenceSingleType" minOccurs="0"/>
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                    <xs:element name="subnetworkNodes" type="ex:referenceListType" minOccurs="0">
+                        <xs:annotation><xs:documentation>List of references to subnetwork nodes.</xs:documentation></xs:annotation>
+                    </xs:element>
+                    <xs:element name="subnetworkLinkProviders" type="ex:referenceListType" minOccurs="0">
+                        <xs:annotation><xs:documentation>List of references to subnetwork link providers.</xs:documentation></xs:annotation>
+                    </xs:element>
+                </xs:choice>
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Service definition -->
+    <xs:complexType name="serviceType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element name="serviceType" type="ex:notEmptyStringType" minOccurs="0"/>
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                </xs:choice>
+               
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Service component definition -->
+    <xs:complexType name="serviceComponentType">
+        <xs:complexContent>
+            <xs:extension base="ex:entityType">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                	<xs:element name="service" type="ex:referenceSingleType" minOccurs="0"/>
+                    <xs:element name="componentType" type="ex:notEmptyStringType" minOccurs="0"/>
+                    <xs:element name="name" type="ex:notEmptyStringType" minOccurs="0" />
+                    <xs:element name="customAttributes" type="ex:untypedCustomAttributesType" minOccurs="0"/>
+                    <xs:element name="ipAddressResource" type="ex:serviceResourceType" minOccurs="0"/>
+                    <xs:element name="nodeResource" type="ex:serviceResourceType" minOccurs="0"/>
+                    <xs:element name="linkResource" type="ex:serviceResourceType" minOccurs="0"/>
+                    <xs:element name="serviceResource" type="ex:serviceResourceType" minOccurs="0"/>
+                </xs:choice>
+                
+                
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <!-- Service component node resource definition -->
+    <xs:complexType name="serviceResourceType">
+            <xs:sequence>
+            <xs:element name="resourceId" type="ex:referenceType" minOccurs="1"/>
+            <xs:element name="primary" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- References and IDs -->
+    <xs:complexType name="referenceType">
+        <xs:annotation>
+            <xs:documentation>Reference to another object. Can be a simple or multi-part ID.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="idPart" type="ex:referenceIdType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="id" type="ex:notEmptyStringType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="referenceIdType">  
+        <xs:simpleContent>  
+            <xs:extension base="ex:notEmptyStringType">  
+                <xs:attribute name="idPartName" type="xs:string" use="required"/>  
+            </xs:extension>  
+        </xs:simpleContent>
+    </xs:complexType>   				
+    
+    <xs:complexType name="referenceListType">
+        <xs:sequence>
+            <xs:element name="reference" type="ex:referenceType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="referenceSingleType">
+        <xs:sequence>
+            <xs:element name="reference" type="ex:referenceType" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- Custom Attributes  -->
+    <xs:complexType name="typedCustomAttributesType">
+        <xs:sequence>
+            <xs:element name="customAttribute" type="ex:customAttributeType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="typeDiscriminator" type="ex:notEmptyStringType" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="untypedCustomAttributesType">
+        <xs:sequence>
+            <xs:element name="customAttribute" type="ex:customAttributeType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="customAttributeType">
+        <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:element name="value" type="xs:string" maxOccurs="unbounded"></xs:element>
+            <xs:element name="reference" type="ex:referenceType" maxOccurs="unbounded"></xs:element>
+        </xs:choice>
+        <xs:attribute name="name" type="ex:notEmptyStringType" use="required"/>
+    </xs:complexType>
+
+    <!-- Technologies -->
+    <xs:complexType name="categoriesType">
+        <xs:sequence>
+            <xs:element name="category" type="ex:categoryType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="categoryType">
+        <xs:sequence>
+            <xs:element name="customAttributes" type="ex:typedCustomAttributesType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation><xs:documentation>Custom attributes. Each technology and its ancestor adds own set of custom attributes.</xs:documentation></xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="typeDiscriminator" type="ex:notEmptyStringType"  use="optional" />
+        <xs:attribute name="treeName" type="ex:notEmptyStringType" use="required" />
+        <xs:attribute name="name" type="ex:notEmptyStringType" use="required" />
+    </xs:complexType>
+
+    <!-- Synchro engine preferences -->
+    <xs:complexType name="preferenceType">
+        <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:element name="coordinateSystem" type="xs:string" minOccurs="0">
+            	<xs:annotation><xs:documentation>Coordinate system for geometry data (EPSG name). Example: EPSG:4326 for WGS84, EPSG:3857 for Google. Default: EPSG:4326</xs:documentation></xs:annotation>
+            </xs:element>
+            <xs:element name="implicitRemove" type="xs:boolean" minOccurs="0">
+            	<xs:annotation><xs:documentation>Flag indicating whether to check for implicit entity removes. Default: true</xs:documentation></xs:annotation>
+            </xs:element>
+            
+        </xs:choice>
+        
+        
+    </xs:complexType>
+    
+    <!-- Link routing -->
+    <xs:complexType name="routingType">
+        <xs:sequence>
+            <xs:element name="routingMember" type="ex:routingMemberType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="routingMemberType">
+        <xs:sequence>
+            <xs:element name="entityId" type="ex:referenceType" minOccurs="1"/>
+            <xs:element name="reversed" type="xs:boolean" minOccurs="1"/>
+            <xs:element name="consumptionType" type="ex:notEmptyStringType" minOccurs="1"/>
+            <xs:element name="fibrilNumber" type="xs:integer" minOccurs="1"/>
+            <xs:element name="orderNumber" type="xs:integer" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <!-- Others -->
+    <xs:simpleType name="notEmptyStringType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="materialTemplateTypeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LINK"/>
+            <xs:enumeration value="NODE"/>
+        </xs:restriction>
+    </xs:simpleType>	
+    
+    <xs:simpleType name="operationType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="insert_update" />
+            <xs:enumeration value="delete" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="materialStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ACTIVE"/>
+            <xs:enumeration value="INACTIVE"/>
+        </xs:restriction>
+    </xs:simpleType>	
+
+    
+
+</xs:schema>

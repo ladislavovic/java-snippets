@@ -183,6 +183,44 @@ public class TestJavaCommon {
         perfTest();
     }
     
+    @Test
+    public void arrayListMaxSizeIsLimitedByArrayMaxLength() {
+        // ArrayList can not be larger than max array length
+        // This test ends with
+        //
+        // java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+        //
+        // when you reach Integer.MAX_VALUE - 2. You can not allocate
+        // larger array.
+        ArrayList<Integer> list = new ArrayList<>(Integer.MAX_VALUE - 2);
+        for (long i = 0; i < 3_000_000_000L ; i++) {
+            list.add(1);
+            if (i % 10_000_000 == 0) {
+                System.out.println(i);
+            }
+        }
+    }
+    
+    @Test
+    public void linkedListCanBeLargerThanArrayMaxLength() {
+        // Linked list coud be theoretically larger than
+        // Integer.MAX_VALUE, because it is not backed by
+        // array. 
+        //
+        // But it internally save its size and it is stored as int, it
+        // coud cause problems.
+        // 
+        // But I was able to reach only about 1^9 items, than the JVM
+        // crashed, maybe wrong memmory module?
+        LinkedList<Integer> list = new LinkedList<>();
+        for (long i = 0; i < 3_000_000_000L ; i++) {
+            list.add((int) (i % 100));
+            if (i % 10_000_000 == 0) {
+                System.out.println(i);
+            }
+        }
+    }
+    
     public static void main(String [] args) {
         Object o = new Object();
         ArrayList<Long> list = new ArrayList<>(11_000_000);

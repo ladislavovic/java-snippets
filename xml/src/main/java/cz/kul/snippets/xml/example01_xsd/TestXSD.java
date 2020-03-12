@@ -1,6 +1,7 @@
 package cz.kul.snippets.xml.example01_xsd;
 
 import cz.kul.snippets.SnippetsTest;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -11,7 +12,10 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class TestXSD extends SnippetsTest {
 
@@ -242,6 +246,79 @@ public class TestXSD extends SnippetsTest {
                 invalid_wrongOrder.toString(),
                 invalid_moreElements.toString());
     }
+    
+    @Test
+    public void choice_singleChoice() {
+        StringBuilder xsd = new StringBuilder();
+        xsd.append("<?xml version=\"1.0\"?>                                       ");
+        xsd.append("<xs:schema                                                    ");
+        xsd.append("  xmlns=\"https://www.kul.com\"                               ");
+        xsd.append("  xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"               ");
+        xsd.append("  targetNamespace=\"https://www.kul.com\"                     ");
+        xsd.append("  elementFormDefault=\"qualified\"                            ");
+        xsd.append(">                                                             ");
+        xsd.append("  <xs:element name=\"data\">                                  ");
+        xsd.append("    <xs:complexType>                                          ");
+        xsd.append("      <xs:choice>                                             ");
+        xsd.append("        <xs:element name=\"name\" type=\"xs:string\" />       ");
+        xsd.append("        <xs:element name=\"age\" type=\"xs:integer\" />       ");
+        xsd.append("      </xs:choice>                                            ");
+        xsd.append("    </xs:complexType>                                         ");
+        xsd.append("  </xs:element>                                               ");
+        xsd.append("</xs:schema>                                                  ");
+
+        StringBuilder valid = new StringBuilder();
+        valid.append("<?xml version=\"1.0\"?>               ");
+        valid.append("<data xmlns=\"https://www.kul.com\">  ");
+        valid.append("  <name>Jane</name>                   ");
+        valid.append("</data>                               ");
+
+        assertValidXml(xsd.toString(), valid.toString());
+
+        StringBuilder invalid_moreChoices = new StringBuilder();
+        invalid_moreChoices.append("<?xml version=\"1.0\"?>               ");
+        invalid_moreChoices.append("<data xmlns=\"https://www.kul.com\">  ");
+        invalid_moreChoices.append("  <name>Jane</name>                   ");
+        invalid_moreChoices.append("  <age>20</age>                       ");
+        invalid_moreChoices.append("</data>                               ");
+
+        assertInvalidXml(xsd.toString(), invalid_moreChoices.toString());
+
+    }
+    
+    @Test
+    public void choice_multipleChoice() {
+        // here in choice you can have elements in any order and in any number        
+        StringBuilder xsd = new StringBuilder();
+        xsd.append("<?xml version=\"1.0\"?>                                       ");
+        xsd.append("<xs:schema                                                    ");
+        xsd.append("  xmlns=\"https://www.kul.com\"                               ");
+        xsd.append("  xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"               ");
+        xsd.append("  targetNamespace=\"https://www.kul.com\"                     ");
+        xsd.append("  elementFormDefault=\"qualified\"                            ");
+        xsd.append(">                                                             ");
+        xsd.append("  <xs:element name=\"data\">                                  ");
+        xsd.append("    <xs:complexType>                                          ");
+        xsd.append("      <xs:choice minOccurs=\"0\" maxOccurs=\"unbounded\">       ");
+        xsd.append("        <xs:element name=\"name\" type=\"xs:string\" minOccurs=\"0\" maxOccurs=\"unbounded\"/>       ");
+        xsd.append("        <xs:element name=\"age\" type=\"xs:integer\" minOccurs=\"0\" maxOccurs=\"unbounded\"/>       ");
+        xsd.append("      </xs:choice>                                            ");
+        xsd.append("    </xs:complexType>                                         ");
+        xsd.append("  </xs:element>                                               ");
+        xsd.append("</xs:schema>                                                  ");
+
+        StringBuilder valid = new StringBuilder();
+        valid.append("<?xml version=\"1.0\"?>               ");
+        valid.append("<data xmlns=\"https://www.kul.com\">  ");
+        valid.append("  <age>30</age>                       ");
+        valid.append("  <name>Jane</name>                   ");
+        valid.append("  <name>Jane</name>                   ");
+        valid.append("  <age>30</age>                       ");
+        valid.append("</data>                               ");
+
+        assertValidXml(xsd.toString(), valid.toString());
+
+    }
 
     private void assertValidAndNotValidXml(String xsd, String validXml, String... invalidXML) {
         assertValidXml(xsd, validXml);
@@ -278,5 +355,68 @@ public class TestXSD extends SnippetsTest {
         Validator validator = schema.newValidator();
         validator.validate(xmlSource);
     }
+
+
+
+    @Test
+    public void name() throws SAXException, IOException {
+
+        InputStream inputStream = this.getClass()
+                .getClassLoader()
+                .getResourceAsStream("exchange.xsd");
+        String xsdStr = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        StreamSource xsdSource = new StreamSource(new StringReader(xsdStr));
+
+        SchemaFactory schemaFactory = SchemaFactory
+                .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = schemaFactory.newSchema(xsdSource);
+        Validator validator = schema.newValidator();
+
+//		String xml = String.join(
+//				"\n",
+//				"<?xml version='1.0' encoding='UTF-8'?>",
+//				"<ex:entities",
+//				"	xmlns:ex='http://cross-ni.com/synchro/exchange'",
+//				"	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'",
+//				"	>",
+//				"	<ex:node operation='insert_update'>",
+//				"		<ex:id>AAAAAAAAAAAJ</ex:id>",
+//				"		<ex:name>node1</ex:name>",
+//				"		<ex:nodeType>LOCALITY</ex:nodeType>",
+//				"		<ex:status>ACTIVE</ex:status>",
+//				"		<ex:customAttributes typeDiscriminator='LOCALITY'>",
+//				"		</ex:customAttributes>",
+//				"		<ex:categories>",
+//				"		</ex:categories>",
+//				"		<ex:location>POINT (0 0)</ex:location>",
+//				"	</ex:node>",
+//				"</ex:entities>"
+//		);
+
+        		String xml = String.join(
+				"\n",
+				"<?xml version='1.0' encoding='UTF-8'?>",
+				"<ex:entities",
+				"	xmlns:ex='http://cross-ni.com/synchro/exchange'",
+				"	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'",
+				"	>",
+				"	<ex:node operation='insert_update'>",
+				"		<ex:id>AAAAAAAAAAAJ</ex:id>",
+				"		<ex:name>node1</ex:name>",
+				"		<ex:nodeType>LOCALITY</ex:nodeType>",
+				"		<ex:status>ACTIVE</ex:status>",
+//				"		<ex:customAttributes typeDiscriminator='LOCALITY'>",
+//				"		</ex:customAttributes>",
+//				"		<ex:categories>",
+//				"		</ex:categories>",
+				"		<ex:location>POINT (0 0)</ex:location>",
+				"	</ex:node>",
+				"</ex:entities>"
+		);
+
+        Source xmlSource = new StreamSource(new StringReader(xml));
+        validator.validate(xmlSource);
+    }
+
 
 }
