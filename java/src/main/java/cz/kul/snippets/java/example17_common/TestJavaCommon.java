@@ -220,7 +220,19 @@ public class TestJavaCommon {
             }
         }
     }
-    
+
+    @Test
+    public void uncheckedCastWarning() {
+        // TODO
+        String s = (String) new Object();
+
+        HashMap map1 = new HashMap();
+        Map<String, String> map2 = (Map<String, String>) map1;
+
+        System.out.println(map1);
+        System.out.println(map2);
+    }
+
     public static void main(String [] args) {
         Object o = new Object();
         ArrayList<Long> list = new ArrayList<>(11_000_000);

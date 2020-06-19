@@ -1,7 +1,6 @@
 package cz.kul.snippets.java.example05_generics;
 
 import org.junit.Test;
-import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

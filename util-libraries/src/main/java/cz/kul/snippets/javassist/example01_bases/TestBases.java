@@ -8,6 +8,10 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import org.junit.Test;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.ProtectionDomain;
+
 public class TestBases {
 
     @Test
@@ -19,6 +23,27 @@ public class TestBases {
         Class fooClass = fooCtClass.toClass();
         Object newInstance = fooClass.newInstance();
         assertEquals("ClassFromScratch", newInstance.getClass().getName());
+    }
+
+
+    @Test
+    public void aaa() throws Exception {
+
+        ClassLoader customClassLoader = new URLClassLoader(new URL[] {}, Thread.currentThread().getContextClassLoader());
+
+        ClassPool pool = ClassPool.getDefault();
+        CtClass fooCtClass = pool.makeClass("ClassFromScratch");
+
+        Class fooClass = fooCtClass.toClass(customClassLoader, null);
+
+
+
+//        Class<?> aClass = Class.forName(fooClass.getName());
+
+
+        Class<?> aClass1 = Class.forName(fooClass.getName(), true, customClassLoader);
+
+
     }
 
     @Test

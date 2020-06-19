@@ -147,6 +147,14 @@ public class ExampleTpl {
         res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "rachel"));
         assertEquals("match", res);
     }
+
+    @Test
+    public void numberFormat() {
+        String tpl = "${num}";
+
+        String res = FreemarkerUtils.process(tpl, ImmutableMap.of("num", 1000));
+        assertEquals("1000", res);
+    }
     
     
 

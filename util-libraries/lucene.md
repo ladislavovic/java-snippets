@@ -9,6 +9,8 @@ Lucene uses an "inverted indexing" - it maps keywords to pages. It is just like 
 ### Document
 It is a set of fields. Index typically consists of collection of documents.
 
+TODO: can I have documents with different structure in one index?
+
 ### Field
 TODO
 

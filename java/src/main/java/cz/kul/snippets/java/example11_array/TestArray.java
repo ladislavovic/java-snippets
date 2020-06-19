@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -66,7 +71,56 @@ public class TestArray {
         System.out.println("Memmory used for the array: " + memmoryForArray + " MB");
         System.out.println("Memmory for one array item: " + ((memmoryForArray * 1024 * 1024) / arrLength) + " B");
     }
-    
+
+    @Test
+    public void arrayEqualsReturnsTrueOnlyForIdenticalObjects() {
+        int[] arr1 = new int[] {1, 2, 3};
+        int[] arr2 = new int[] {1, 2, 3};
+        assertTrue(arr1.equals(arr1));
+        Assert.assertFalse(arr1.equals(arr2));
+        Assert.assertFalse(arr1.hashCode() == arr2.hashCode());
+    }
+
+    @Test
+    public void arrayIsAnObject() {
+        String[] strArr = new String[5];
+
+        // Class name is a little bit weird
+        assertEquals("[Ljava.lang.String;", strArr.getClass().getName());
+        assertTrue(strArr instanceof Object);
+        assertTrue(strArr instanceof String[]);
+
+        // Object is a superclass
+        Assert.assertSame(Object.class, strArr.getClass().getSuperclass());
+
+        // It is the same for primitive arrays
+        int[] intArr = new int[5];
+        assertEquals("[I", intArr.getClass().getName());
+        assertTrue(intArr instanceof Object);
+        Assert.assertSame(Object.class, intArr.getClass().getSuperclass());
+    }
+
+    @Test
+    public void arraycopy() {
+        // it allows copy data from one array to another quicky. It is implemented natively.
+        int[] arr1 = new int[] {1, 2, 3};
+        int[] arr2 = new int[] {4, 5};
+        System.arraycopy(arr1, 0, arr2, 0, 2);
+        assertEquals(1, arr2[0]);
+        assertEquals(2, arr2[1]);
+
+        // it also works if source and dest array are identical. It first copy data to temporary array.
+        System.arraycopy(arr1, 0, arr1, 1, 2);
+        assertEquals(1, arr1[0]);
+        assertEquals(1, arr1[1]);
+        assertEquals(2, arr1[2]);
+    }
+
+    @Test
+    public void arrayRetyping() {
+
+    }
+
     private long getUsedMemmoryInMB() {
         MemoryMXBean bean = ManagementFactory.getMemoryMXBean();
         return bean.getHeapMemoryUsage().getUsed() / (1024 * 1024);
@@ -97,16 +151,5 @@ public class TestArray {
     private void func(int[] arr) {
         arr[0] = 10;
     }
-    
-    @Test
-    public void arrayEqualsReturnsTrueOnlyForIdenticalObjects() {
-        int[] arr1 = new int[] {1, 2, 3};
-        int[] arr2 = new int[] {1, 2, 3};
-        Assert.assertTrue(arr1.equals(arr1));
-        Assert.assertFalse(arr1.equals(arr2));
-        Assert.assertFalse(arr1.hashCode() == arr2.hashCode());
-    }
-    
-    
     
 }

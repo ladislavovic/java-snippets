@@ -1,5 +1,8 @@
 package cz.kul.snippets.java;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.junit.Assert;
 
 import java.nio.ByteBuffer;
@@ -7,14 +10,54 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class MainSandbox {
-    
-    public static void main(String[] args) {
 
-        List<Integer> integers = Arrays.asList(1, 2, 3);
-        System.out.println(integers.subList(3, 3));
+private Set<Object> customCriteria;
 
+
+    public<T> List<T> getAllCustomCriteria(Class<T> customCriteriaClass) {
+        return (List<T>) customCriteria.stream()
+            .filter(x -> customCriteriaClass.isAssignableFrom(x.getClass()))
+            .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        Random random = new Random();
+        Multimap<Long, Long> multimap = ArrayListMultimap.create();
+        Thread.sleep(10_000);
+        for (int i = 0; i < 20_000_000; i++) {
+            multimap.put(random.nextLong(), random.nextLong());
+        }
+        Thread.sleep(10_000);
+
+        List<Object> a = new ArrayList<>();
+        a.add(10);
+
+
+
+
+
+//        Random random = new Random();
+//        Set<long[]> setOfSets = new HashSet<>();
+//        Thread.sleep(10_000);
+//        for (int i = 0; i < 20_000_000; i++) {
+//            long[] arr = new long[] {random.nextLong()};
+//            setOfSets.add(arr);
+//        }
+//        Thread.sleep(10_000);
+
+//        Random random = new Random();
+//        Set<Set<Long>> setOfSets = new HashSet<>();
+//        Thread.sleep(10_000);
+//        for (int i = 0; i < 20_000_000; i++) {
+//            HashSet<Long> set = new HashSet<>();
+//            set.add(random.nextLong());
+//            setOfSets.add(set);
+//        }
+//        Thread.sleep(10_000);
     }
     
     

@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch.example02_programmatic_approach;
+package cz.kul.snippets.hibernatesearch.example05_elasticsearch;
 
 import cz.kul.snippets.hibernatesearch.commons.HibernateSearchTest;
 import org.apache.lucene.search.Query;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
-public class TestProgrammaticApproach extends HibernateSearchTest {
+public class TestElasticsearch extends HibernateSearchTest {
 
     public static String TMP_DIR = "/tmp/hibernate-search-snippets/example2/lucene/indexes";
 
@@ -20,11 +20,6 @@ public class TestProgrammaticApproach extends HibernateSearchTest {
     public String getTmpDir() {
         return TMP_DIR;
     }
-
-//    @Override
-//    public Class<?>[] getConfigClasses() {
-//        return new Class[] {Config.class};
-//    }
 
     @Test
     public void testSearching() {
