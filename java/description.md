@@ -144,8 +144,24 @@ provider by the ServiceLoader class.
   * move class in hierarchy - incompatible
   * change a field type - incompatible
 
+### "Unchecked Cast" Warning
+This warning occurs for example when you want to cast Hashmap to Hashmap<String, String>.
 
+The warning is not just because the compiler does not know that the cast is safe.
+For example String s = (String) new Object(); gets no warning, even though the compiler does not know that the 
+cast is safe. The warning is because the compiler (a) does not know that the cast is safe AND (b) will not generate
+a complete run-time check at the point of the cast. There will be a check that it is a Hashmap, but there will not
+be a check that it is a HashMap<String,String>.
 
+### How to create good package names
+Packages split classes and interfaces to smaller groups to avoid colisions. They start from more general and continue
+to more specific.
+
+When you create packages for your application, you can create a package per a feature or per a module. I think it is
+more advantageous to do it per module, because you more often need to select all objects from module thant feature. 
+For example for package scanning, logging, aspect programming etc.
+
+### TODO
 * nio
   * http://tutorials.jenkov.com/java-nio/index.html
   * https://dzone.com/articles/java-nio-vs-io

@@ -29,7 +29,6 @@
         <maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <jaxb2-maven-plugin.version>1.6</jaxb2-maven-plugin.version>
-        <maven-war-plugin.version>3.2.0</maven-war-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.16</maven-failsafe-plugin.version>
         <jacoco-maven-plugin.version>0.7.4.201502262128</jacoco-maven-plugin.version>
@@ -55,11 +54,11 @@
         <!--<hibernate-search.version>5.5.3.Final</hibernate-search.version>-->
 
         <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
-        <spring.version>4.3.14.RELEASE</spring.version>
-        <spring-security.version>4.0.4.RELEASE</spring-security.version>
-        <spring-batch.version>3.0.6.RELEASE</spring-batch.version>
-        <spring-ws.version>2.2.4.RELEASE</spring-ws.version>
-        <jackson.version>2.8.5</jackson.version>
+        <spring.version>5.1.14.RELEASE</spring.version>
+        <spring-security.version>5.1.8.RELEASE</spring-security.version>
+        <spring-batch.version>4.1.3.RELEASE</spring-batch.version>
+        <spring-ws.version>3.0.8.RELEASE</spring-ws.version>
+        <jackson.version>2.9.4</jackson.version>
         <aspectj.version>1.8.9</aspectj.version>
         <junit.version>4.12</junit.version>
         <selenium.version>2.47.1</selenium.version>
@@ -119,6 +118,7 @@
         <module>spring</module>
         <module>spring-mvc</module>
         <module>spring-web-security</module>
+        <module>spring-rest</module>
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
@@ -537,6 +537,11 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>${spring.version}</version>
             </dependency>
@@ -635,6 +640,11 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
@@ -741,11 +751,6 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${maven-war-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

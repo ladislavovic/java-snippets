@@ -1,0 +1,58 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- 
+	http element - encapsulate whole security configuration for the web layer.
+	    Creates FilterChainProxy bean named "springSecurityFilterChain".
+	    
+	pattern - optional. Determine, which requests will be managed by the settings.
+	    If it is not present, then /**.
+	    
+	authentication-manager-ref - reference to the authentication manager. Oprional.
+	    It is important, if there is more than one authentication manager.-->
+	    
+<!--	TODO automatic login form does not work. I do not know why.-->
+<!--	 &ndash;&gt;-->
+<!--	<http pattern="/04/secured**" authentication-manager-ref="manager1">-->
+<!--		&lt;!&ndash; The ROLE_ is a prefix &ndash;&gt;-->
+<!--		<intercept-url pattern="/04/secured/**" access="ROLE_ROLE1" />-->
+<!--		<form-login/>-->
+<!--	</http>-->
+<!--	-->
+<!--	<http pattern="/04/basic/**" authentication-manager-ref="manager2">-->
+<!--		<intercept-url pattern="/04/basic/**" access="ROLE_ROLE1" />-->
+<!--		<http-basic />-->
+<!--		<access-denied-handler error-page="/04/403"/>-->
+<!--	</http>-->
+<!--	-->
+<!--	<http pattern="/05/**" authentication-manager-ref="manager2" use-expressions="true">-->
+<!--		<intercept-url pattern="/05/**" access="isAuthenticated()" />-->
+<!--		<http-basic />-->
+<!--	</http>-->
+
+<!--    &lt;!&ndash; Creates ProviderManager bean. It is filled by one or more-->
+<!--         AuthenticationProvider instances. &ndash;&gt;-->
+<!--	<authentication-manager id="manager1">-->
+<!--		<authentication-provider>-->
+<!--			<user-service>-->
+<!--				<user name="user1" password="psswd" authorities="ROLE_ROLE1" />-->
+<!--			</user-service>-->
+<!--		</authentication-provider>-->
+<!--	</authentication-manager>-->
+<!--	-->
+<!--	<authentication-manager id="manager2">-->
+<!--		<authentication-provider>-->
+<!--			<user-service>-->
+<!--				<user name="user2" password="psswd" authorities="ROLE_ROLE1" />-->
+<!--				<user name="user3" password="psswd" authorities="ROLE_FOO" />-->
+<!--				<user name="user4" password="psswd" authorities="ROLE_ADMIN" />-->
+<!--			</user-service>-->
+<!--		</authentication-provider>-->
+<!--	</authentication-manager>-->
+	
+</beans:beans>

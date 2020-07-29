@@ -23,21 +23,37 @@ private Set<Object> customCriteria;
             .collect(Collectors.toList());
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static class A {
+        int a;
+        String b;
 
-        Random random = new Random();
-        Multimap<Long, Long> multimap = ArrayListMultimap.create();
-        Thread.sleep(10_000);
-        for (int i = 0; i < 20_000_000; i++) {
-            multimap.put(random.nextLong(), random.nextLong());
+        public A(int a, String b) {
+            this.a = a;
+            this.b = b;
         }
-        Thread.sleep(10_000);
 
-        List<Object> a = new ArrayList<>();
-        a.add(10);
+        public int getA() {
+            return a;
+        }
 
+        public String getB() {
+            return b;
+        }
 
+        @Override
+        public String toString() {
+            return "A{" +
+                "a=" + a +
+                ", b='" + b + '\'' +
+                '}';
+        }
+    }
 
+    public static void main(String[] args) throws InterruptedException {
+        List<A> list = new ArrayList<>();
+        list.add(new A(1, "one"));
+        list.add(new A(2, "two"));
+        System.out.println(list);
 
 
 //        Random random = new Random();
