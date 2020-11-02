@@ -29,7 +29,6 @@
         <maven-assembly-plugin.version>2.4</maven-assembly-plugin.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <jaxb2-maven-plugin.version>1.6</jaxb2-maven-plugin.version>
-        <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.16</maven-failsafe-plugin.version>
         <jacoco-maven-plugin.version>0.7.4.201502262128</jacoco-maven-plugin.version>
         <lifecycle-mapping-plugin.version>1.0.0</lifecycle-mapping-plugin.version>
@@ -101,6 +100,9 @@
         <testcontainer.version>1.4.3</testcontainer.version>
         <tomcat.version>9.0.6</tomcat.version>
         <javaee-api.version>8.0</javaee-api.version>
+
+        <springfox-swagger.version>2.7.0</springfox-swagger.version>
+        <spring-hateoas.version>0.21.0.RELEASE</spring-hateoas.version>
     </properties>
 
     <modules>
@@ -119,6 +121,7 @@
         <module>spring-mvc</module>
         <module>spring-web-security</module>
         <module>spring-rest</module>
+        <module>spring-rest-testing</module>
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
@@ -678,16 +681,16 @@
 
     <build>
 
-        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/main/java</testSourceDirectory>
+<!--        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>-->
+<!--        <testSourceDirectory>${project.basedir}/src/main/java</testSourceDirectory>-->
 
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                    <version>${maven-surefire-plugin.version}</version>-->
+<!--                </plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>

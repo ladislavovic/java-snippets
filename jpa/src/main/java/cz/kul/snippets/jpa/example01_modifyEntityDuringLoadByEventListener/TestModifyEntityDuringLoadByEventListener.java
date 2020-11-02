@@ -2,8 +2,11 @@ package cz.kul.snippets.jpa.example01_modifyEntityDuringLoadByEventListener;
 
 import cz.kul.snippets.jpa.common.JPATest;
 import cz.kul.snippets.jpa.common.model.Person;
+import org.hibernate.internal.util.ReflectHelper;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Constructor;
 
 public class TestModifyEntityDuringLoadByEventListener extends JPATest{
 

@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.junit.Assert;
+import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
@@ -21,6 +22,14 @@ private Set<Object> customCriteria;
         return (List<T>) customCriteria.stream()
             .filter(x -> customCriteriaClass.isAssignableFrom(x.getClass()))
             .collect(Collectors.toList());
+    }
+
+    public static final class F {
+
+        private F() {
+
+        }
+
     }
 
     public static class A {
@@ -50,6 +59,7 @@ private Set<Object> customCriteria;
     }
 
     public static void main(String[] args) throws InterruptedException {
+
         List<A> list = new ArrayList<>();
         list.add(new A(1, "one"));
         list.add(new A(2, "two"));

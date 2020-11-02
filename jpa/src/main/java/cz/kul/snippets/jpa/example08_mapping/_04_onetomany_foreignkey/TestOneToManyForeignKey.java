@@ -5,11 +5,10 @@
  */
 package cz.kul.snippets.jpa.example08_mapping._04_onetomany_foreignkey;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import cz.kul.snippets.jpa.common.JPATest;
+import org.hibernate.Hibernate;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,95 +25,48 @@ import javax.persistence.*;
  */
 public class TestOneToManyForeignKey extends JPATest {
 
-    @Entity
-    @Table(name = "employee")
-    static class Employee {
-
-        @Id
-        @GeneratedValue
-        private Long id;
-
-        // parent side of relation
-        @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        private Set<Phone> phones = new HashSet<>();
-
-        public Employee() { }
-
-        public Long getId() {
-            return id;
-        }
-
-        public Set<Phone> getPhones() {
-            return phones;
-        }
-
-        public void setPhones(Set<Phone> phones) {
-            this.phones = phones;
-        }
-
-        public void addPhone(Phone phone) {
-            this.phones.add(phone);
-            phone.setEmployee(this);
-        }
-
-        public void removePhone(Phone phone) {
-            this.phones.remove(phone);
-            phone.setEmployee(null);
-        }
-    }
-
-    @Entity
-    @Table(name = "phone")
-    static class Phone {
-
-        @Id
-        @GeneratedValue
-        private Long id;
-
-        // Child side of relation
-        @ManyToOne(fetch = FetchType.LAZY)
-        private Employee employee;
-
-        public Long getId() {
-            return id;
-        }
-
-        public Employee getEmployee() {
-            return employee;
-        }
-
-        public void setEmployee(Employee employee) {
-            this.employee = employee;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Phone phone = (Phone) o;
-            return id != null && Objects.equals(id, phone.id);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(id);
-        }
-    }
-
     @Test
     public void testIfItWorks() {
-        Phone detachedPhone = jpaService().doInTransactionAndFreshEM(entityManager -> {
-            Employee employee = new Employee();
-            Phone phone = new Phone();
+        Phone04 detachedPhone = jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Employee04 employee = new Employee04();
+            Phone04 phone = new Phone04();
             employee.addPhone(phone);
             entityManager.persist(employee);
             return phone;
         });
         jpaService().doInTransactionAndFreshEM(entityManager -> {
-            Phone phone = entityManager.find(Phone.class, detachedPhone.getId());
+            Phone04 phone = entityManager.find(Phone04.class, detachedPhone.getId());
             Assert.assertNotNull(phone.getEmployee());
             return null;
         });
     }
+
+    @Test
+    public void plainHQLJoinDoesNotFetchData() {
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Employee04 employee = new Employee04();
+            employee.addPhone(new Phone04("111 111 111"));
+            employee.addPhone(new Phone04("222 222 222"));
+            employee.addPhone(new Phone04("333 333 333"));
+            entityManager.persist(employee);
+            return null;
+        });
+
+        Employee04 detachedEmployee = jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Query query = entityManager.createQuery("select distinct e from Employee04 e join e.phones p where e.id > 0");
+            List<Employee04> list = query.getResultList();
+            return list.get(0);
+        });
+        Assert.assertFalse(Hibernate.isInitialized(detachedEmployee.getPhones()));
+
+        detachedEmployee = jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Query query = entityManager.createQuery("select distinct e from Employee04 e join fetch e.phones p where e.id > 0");
+            List<Employee04> list = query.getResultList();
+            return list.get(0);
+        });
+        Assert.assertTrue(Hibernate.isInitialized(detachedEmployee.getPhones()));
+    }
+
+
 
 }
