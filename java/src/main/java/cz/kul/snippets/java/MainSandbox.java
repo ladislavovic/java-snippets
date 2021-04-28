@@ -3,10 +3,12 @@ package cz.kul.snippets.java;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -35,6 +37,7 @@ private Set<Object> customCriteria;
     public static class A {
         int a;
         String b;
+        String[] c;
 
         public A(int a, String b) {
             this.a = a;
@@ -49,6 +52,10 @@ private Set<Object> customCriteria;
             return b;
         }
 
+        public String[] getC() {
+            return c;
+        }
+
         @Override
         public String toString() {
             return "A{" +
@@ -58,32 +65,12 @@ private Set<Object> customCriteria;
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
 
-        List<A> list = new ArrayList<>();
-        list.add(new A(1, "one"));
-        list.add(new A(2, "two"));
-        System.out.println(list);
-
-
-//        Random random = new Random();
-//        Set<long[]> setOfSets = new HashSet<>();
-//        Thread.sleep(10_000);
-//        for (int i = 0; i < 20_000_000; i++) {
-//            long[] arr = new long[] {random.nextLong()};
-//            setOfSets.add(arr);
-//        }
-//        Thread.sleep(10_000);
-
-//        Random random = new Random();
-//        Set<Set<Long>> setOfSets = new HashSet<>();
-//        Thread.sleep(10_000);
-//        for (int i = 0; i < 20_000_000; i++) {
-//            HashSet<Long> set = new HashSet<>();
-//            set.add(random.nextLong());
-//            setOfSets.add(set);
-//        }
-//        Thread.sleep(10_000);
+       String str = "ěščřžýá";
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        String str2 = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes, 0, 4)).toString();
+        System.out.println(str2);
     }
     
     

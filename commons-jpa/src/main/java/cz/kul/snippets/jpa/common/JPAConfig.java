@@ -92,6 +92,8 @@ public class JPAConfig {
         hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         hibernateProperties.put("hibernate.cache.use_second_level_cache", env.getProperty("hibernate.cache.use_second_level_cache"));
         hibernateProperties.put("hibernate.cache.use_query_cache", env.getProperty("hibernate.cache.use_query_cache"));
+        hibernateProperties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+        hibernateProperties.put("hibernate.jdbc.fetch_size", "32");
         return hibernateProperties;
     }
 

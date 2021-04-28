@@ -6,6 +6,13 @@ import org.junit.Test;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -18,6 +25,8 @@ public class DateParsing {
         // some date formats which are not correctly parsed by this
         // solution. But sumetimes it is sufficient.
         // TODO is the not compliance with ISO still valid with Java9?
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(sdf.parse("2014-12-16T10:11:12.123-03:00"));
@@ -32,4 +41,23 @@ public class DateParsing {
         Assert.assertEquals(-3 * 3600 * 1000, calendar.get(Calendar.ZONE_OFFSET));
     }
 
+    @Test
+    public void date() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate parsed = LocalDate.parse("1970-01-01", formatter);
+
+        LocalDateTime localDateTime = parsed.atStartOfDay();
+
+        Instant instant1 = localDateTime.toInstant(ZoneOffset.UTC);
+        long seconds1 = instant1.getEpochSecond();
+        System.out.println(instant1);
+        System.out.println(seconds1);
+        Date date = Date.from(instant1);
+
+        String pattern = "yyyy-MM-dd";
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.of("UTC"));
+        String format = zonedDateTime.format(DateTimeFormatter.ofPattern(pattern));
+        System.out.println(format);
+    }
 }

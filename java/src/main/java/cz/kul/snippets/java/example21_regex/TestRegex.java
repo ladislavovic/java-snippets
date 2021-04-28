@@ -1,6 +1,7 @@
 package cz.kul.snippets.java.example21_regex;
 
 import cz.kul.snippets.SnippetsTest;
+import org.apache.http.util.Asserts;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,8 +44,23 @@ public class TestRegex extends SnippetsTest {
         }
         Assert.assertEquals("_S_11_E_ _S_12_E_", output);
     }
-    
-    
+
+    @Test
+    public void orOperator() {
+        // note operator | (Alternation) has low precedence so usualy you does not
+        // have to use any parentheses.
+
+        String regex = "monica|rachel|phoeboe";
+        String [] strs = {"monica", "rachel", "phoeboe", "joey"};
+
+        boolean[] results = new boolean[4];
+        for (int i = 0; i < strs.length; i++) {
+            results[i] = strs[i].matches(regex);
+        }
+
+        Assert.assertArrayEquals(new boolean[] {true, true, true, false}, results);
+    }
+
     @Test
     public void testNonCapturing() {
 //        assertNotMatches("((?!prefix).)*STR", "prefixSTR");

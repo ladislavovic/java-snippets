@@ -12,14 +12,14 @@
 	</appender>
 
 	<logger name="org.hibernate.SQL">
-		<level value="ALL" />
-		<appender-ref ref="console" />
+		<level value="DEBUG" />
+<!--		<appender-ref ref="console" />  Otherwise it logs SQL twice. Why??? -->
 	</logger>
 
-	<logger name="org.hibernate.type">
-		<level value="ALL" />
-		<appender-ref ref="console" />
-	</logger>
+<!--	<logger name="org.hibernate.type">-->
+<!--		<level value="ALL" />-->
+<!--		<appender-ref ref="console" />-->
+<!--	</logger>-->
 
 	<root>
 		<level value="INFO" />
