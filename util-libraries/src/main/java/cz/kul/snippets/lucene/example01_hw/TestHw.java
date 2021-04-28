@@ -83,9 +83,8 @@ public class TestHw extends SnippetsTest {
         iwc.setOpenMode(IndexWriterConfig.OpenMode.CREATE); // create new index
 
         // Index
-        try (
-                FSDirectory dir = FSDirectory.open(path);
-                IndexWriter writer = new IndexWriter(dir, iwc)) {
+        try (FSDirectory dir = FSDirectory.open(path);
+             IndexWriter writer = new IndexWriter(dir, iwc)) {
             for (Film film : films) {
                 Document doc = new Document();
                 doc.add(new TextField("title", film.getTitle(), Field.Store.YES));
