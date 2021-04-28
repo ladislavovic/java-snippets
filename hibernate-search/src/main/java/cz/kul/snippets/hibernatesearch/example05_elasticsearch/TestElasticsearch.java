@@ -26,6 +26,7 @@ public class TestElasticsearch extends HibernateSearchTest {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             entityManager.persist(new Person("Jana", "Novakova"));
             entityManager.persist(new Person("Petra", "Zavodna"));
+            entityManager.persist(new ArtificialPerson("LK s.r.o."));
             return null;
         });
         List<? extends AbstractPerson> people = jpaService().doInTransactionAndFreshSession(session -> {

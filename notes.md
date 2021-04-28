@@ -68,6 +68,18 @@ name: "John"
 Create a document in index myindex with type mytype and with ID 1.
 
 
+Hibernate Search
+==========================
+* when you index more siblings, there is one index per each sibling. Example:
+  You have a class "AbstractPerson" and two siblings "PhysicalPerson" and
+  "ArtificialPerson". When you index both siblings then there are two
+  indices in the elasticsearch cluster - one per each sibling.
+  
+* When @IndexedEmbedded points to an entity, the association has to be
+  bi-directional and the other side has to be annotated with @ContainedIn.
+  If not, Hibernate Search has no way to update the root index when the
+  associated entity is updated
+
 
 Lucene
 ================
