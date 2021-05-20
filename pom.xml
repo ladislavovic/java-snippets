@@ -43,7 +43,7 @@
         <jts.version>1.13</jts.version>
 
         <hibernate.version>5.4.12.Final</hibernate.version>
-        <hibernate-search.version>5.11.4.Final</hibernate-search.version>
+        <hibernate-search.version>5.11.8.Final</hibernate-search.version>
 
         <!--This is the first version which does not work-->
         <!--<hibernate.version>5.1.0.Final</hibernate.version>-->
@@ -68,8 +68,8 @@
         <javax.mail.version>1.4.7</javax.mail.version>
         <jms.version>1.1</jms.version>
         <activemq.version>5.7.0</activemq.version>
-        <httpcore.version>4.4.5</httpcore.version>
-        <httpclient.version>4.5.2</httpclient.version>
+<!--        <httpcore.version>4.4.5</httpcore.version>-->
+<!--        <httpclient.version>4.5.2</httpclient.version>-->
         <sfl4j.version>1.7.21</sfl4j.version>
         <groovy.version>2.1.6</groovy.version>
         <geodb.version>0.8</geodb.version>
@@ -113,6 +113,7 @@
         <module>design-patterns</module>
         <module>util-libraries</module>
         <module>hibernate-search</module>
+        <module>hibernate-search-6</module>
         <module>hsqldb</module>
         <module>java</module>
         <module>jpa</module>
@@ -278,16 +279,16 @@
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpcore</artifactId>
-                <version>${httpcore.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.httpcomponents</groupId>
-                <artifactId>httpclient</artifactId>
-                <version>${httpclient.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.httpcomponents</groupId>-->
+<!--                <artifactId>httpcore</artifactId>-->
+<!--                <version>${httpcore.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.httpcomponents</groupId>-->
+<!--                <artifactId>httpclient</artifactId>-->
+<!--                <version>${httpclient.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>

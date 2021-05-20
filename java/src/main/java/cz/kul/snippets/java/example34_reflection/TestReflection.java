@@ -18,11 +18,4 @@ public class TestReflection {
 	}
 
 
-	@Test
-	public void readPropertyByReflection() {
-
-	}
-
-
-
 }

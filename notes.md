@@ -36,6 +36,12 @@ Hibernate Search: TODO
 Lucene: type is defined by the field with the name "_type". So it is just
 another field in the document, nothing special.
 
+### Mapping
+* It is a definition how the document fields are indexed and stored.
+* Each type in index has its own mapping. So there can be several mappings per index.
+* Fields with the same name in different mapping types in the same index must have the same mapping.
+
+
 ### Shards & Replicas
 ES can split index into shards. It allows distributing one index over more nodes.
 When you search in that index, ES performs the search on all shards and merge
@@ -44,12 +50,69 @@ By default, the index is split to 5 shards. You must define number of shards at
 the index creating time, you can not change it later.
 You can also replicate one shard to more nodes to achieve high availability.
 
-Useful ES queries
+### Searching
+* by default the search result contains "_source" field, which contain the whole
+  found document. But you can specify which fields from _source you want to get.
+* bool query has `filter`. It allows filter documents according criteria withou
+  affecting result score.
+  
+### Misc
+* there is versioning support. When you update a document the version is incremented.
+  Or you can set explicit version number.
+  
+### Search Queries
+```
+{
+    "query": {
+        "match" : {
+            "message" : "this is a test",
+            "operator": "and",
+            "analyzer": "analyzer_name"
+        }
+    }
+}
+```
+  
+### Stored fields vs _source
+By default in elasticsearch, the _source (the document one indexed) is stored. This means when you search, you can get
+the actual document source back. Moreover, elasticsearch will automatically extract fields/objects from the _source
+and return them if you explicitly ask for it (as well as possibly use it in other components, like highlighting).
+
+You can specify that a specific field is also stored. This means that the data for that field will be stored on its own.
+Meaning that if you ask for field1 (which is stored), elasticsearch will identify that its stored, and load it from
+the index instead of getting it from the _source (assuming _source is enabled).
+
+When do you want to enable storing specific fields? Most times, you don't. Fetching the _source is fast and extracting
+it is fast as well. If you have very large documents, where the cost of storing the _source, or the cost of parsing
+the _source is high, you can explicitly map some fields to be stored instead.
+
+Note, there is a cost of retrieving each stored field. So, for example, if you have a json with 10 fields with
+reasonable size, and you map all of them as stored, and ask for all of them, this means loading each one (more disk
+seeks), compared to just loading the _source (which is one field, possibly compressed).
+
+Keep in mind that when you disable _source it will mean:
+* You won’t be able to do partial updates
+* You won’t be able to re-index your data from the JSON in your Elasticsearch cluster, you’ll have to re-index from
+  the data source (which is usually a lot slower).
+
+Useful ES API calls
 --------------------------------
 `GET /_cat/indices?v`
 Get all indices
 
-`/com.cross_ni.cross.db.pojo.core.node/_search?q=*&pretty`
+`PUT /customer?pretty`
+Create an index 'customer'
+
+```
+PUT /customer/external/1?pretty
+{
+  "name": "John Doe"
+}
+```
+Add item to the index. Index: customer, type: external, id: 1"
+Id part is optional. If not specified ES generate random id.
+
+`GET /com.cross_ni.cross.db.pojo.core.node/_search?q=*&pretty`
 Search
 
 `DELETE /myindex?pretty`
@@ -66,6 +129,30 @@ Create index "myindex"
 name: "John"
 }`
 Create a document in index myindex with type mytype and with ID 1.
+
+`GET /com.cross_ni.cross.db.pojo.core.node/_mapping`
+Get the index mapping.
+
+```
+GET _analyze
+{
+  "analyzer" : "standard",
+  "text" : "this is a test"
+}
+```
+Analyze the given text according to the given analyzer.
+
+```
+GET _analyze
+{
+  "tokenizer" : "keyword",
+  "filter" : ["lowercase"],
+  "char_filter" : ["html_strip"],
+  "text" : "this is a <b>test</b>"
+}
+```
+Analyze the given text according to given char filter, tokenizer and token filter (token filters are in "filter"
+property).
 
 
 Hibernate Search
