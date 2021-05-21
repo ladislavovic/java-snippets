@@ -32,6 +32,12 @@ public class Car implements Serializable {
 		this.model = model;
 	}
 
+	public Car(String make, String model, Person owner) {
+		this.make = make;
+		this.model = model;
+		this.owner = owner;
+	}
+
 	public Long getId() {
 		return id;
 	}

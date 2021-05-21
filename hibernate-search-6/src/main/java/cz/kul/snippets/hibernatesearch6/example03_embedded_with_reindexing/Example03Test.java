@@ -48,16 +48,14 @@ public class Example03Test extends HibernateSearch6Test {
 		assertEquals(Sets.newHashSet("111 111 000"), getPhones());
 
 		// Adding of phone should cause reindexing
-		// BUG - does not work
-		//
 		Phone phone2 = jpaService().doInTransactionAndFreshEM(entityManager -> {
-			Phone p = new Phone("222 222 222", person);
+			Phone p = new Phone("222 222 222", entityManager.getReference(Person.class, person.getId()));
 			entityManager.persist(p);
 			return p;
 		});
 		assertEquals(Sets.newHashSet("111 111 000", "222 222 222"), getPhones());
 
-		// Phone removing also cause Person reindexing
+		// Phone removing should cause Person reindexing
 		// BUG - does not work
 		jpaService().doInTransactionAndFreshEM(entityManager -> {
 			entityManager.remove(entityManager.getReference(Phone.class, phone1.getId()));

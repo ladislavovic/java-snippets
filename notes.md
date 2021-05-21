@@ -166,6 +166,10 @@ Hibernate Search
   bi-directional and the other side has to be annotated with @ContainedIn.
   If not, Hibernate Search has no way to update the root index when the
   associated entity is updated
+  
+* at always reindex whole document. Does not matter how many indexed
+  properties you change, it always create whole fulltext document and
+  reindex it.
 
 
 Lucene
