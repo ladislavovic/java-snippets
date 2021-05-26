@@ -1,11 +1,10 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example06_ca_proof_of_concept;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.util.Set;
 
 @Entity
 public class Person {
@@ -19,7 +18,7 @@ public class Person {
 	private String secondName;
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	private AttributeSet attributeSet;
+	private CASet customAttributes;
 
 	public Person() {
 	}
@@ -53,12 +52,12 @@ public class Person {
 		this.secondName = surname;
 	}
 
-	public AttributeSet getAttributeSet() {
-		return attributeSet;
+	public CASet getCustomAttributes() {
+		return customAttributes;
 	}
 
-	public void setAttributeSet(AttributeSet attributeSet) {
-		this.attributeSet = attributeSet;
+	public void setCustomAttributes(CASet customAttributes) {
+		this.customAttributes = customAttributes;
 	}
 
 }

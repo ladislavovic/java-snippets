@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example05_embedded_with_routing_bridge;
 
 import org.hibernate.search.mapper.orm.mapping.HibernateOrmMappingConfigurationContext;
 import org.hibernate.search.mapper.orm.mapping.HibernateOrmSearchMappingConfigurer;
@@ -11,10 +11,14 @@ public class MappingConfigurer implements HibernateOrmSearchMappingConfigurer {
 	public void configure(HibernateOrmMappingConfigurationContext context) {
 		ProgrammaticMappingConfigurationContext mapping = context.programmaticMapping();
 
-		TypeMappingStep personMapping = mapping.type(Person.class);
-		personMapping.indexed().index("person_index");
-		personMapping.binder(new AttributeBinder());
-		personMapping.property("firstName").fullTextField();
+		TypeMappingStep attributeSetMapping = mapping.type(AttributeSet.class);
+		attributeSetMapping.indexed();
+		attributeSetMapping.property("attributes").indexedEmbedded();
+
+		TypeMappingStep attributeMapping = mapping.type(Attribute.class);
+		attributeMapping.indexed().index("attribute_index").routingBinder(new AttributeRoutingBinder());
+		attributeMapping.property("name").keywordField();
+		attributeMapping.property("value").fullTextField();
 	}
 
 }

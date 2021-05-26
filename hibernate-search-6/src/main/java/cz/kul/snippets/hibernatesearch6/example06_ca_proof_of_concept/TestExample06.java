@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example06_ca_proof_of_concept;
 
 import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
@@ -16,48 +16,65 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("Duplicates")
-public class TextExample04 extends HibernateSearch6Test {
+public class TestExample06 extends HibernateSearch6Test {
 
 	@Test
 	public void test() {
 
 		// Prepare data
 		Object[] entities = jpaService().doInTransactionAndFreshEM(entityManager -> {
-			AttributeSet attributeSet = new AttributeSet();
-			entityManager.persist(attributeSet);
+			CASet caSet = new CASet();
+			entityManager.persist(caSet);
 
-			Attribute attribute1 = new Attribute("attr1", "val1");
-			attribute1.setAttributeSet(attributeSet);
-			attributeSet.getAttributes().add(attribute1);
-			entityManager.persist(attribute1);
+			CAValue caValue1 = new CAValue("attr1", "val1");
+			caValue1.setCaSet(caSet);
+			caSet.getValues().add(caValue1);
+			entityManager.persist(caValue1);
 
-			Attribute attribute2 = new Attribute("attr2", "val2");
-			attribute2.setAttributeSet(attributeSet);
-			attributeSet.getAttributes().add(attribute2);
-			entityManager.persist(attribute2);
+			CAValue caValue2 = new CAValue("attr2", "val2");
+			caValue2.setCaSet(caSet);
+			caSet.getValues().add(caValue2);
+			entityManager.persist(caValue2);
 
 			Person person = new Person("Jana", "Novakova");
-			person.setAttributeSet(attributeSet);
-			attributeSet.setPerson(person);
+			person.setCustomAttributes(caSet);
+			caSet.setPerson(person);
 			entityManager.persist(person);
 
-			return new Object[]{person, attributeSet, attribute1, attribute2};
+			return new Object[]{person, caSet, caValue1, caValue2};
 		});
 		Person person = (Person) entities[0];
-		AttributeSet attributeSet = (AttributeSet) entities[1];
-		Attribute attribute1 = (Attribute) entities[2];
-		Attribute attribute2 = (Attribute) entities[3];
+		CASet caSet = (CASet) entities[1];
+		CAValue caValue1 = (CAValue) entities[2];
+		CAValue caValue2 = (CAValue) entities[3];
 
 		// Check current state
 		assertEquals(Sets.newHashSet("val1", "val2"), getAttributeValues());
 
 		// Attribute change must trigger reindex
 		jpaService().doInTransactionAndFreshEM(entityManager -> {
-			attribute1.setValue("val3");
-			entityManager.merge(attribute1);
+			CAValue caValue = entityManager.find(CAValue.class, caValue1.getId());
+			caValue.setValue("val1_1");
+			entityManager.merge(caValue);
 			return null;
 		});
-		assertEquals(Sets.newHashSet("val3", "val2"), getAttributeValues());
+		assertEquals(Sets.newHashSet("val1_1", "val2"), getAttributeValues());
+
+		// Attribute adding must trigger reindex
+		jpaService().doInTransactionAndFreshEM(entityManager -> {
+			CAValue caValue3 = new CAValue("attr3", "val3");
+			caValue3.setCaSet(entityManager.getReference(CASet.class, caSet.getId()));
+			entityManager.persist(caValue3);
+			return null;
+		});
+		assertEquals(Sets.newHashSet("val1_1", "val2", "val3"), getAttributeValues());
+
+		// Attribute removing must trigger reindex - BUG?? Does not work.
+//		jpaService().doInTransactionAndFreshEM(entityManager -> {
+//			entityManager.remove(entityManager.getReference(CAValue.class, caValue1.getId()));
+//			return null;
+//		});
+//		assertEquals(Sets.newHashSet("val2", "val3"), getAttributeValues());
 	}
 
 	private Set<String> getAttributeValues() {
@@ -70,7 +87,7 @@ public class TextExample04 extends HibernateSearch6Test {
 					.fetchSingleHit()
 					.get();
 			HashSet<String> values = new HashSet<>();
-			JsonElement attributes = result.get("attributes");
+			JsonElement attributes = result.get("customAttributesField");
 			if (attributes.isJsonArray()) {
 				JsonArray attributesArr = attributes.getAsJsonArray();
 				for (int i = 0; i < attributesArr.size(); i++) {

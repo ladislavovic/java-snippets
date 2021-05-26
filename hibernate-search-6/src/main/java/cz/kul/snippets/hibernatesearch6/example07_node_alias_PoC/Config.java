@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example07_node_alias_PoC;
 
 import cz.kul.snippets.jpa.common.JPAConfig;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class Config extends JPAConfig {
         properties.put("hibernate.search.backend.hosts", "localhost:9200");
         properties.put("hibernate.search.backend.protocol", "http");
         properties.put("hibernate.search.mapping.process_annotations", "false");
-        properties.put("hibernate.search.backend.dynamic_mapping", "true");
+//        properties.put("hibernate.search.backend.dynamic_mapping", "true");
         properties.put("hibernate.search.automatic_indexing.synchronization.strategy", "sync");
         properties.put("hibernate.search.schema_management.strategy", "drop-and-create");
         properties.put("hibernate.search.mapping.configurer", MappingConfigurer.class.getName());

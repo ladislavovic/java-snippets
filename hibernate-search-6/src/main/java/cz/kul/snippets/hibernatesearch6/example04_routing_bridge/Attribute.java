@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example04_routing_bridge;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

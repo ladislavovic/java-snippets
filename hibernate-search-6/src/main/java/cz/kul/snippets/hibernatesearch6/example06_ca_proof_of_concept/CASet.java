@@ -1,29 +1,28 @@
-package cz.kul.snippets.hibernatesearch6.example04_type_bridge;
+package cz.kul.snippets.hibernatesearch6.example06_ca_proof_of_concept;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class AttributeSet {
+public class CASet {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "attributeSet", orphanRemoval = true)
-	private Set<Attribute> attributes = new HashSet<>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caSet", orphanRemoval = true)
+	private Set<CAValue> values = new HashSet<>();
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "attributeSet")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "customAttributes")
 	private Person person;
 
-	public AttributeSet() {
+	public CASet() {
 	}
 
 	public Long getId() {
@@ -42,12 +41,12 @@ public class AttributeSet {
 		this.person = person;
 	}
 
-	public Set<Attribute> getAttributes() {
-		return attributes;
+	public Set<CAValue> getValues() {
+		return values;
 	}
 
-	public void setAttributes(Set<Attribute> attributes) {
-		this.attributes = attributes;
+	public void setValues(Set<CAValue> values) {
+		this.values = values;
 	}
 
 }
