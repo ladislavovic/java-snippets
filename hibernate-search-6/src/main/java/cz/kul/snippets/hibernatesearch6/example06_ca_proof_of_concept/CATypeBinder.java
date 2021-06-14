@@ -12,7 +12,11 @@ public class CATypeBinder implements TypeBinder {
 	@Override
 	public void bind(TypeBindingContext context) {
 		context.dependencies()
-				.use("customAttributes.values.value");
+				.fromOtherEntity(CAStringValue.class, "caSet.person")
+				.use("stringValue");
+		context.dependencies()
+				.fromOtherEntity(CAIntegerValue.class, "caSet.person")
+				.use("integerValue");
 
 		IndexFieldReference<String> customAttributes = context.indexSchemaElement()
 				.field("customAttributesField", f -> f.asString())
@@ -49,8 +53,10 @@ public class CATypeBinder implements TypeBinder {
 		@Override
 		public void write(DocumentElement target, Person person, TypeBridgeWriteContext context) {
 			for (CAValue caValue : person.getCustomAttributes().getValues()) {
-				String value = caValue.getValue();
-				target.addValue(customAttributes, value);
+				Object value = caValue.getValue();
+				if (value != null) {
+					target.addValue(customAttributes, value.toString());
+				}
 			}
 			target.addValue(attr1, "hardcoded");
 		}

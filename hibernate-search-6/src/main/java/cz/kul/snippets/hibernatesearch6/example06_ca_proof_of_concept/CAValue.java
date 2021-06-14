@@ -4,10 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class CAValue {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class CAValue<T> {
 
 	@Id
 	@GeneratedValue
@@ -15,17 +18,10 @@ public class CAValue {
 
 	private String name;
 
-	private String value;
-
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private CASet caSet;
 
 	public CAValue() {
-	}
-
-	public CAValue(String name, String value) {
-		this.name = name;
-		this.value = value;
 	}
 
 	public Long getId() {
@@ -44,13 +40,11 @@ public class CAValue {
 		this.name = name;
 	}
 
-	public String getValue() {
-		return value;
-	}
+	public abstract T getValue();
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+	public abstract void setValue(T value);
+
+	public abstract String getStrValue();
 
 	public CASet getCaSet() {
 		return caSet;

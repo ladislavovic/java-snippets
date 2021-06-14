@@ -4,6 +4,7 @@ import org.hibernate.search.mapper.orm.mapping.HibernateOrmMappingConfigurationC
 import org.hibernate.search.mapper.orm.mapping.HibernateOrmSearchMappingConfigurer;
 import org.hibernate.search.mapper.pojo.mapping.definition.programmatic.ProgrammaticMappingConfigurationContext;
 import org.hibernate.search.mapper.pojo.mapping.definition.programmatic.TypeMappingStep;
+import org.hibernate.search.mapper.pojo.model.path.PojoModelPath;
 
 public class MappingConfigurer implements HibernateOrmSearchMappingConfigurer {
 
@@ -15,6 +16,25 @@ public class MappingConfigurer implements HibernateOrmSearchMappingConfigurer {
 		personMapping.indexed().index("person_index");
 		personMapping.binder(new CATypeBinder());
 		personMapping.property("firstName").fullTextField();
+
+//		TypeMappingStep caStringValueMapping = mapping.type(CAStringValue.class);
+//		caStringValueMapping.indexed();
+//		caStringValueMapping
+//				.property("strValue")
+//				.keywordField()
+//				.indexingDependency()
+//				.derivedFrom(PojoModelPath.parse("stringValue"));
+//
+//		TypeMappingStep caIntegerValueMapping = mapping.type(CAIntegerValue.class);
+//		caIntegerValueMapping.indexed();
+//		caIntegerValueMapping
+//				.property("strValue")
+//				.keywordField()
+//				.indexingDependency()
+//				.derivedFrom(PojoModelPath.parse("integerValue"));
+
+
+
 //		personMapping.property("customAttributes").indexedEmbedded().includeDepth(2);
 
 //		TypeMappingStep caSetMapping = mapping.type(CASet.class);

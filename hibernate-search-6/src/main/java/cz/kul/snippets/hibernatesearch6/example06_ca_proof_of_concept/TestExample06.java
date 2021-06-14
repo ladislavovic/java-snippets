@@ -26,12 +26,12 @@ public class TestExample06 extends HibernateSearch6Test {
 			CASet caSet = new CASet();
 			entityManager.persist(caSet);
 
-			CAValue caValue1 = new CAValue("attr1", "val1");
+			CAValue caValue1 = new CAStringValue("attr1", "val1");
 			caValue1.setCaSet(caSet);
 			caSet.getValues().add(caValue1);
 			entityManager.persist(caValue1);
 
-			CAValue caValue2 = new CAValue("attr2", "val2");
+			CAValue caValue2 = new CAIntegerValue("attr2", 10);
 			caValue2.setCaSet(caSet);
 			caSet.getValues().add(caValue2);
 			entityManager.persist(caValue2);
@@ -49,25 +49,25 @@ public class TestExample06 extends HibernateSearch6Test {
 		CAValue caValue2 = (CAValue) entities[3];
 
 		// Check current state
-		assertEquals(Sets.newHashSet("val1", "val2"), getAttributeValues());
+		assertEquals(Sets.newHashSet("val1", "10"), getAttributeValues());
 
 		// Attribute change must trigger reindex
 		jpaService().doInTransactionAndFreshEM(entityManager -> {
-			CAValue caValue = entityManager.find(CAValue.class, caValue1.getId());
+			CAStringValue caValue = entityManager.find(CAStringValue.class, caValue1.getId());
 			caValue.setValue("val1_1");
 			entityManager.merge(caValue);
 			return null;
 		});
-		assertEquals(Sets.newHashSet("val1_1", "val2"), getAttributeValues());
+		assertEquals(Sets.newHashSet("val1_1", "10"), getAttributeValues());
 
 		// Attribute adding must trigger reindex
 		jpaService().doInTransactionAndFreshEM(entityManager -> {
-			CAValue caValue3 = new CAValue("attr3", "val3");
+			CAValue caValue3 = new CAStringValue("attr3", "val3");
 			caValue3.setCaSet(entityManager.getReference(CASet.class, caSet.getId()));
 			entityManager.persist(caValue3);
 			return null;
 		});
-		assertEquals(Sets.newHashSet("val1_1", "val2", "val3"), getAttributeValues());
+		assertEquals(Sets.newHashSet("val1_1", "10", "val3"), getAttributeValues());
 
 		// Attribute removing must trigger reindex - BUG?? Does not work.
 //		jpaService().doInTransactionAndFreshEM(entityManager -> {

@@ -6,6 +6,8 @@ import org.hibernate.search.mapper.pojo.bridge.TypeBridge;
 import org.hibernate.search.mapper.pojo.bridge.binding.TypeBindingContext;
 import org.hibernate.search.mapper.pojo.bridge.mapping.programmatic.TypeBinder;
 import org.hibernate.search.mapper.pojo.bridge.runtime.TypeBridgeWriteContext;
+import org.hibernate.search.mapper.pojo.extractor.builtin.BuiltinContainerExtractors;
+import org.hibernate.search.mapper.pojo.model.path.PojoModelPath;
 
 public class CAValueTypeBinder implements TypeBinder {
 
@@ -14,6 +16,13 @@ public class CAValueTypeBinder implements TypeBinder {
 		context.dependencies()
 				.use("name")
 				.use("value");
+
+		context.dependencies()
+				.use( PojoModelPath.builder()
+						.property( "priceByEdition" )
+						.value( BuiltinContainerExtractors.MAP_KEY )
+						.property( "label" )
+						.toValuePath() );
 
 		context.bridge(CAValue.class, new Bridge());
 	}
