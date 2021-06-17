@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +37,41 @@ public class ExampleTpl {
         String res = FreemarkerUtils.process(template, ImmutableMap.of("fruits", fruits));
         assertEquals("banana\norange\n", res);
     }
-    
+
+    @Test
+    public void maps() {
+        ImmutableMap<String, Object> dataModel = ImmutableMap.of(
+            "map", ImmutableMap.of(
+              "simpleVal", "banana",
+              "listVal", Arrays.asList("banana", "orange"),
+              "mapVal", ImmutableMap.of("fruit", "banana")));
+
+        {
+            // iterate keys
+            String out = FreemarkerUtils.process("<#list map?keys as key>${key} </#list>", dataModel);
+            Assert.assertEquals("simpleVal listVal mapVal ", out);
+        }
+
+        {
+            // iterate values
+            String out = FreemarkerUtils.process("<#list map.mapVal?values as val>${val} </#list>", dataModel);
+            Assert.assertEquals("banana ", out);
+        }
+
+        {
+            // get particular value - static
+            String out = FreemarkerUtils.process("<#list map.listVal as val>${val} </#list>", dataModel);
+            Assert.assertEquals("banana orange ", out);
+        }
+
+        {
+            // get particular value - dynamic
+            String out = FreemarkerUtils.process("<#list map.mapVal?keys as key>${key}=${map.mapVal[key]}</#list>", dataModel);
+            Assert.assertEquals("fruit=banana", out);
+        }
+
+    }
+
     @Test
     public void emptyList() {
         String template = String.join(

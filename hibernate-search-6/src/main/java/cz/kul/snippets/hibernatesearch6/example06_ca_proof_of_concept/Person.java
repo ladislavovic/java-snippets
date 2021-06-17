@@ -18,7 +18,7 @@ public class Person {
 	private String secondName;
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	private CASet customAttributes;
+	private CASetPerson customAttributes;
 
 	public Person() {
 	}
@@ -52,11 +52,11 @@ public class Person {
 		this.secondName = surname;
 	}
 
-	public CASet getCustomAttributes() {
+	public CASetPerson getCustomAttributes() {
 		return customAttributes;
 	}
 
-	public void setCustomAttributes(CASet customAttributes) {
+	public void setCustomAttributes(CASetPerson customAttributes) {
 		this.customAttributes = customAttributes;
 	}
 

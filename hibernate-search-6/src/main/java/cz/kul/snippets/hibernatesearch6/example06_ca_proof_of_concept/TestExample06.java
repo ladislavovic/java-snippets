@@ -23,8 +23,8 @@ public class TestExample06 extends HibernateSearch6Test {
 
 		// Prepare data
 		Object[] entities = jpaService().doInTransactionAndFreshEM(entityManager -> {
-			CASet caSet = new CASet();
-			entityManager.persist(caSet);
+			CASetPerson caSetPerson = new CASetPerson();
+			entityManager.persist(caSetPerson);
 
 			CAValue caValue1 = new CAStringValue("attr1", "val1");
 			caValue1.setCaSet(caSet);
@@ -37,16 +37,16 @@ public class TestExample06 extends HibernateSearch6Test {
 			entityManager.persist(caValue2);
 
 			Person person = new Person("Jana", "Novakova");
-			person.setCustomAttributes(caSet);
-			caSet.setPerson(person);
+			person.setCustomAttributes(caSetPerson);
+			caSetPerson.setPerson(person);
 			entityManager.persist(person);
 
-			return new Object[]{person, caSet, caValue1, caValue2};
+			return new Object[]{person, caSetPerson, caValue1, caValue2};
 		});
 		Person person = (Person) entities[0];
 		CASet caSet = (CASet) entities[1];
-		CAValue caValue1 = (CAValue) entities[2];
-		CAValue caValue2 = (CAValue) entities[3];
+		CAStringValue caValue1 = (CAStringValue) entities[2];
+		CAIntegerValue caValue2 = (CAIntegerValue) entities[3];
 
 		// Check current state
 		assertEquals(Sets.newHashSet("val1", "10"), getAttributeValues());
