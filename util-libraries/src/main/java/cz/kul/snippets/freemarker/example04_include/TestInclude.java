@@ -1,8 +1,6 @@
 package cz.kul.snippets.freemarker.example04_include;
 
 import cz.kul.snippets.freemarker.common.FreemarkerUtils;
-import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import org.junit.Test;
@@ -27,7 +25,7 @@ public class TestInclude {
         templates.put("main", main);
         templates.put("incl", incl);
 
-        String res = FreemarkerUtils.process(templates, "main", new Object());
+        String res = FreemarkerUtils.processStrTpl(templates, "main", new Object());
         assertEquals("AincludedA", res);
     }
     
@@ -44,7 +42,7 @@ public class TestInclude {
         templates.put("main", main);
         templates.put("copyright", copyright);
 
-        String res = FreemarkerUtils.process(templates, "main", new Object());
+        String res = FreemarkerUtils.processStrTpl(templates, "main", new Object());
         assertEquals("ACopyright 2020A", res);
     }
     

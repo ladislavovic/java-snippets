@@ -25,12 +25,12 @@ public class TestEnum {
     @Test
     public void test() {
         {
-            String res = FreemarkerUtils.process("${obj.color}", ImmutableMap.of("obj", new ModelObj()));
+            String res = FreemarkerUtils.processStrTpl("${obj.color}", ImmutableMap.of("obj", new ModelObj()));
             assertEquals("RED", res);
         }
         
         {
-            String res = FreemarkerUtils.process("${(obj.color.name() == \"RED\")?string}", ImmutableMap.of("obj", new ModelObj()));
+            String res = FreemarkerUtils.processStrTpl("${(obj.color.name() == \"RED\")?string}", ImmutableMap.of("obj", new ModelObj()));
             assertEquals("true", res);
         }
         

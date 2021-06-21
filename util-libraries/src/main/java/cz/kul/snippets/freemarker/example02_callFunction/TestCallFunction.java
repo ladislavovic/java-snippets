@@ -1,12 +1,9 @@
 package cz.kul.snippets.freemarker.example02_callFunction;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import cz.kul.snippets.SnippetsTest;
 import cz.kul.snippets.freemarker.common.FreemarkerUtils;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,18 +27,18 @@ public class TestCallFunction extends SnippetsTest {
     
     @Test
     public void test() {
-        String res = FreemarkerUtils.process("${obj.myMethod()}", ImmutableMap.of("obj", new ModelObject()));
+        String res = FreemarkerUtils.processStrTpl("${obj.myMethod()}", ImmutableMap.of("obj", new ModelObject()));
         assertEquals("val1", res);
     
-        String res2 = FreemarkerUtils.process("${obj.sqrt(5)}", ImmutableMap.of("obj", new ModelObject()));
+        String res2 = FreemarkerUtils.processStrTpl("${obj.sqrt(5)}", ImmutableMap.of("obj", new ModelObject()));
         assertEquals("25", res2);
         
         // be carefull if the method can returns null. Must use "!" at the end.
         assertThrows(
                 RuntimeException.class,
-                () -> FreemarkerUtils.process("${obj.nullReturning()}", ImmutableMap.of("obj", new ModelObject())));
+                () -> FreemarkerUtils.processStrTpl("${obj.nullReturning()}", ImmutableMap.of("obj", new ModelObject())));
         
-        String res3 = FreemarkerUtils.process("${obj.nullReturning()!}", ImmutableMap.of("obj", new ModelObject()));
+        String res3 = FreemarkerUtils.processStrTpl("${obj.nullReturning()!}", ImmutableMap.of("obj", new ModelObject()));
         assertEquals("", res3);
     }
     

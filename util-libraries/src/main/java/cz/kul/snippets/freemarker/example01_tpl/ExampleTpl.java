@@ -5,13 +5,21 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import cz.kul.snippets.freemarker.common.FreemarkerUtils;
+import freemarker.template.TemplateMethodModel;
+import freemarker.template.TemplateMethodModelEx;
+import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateSequenceModel;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +27,7 @@ public class ExampleTpl {
 
     @Test
     public void binding() {
-        String res = FreemarkerUtils.process("Hello world, ${user}!", ImmutableMap.of("user", "Monica"));
+        String res = FreemarkerUtils.processStrTpl("Hello world, ${user}!", ImmutableMap.of("user", "Monica"));
         assertEquals("Hello world, Monica!", res);
     }
     
@@ -34,7 +42,7 @@ public class ExampleTpl {
 
         ArrayList<String> fruits = Lists.newArrayList("banana", "orange");
 
-        String res = FreemarkerUtils.process(template, ImmutableMap.of("fruits", fruits));
+        String res = FreemarkerUtils.processStrTpl(template, ImmutableMap.of("fruits", fruits));
         assertEquals("banana\norange\n", res);
     }
 
@@ -48,25 +56,25 @@ public class ExampleTpl {
 
         {
             // iterate keys
-            String out = FreemarkerUtils.process("<#list map?keys as key>${key} </#list>", dataModel);
+            String out = FreemarkerUtils.processStrTpl("<#list map?keys as key>${key} </#list>", dataModel);
             Assert.assertEquals("simpleVal listVal mapVal ", out);
         }
 
         {
             // iterate values
-            String out = FreemarkerUtils.process("<#list map.mapVal?values as val>${val} </#list>", dataModel);
+            String out = FreemarkerUtils.processStrTpl("<#list map.mapVal?values as val>${val} </#list>", dataModel);
             Assert.assertEquals("banana ", out);
         }
 
         {
             // get particular value - static
-            String out = FreemarkerUtils.process("<#list map.listVal as val>${val} </#list>", dataModel);
+            String out = FreemarkerUtils.processStrTpl("<#list map.listVal as val>${val} </#list>", dataModel);
             Assert.assertEquals("banana orange ", out);
         }
 
         {
             // get particular value - dynamic
-            String out = FreemarkerUtils.process("<#list map.mapVal?keys as key>${key}=${map.mapVal[key]}</#list>", dataModel);
+            String out = FreemarkerUtils.processStrTpl("<#list map.mapVal?keys as key>${key}=${map.mapVal[key]}</#list>", dataModel);
             Assert.assertEquals("fruit=banana", out);
         }
 
@@ -83,7 +91,7 @@ public class ExampleTpl {
 
         ArrayList<String> fruits = Lists.newArrayList();
 
-        String res = FreemarkerUtils.process(template, ImmutableMap.of("fruits", fruits));
+        String res = FreemarkerUtils.processStrTpl(template, ImmutableMap.of("fruits", fruits));
         assertEquals("", res);
     }
 
@@ -92,12 +100,12 @@ public class ExampleTpl {
         HashMap<String, Object> model = new HashMap<>();
         model.put("user", null);
         try {
-            FreemarkerUtils.process("${user}", model);
+            FreemarkerUtils.processStrTpl("${user}", model);
             Assert.fail("exception expected");
         } catch (Exception e) {
         }
 
-        String res = FreemarkerUtils.process("${user!\"anonymous\"}", model);
+        String res = FreemarkerUtils.processStrTpl("${user!\"anonymous\"}", model);
         assertEquals("anonymous", res);
     }
     
@@ -105,12 +113,12 @@ public class ExampleTpl {
     @Test
     public void missingValueCauseError() {
         try {
-            FreemarkerUtils.process("${user}!", Maps.newHashMap());
+            FreemarkerUtils.processStrTpl("${user}!", Maps.newHashMap());
             Assert.fail("exception expected");
         } catch (Exception e) {
         }
 
-        String res = FreemarkerUtils.process("${user!\"anonymous\"}", Maps.newHashMap());
+        String res = FreemarkerUtils.processStrTpl("${user!\"anonymous\"}", Maps.newHashMap());
         assertEquals("anonymous", res);
     }
     
@@ -124,7 +132,7 @@ public class ExampleTpl {
                 "${user?length}"
         );
 
-        String res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "monica"));
+        String res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", "monica"));
         assertEquals("monica,MONICA,Monica,6", res);
     }
     
@@ -132,10 +140,10 @@ public class ExampleTpl {
     public void testMissingValues() {
         String tpl = "<#if user??>${user}</#if>";
         
-        String res = FreemarkerUtils.process(tpl, new HashMap<>());
+        String res = FreemarkerUtils.processStrTpl(tpl, new HashMap<>());
         assertEquals("", res);
         
-        res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "monica"));
+        res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", "monica"));
         assertEquals("monica", res);
     }
 
@@ -143,13 +151,13 @@ public class ExampleTpl {
     public void testEmptyValue() {
         String tpl = "<#if user?has_content>A${user}A</#if>";
 
-        String res = FreemarkerUtils.process(tpl, new HashMap<>());
+        String res = FreemarkerUtils.processStrTpl(tpl, new HashMap<>());
         assertEquals("", res);
 
-        res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", ""));
+        res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", ""));
         assertEquals("", res);
 
-        res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "monica"));
+        res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", "monica"));
         assertEquals("AmonicaA", res);
     }
     
@@ -157,7 +165,7 @@ public class ExampleTpl {
     public void setCanBeAlsoAccessedByIndex() {
         String tpl = "${names[0]}";
         
-        String res = FreemarkerUtils.process(tpl, ImmutableMap.of("names", Sets.newHashSet("monica", "rachel")));
+        String res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("names", Sets.newHashSet("monica", "rachel")));
         assertTrue("monica".equals(res) || "rachel".equals(res));
     }
     
@@ -165,7 +173,7 @@ public class ExampleTpl {
     public void unassign() {
         String tpl = "<#assign foo=true><#if foo>true</#if>";
         
-        String res = FreemarkerUtils.process(tpl, new Object());
+        String res = FreemarkerUtils.processStrTpl(tpl, new Object());
         assertEquals("true", res);
     }
 
@@ -173,13 +181,13 @@ public class ExampleTpl {
     public void stringComparison() {
         String tpl = "<#if user == \"monica\" || user == \"rachel\">match</#if>";
 
-        String res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", ""));
+        String res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", ""));
         assertEquals("", res);
 
-        res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "monica"));
+        res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", "monica"));
         assertEquals("match", res);
         
-        res = FreemarkerUtils.process(tpl, ImmutableMap.of("user", "rachel"));
+        res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("user", "rachel"));
         assertEquals("match", res);
     }
 
@@ -187,8 +195,67 @@ public class ExampleTpl {
     public void numberFormat() {
         String tpl = "${num}";
 
-        String res = FreemarkerUtils.process(tpl, ImmutableMap.of("num", 1000));
+        String res = FreemarkerUtils.processStrTpl(tpl, ImmutableMap.of("num", 1000));
         assertEquals("1000", res);
+    }
+
+    // so calling a method of the java bean
+    @Test
+    public void javaFunctionCall() {
+        String template = "${myBean.customPrint(fruits)}";
+
+        ArrayList<String> fruits = Lists.newArrayList("banana", "orange");
+
+        String res = FreemarkerUtils.processStrTpl(
+            template,
+            ImmutableMap.of("fruits", fruits, "myBean", new Formatter()));
+        System.out.println(res);
+    }
+
+    // method in freemarker is a model value which implements TemplateMethodModel interface
+    @Test
+    public void methodCall() {
+        String template = "${join(fruits)}";
+
+        String out = FreemarkerUtils.processStrTpl(
+            template,
+            ImmutableMap.of(
+                "fruits", Lists.newArrayList("banana", "orange"),
+                "join", new CustomMethod()));
+
+        Assert.assertEquals("\"banana\",\"orange\"", out);
+    }
+
+    public static class Formatter {
+
+        public String customPrint(Collection<Object> coll) {
+            StringBuilder sb = new StringBuilder();
+            for (Object item : coll) {
+                sb.append("\"");
+                sb.append(item.toString());
+                sb.append("\"");
+                sb.append(",");
+            }
+            return sb.toString();
+        }
+
+    }
+
+    public static class CustomMethod implements TemplateMethodModelEx {
+
+        @Override
+        public Object exec(List arguments) throws TemplateModelException {
+            TemplateSequenceModel sequence = (TemplateSequenceModel) arguments.get(0);
+            List<String> items = new ArrayList<>();
+            for (int i = 0; i < sequence.size(); i++) {
+                items.add(sequence.get(i).toString());
+            }
+            String output = items.stream()
+                .map(x -> "\"" + x + "\"")
+                .collect(Collectors.joining(","));
+            return output;
+        }
+
     }
     
     

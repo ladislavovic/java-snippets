@@ -1,77 +1,64 @@
 package cz.kul.snippets.freemarker.common;
 
+import com.google.common.collect.ImmutableMap;
+import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
+import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateExceptionHandler;
 
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FreemarkerUtils {
 
-    public static Configuration getStandardConfiguration(StringTemplateLoader loader) {
-        // Create your Configuration instance, and specify if up to what FreeMarker
-        // version (here 2.3.29) do you want to apply the fixes that are not 100%
-        // backward-compatible. See the Configuration JavaDoc for details.
+    /**
+     * Configuration is a factory for Templates. Typically you have
+     * one instance of Configuration in runtime. But here in examples it is it works in different way.
+     *
+     * Then you typically call getTemplate() methods. Configuration also cache templates
+     * so you do not have to store already given templates somewhere else.
+     */
+    public static Configuration getConfiguration(TemplateLoader loader) {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_29);
-
         cfg.setTemplateLoader(loader);
-
-        // From here we will set the settings recommended for new projects. These
-        // aren't the defaults for backward compatibilty.
-
-        // Set the preferred charset template files are stored in. UTF-8 is
-        // a good choice in most applications:
         cfg.setDefaultEncoding("UTF-8");
-
-        // Sets how errors will appear.
-        // During web page *development* TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-
-        // Don't log exceptions inside FreeMarker that it will thrown at you anyway:
-        cfg.setLogTemplateExceptions(false);
-
-        // Wrap unchecked exceptions thrown during template processing into TemplateException-s:
-        cfg.setWrapUncheckedExceptions(true);
-
-        // Do not fall back to higher scopes when reading a null loop variable:
-        cfg.setFallbackOnNullLoopVariable(false);
-
         return cfg;
     }
-    
-    // TODO implement by calling another process() method
-    public static String process(String template, Object dataModel) {
+
+    public static String processClasspathTpl(String tplName, Object dataModel) {
         try {
-            String TEMPLATE_NAME = "TPL1";
-            StringTemplateLoader stringLoader = new StringTemplateLoader();
-            stringLoader.putTemplate(TEMPLATE_NAME, template);
-            Configuration cfg = FreemarkerUtils.getStandardConfiguration(stringLoader);
-            Template tpl = cfg.getTemplate(TEMPLATE_NAME);
-            StringWriter writer = new StringWriter();
-            tpl.process(dataModel, writer);
-            return writer.toString();
+            ClassTemplateLoader templateLoader = new ClassTemplateLoader(FreemarkerUtils.class, "templates");
+            Configuration cfg = FreemarkerUtils.getConfiguration(templateLoader);
+            return doProcessTpl(cfg, tplName, dataModel);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    public static String processStrTpl(String template, Object dataModel) {
+        String tplName = "TPL1";
+        return processStrTpl(ImmutableMap.of(tplName, template), tplName, dataModel);
+    }
     
-    public static String process(Map<String, String> nameToTpl, String mainTpl, Object dataModel) {
+    public static String processStrTpl(Map<String, String> nameToTpl, String mainTpl, Object dataModel) {
         try {
             StringTemplateLoader stringLoader = new StringTemplateLoader();
             for (String name : nameToTpl.keySet()) {
                 stringLoader.putTemplate(name, nameToTpl.get(name));
             }
-            Configuration cfg = FreemarkerUtils.getStandardConfiguration(stringLoader);
-            Template tpl = cfg.getTemplate(mainTpl);
-            StringWriter writer = new StringWriter();
-            tpl.process(dataModel, writer);
-            return writer.toString();
+            Configuration cfg = FreemarkerUtils.getConfiguration(stringLoader);
+            return doProcessTpl(cfg, mainTpl, dataModel);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String doProcessTpl(Configuration cfg, String tplName, Object dataModel) throws Exception{
+        Template tpl = cfg.getTemplate(tplName);
+        StringWriter writer = new StringWriter();
+        tpl.process(dataModel, writer);
+        return writer.toString();
     }
 
 }
