@@ -245,3 +245,11 @@ query string into Query objects.
   not for program-generated text.
 * QueryParser specify "default field" (it is a constructor param). If you do not specify field in the
   query parser expression then the default field is used.
+  
+Misc
+--------------------
+* use numeric fields (IntField, LongField, ...) only for attributes which
+  represents quantity. Because Lucene create an additional data structures
+  for them which allows sorting and reange queries. For example when you
+  index an entity id, which is usually Long Java data type, use normal
+  StringField for that.

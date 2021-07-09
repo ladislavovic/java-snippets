@@ -67,10 +67,20 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
-       String str = "ěščřžýá";
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        String str2 = StandardCharsets.UTF_8.decode(ByteBuffer.wrap(bytes, 0, 4)).toString();
-        System.out.println(str2);
+        String tpl = " ahoj <#include_query AA> cau";
+        String included = "aaa ${txt} aaa";
+
+        Pattern pattern = Pattern.compile("<#include_query (.*?)>");
+
+        Matcher matcher = pattern.matcher(tpl);
+        matcher.find();
+        System.out.println(matcher.group(1));
+        System.out.println(matcher.start() + " " + matcher.end());
+        tpl = tpl.substring(0, matcher.start()) + included + tpl.substring(matcher.end());
+        System.out.println(tpl);
+
+
+
     }
     
     

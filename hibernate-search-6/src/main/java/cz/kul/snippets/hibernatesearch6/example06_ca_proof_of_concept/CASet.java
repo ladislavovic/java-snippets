@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class CASet {
+public abstract class CASet {
 
 	@Id
 	@GeneratedValue
@@ -19,11 +19,12 @@ public class CASet {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caSet", orphanRemoval = true)
 	private Set<CAValue> values = new HashSet<>();
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "customAttributes")
-	private Person person;
-
 	public CASet() {
 	}
+
+	public abstract Object getOwner();
+
+	public abstract void setOwner(Object owner);
 
 	public Long getId() {
 		return id;
@@ -31,14 +32,6 @@ public class CASet {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
 	}
 
 	public Set<CAValue> getValues() {

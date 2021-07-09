@@ -27,13 +27,13 @@ public class TestExample06 extends HibernateSearch6Test {
 			entityManager.persist(caSetPerson);
 
 			CAValue caValue1 = new CAStringValue("attr1", "val1");
-			caValue1.setCaSet(caSet);
-			caSet.getValues().add(caValue1);
+			caValue1.setCaSet(caSetPerson);
+			caSetPerson.getValues().add(caValue1);
 			entityManager.persist(caValue1);
 
 			CAValue caValue2 = new CAIntegerValue("attr2", 10);
-			caValue2.setCaSet(caSet);
-			caSet.getValues().add(caValue2);
+			caValue2.setCaSet(caSetPerson);
+			caSetPerson.getValues().add(caValue2);
 			entityManager.persist(caValue2);
 
 			Person person = new Person("Jana", "Novakova");
