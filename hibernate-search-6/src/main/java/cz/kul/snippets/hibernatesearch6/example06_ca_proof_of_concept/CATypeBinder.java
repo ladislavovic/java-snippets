@@ -12,10 +12,10 @@ public class CATypeBinder implements TypeBinder {
 	@Override
 	public void bind(TypeBindingContext context) {
 		context.dependencies()
-				.fromOtherEntity(CAStringValue.class, "caSet.person")
+				.fromOtherEntity(CAStringValue.class, "caSet.owner")
 				.use("stringValue");
 		context.dependencies()
-				.fromOtherEntity(CAIntegerValue.class, "caSet.person")
+				.fromOtherEntity(CAIntegerValue.class, "caSet.owner")
 				.use("integerValue");
 
 		IndexFieldReference<String> customAttributes = context.indexSchemaElement()

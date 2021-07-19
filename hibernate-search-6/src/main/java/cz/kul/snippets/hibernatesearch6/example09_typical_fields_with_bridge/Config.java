@@ -1,4 +1,4 @@
-package cz.kul.snippets.hibernatesearch6.example09_analyzers;
+package cz.kul.snippets.hibernatesearch6.example09_typical_fields_with_bridge;
 
 import cz.kul.snippets.jpa.common.JPAConfig;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +17,7 @@ public class Config extends JPAConfig {
         properties.put("hibernate.search.mapping.process_annotations", "false");
         properties.put("hibernate.search.backend.dynamic_mapping", "true");
         properties.put("hibernate.search.automatic_indexing.synchronization.strategy", "sync");
+        properties.put("hibernate.search.schema_management.strategy", "drop-and-create");
         properties.put("hibernate.search.mapping.configurer", MappingConfigurer.class.getName());
         return properties;
     }
