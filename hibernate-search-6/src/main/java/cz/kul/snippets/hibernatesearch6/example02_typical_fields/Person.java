@@ -1,6 +1,11 @@
-package cz.kul.snippets.hibernatesearch6.example01_programmatic_hw;
+package cz.kul.snippets.hibernatesearch6.example02_typical_fields;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class Person {
@@ -9,13 +14,13 @@ public class Person {
 	@GeneratedValue
 	private Long id;
 
+	private int age;
+
 	private String name;
 
 	private String surname;
 
 	private String sex;
-
-	private boolean verified;
 
 	public Person() {
 	}
@@ -27,6 +32,10 @@ public class Person {
 
 	public String getWholeName() {
 		return String.format("%s %s", getName(), getSurname());
+	}
+
+	public String getCurrentDate() {
+		return Long.toString(System.currentTimeMillis());
 	}
 
 	public Long getId() {
@@ -61,12 +70,12 @@ public class Person {
 		this.sex = sex;
 	}
 
-	public boolean isVerified() {
-		return verified;
+	public int getAge() {
+		return age;
 	}
 
-	public void setVerified(boolean verified) {
-		this.verified = verified;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	@Override

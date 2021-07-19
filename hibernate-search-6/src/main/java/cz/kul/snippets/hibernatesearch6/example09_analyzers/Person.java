@@ -1,9 +1,8 @@
-package cz.kul.snippets.hibernatesearch6.example02_method_property;
+package cz.kul.snippets.hibernatesearch6.example09_analyzers;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 @Entity
 public class Person {
@@ -17,6 +16,8 @@ public class Person {
 	private String surname;
 
 	private String sex;
+
+	private boolean verified;
 
 	public Person() {
 	}
@@ -60,6 +61,14 @@ public class Person {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
 	}
 
 	@Override
