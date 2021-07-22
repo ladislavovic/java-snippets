@@ -21,26 +21,37 @@ public class MyTypeBinder implements TypeBinder {
 				.field("analyzedBridgeField", f -> f.asString().analyzer("standard"))
 				.toReference();
 
-		context.bridge(Person.class, new Bridge(bridgeField1, bridgeField2));
+		IndexFieldReference<String> bridgeField3 = context.indexSchemaElement()
+				.field("multivalueBridgeField", f -> f.asString())
+				.multiValued()
+				.toReference();
+
+		context.bridge(Person.class, new Bridge(bridgeField1, bridgeField2, bridgeField3));
 	}
 
 	private static class Bridge implements TypeBridge<Person> {
 
 		private final IndexFieldReference<String> bridgeField1;
 		private final IndexFieldReference<String> bridgeField2;
+		private final IndexFieldReference<String> bridgeField3;
 
 		private Bridge(
 				IndexFieldReference<String> bridgeField1,
-				IndexFieldReference<String> bridgeField2
+				IndexFieldReference<String> bridgeField2,
+				IndexFieldReference<String> bridgeField3
 		) {
 			this.bridgeField1 = bridgeField1;
 			this.bridgeField2 = bridgeField2;
+			this.bridgeField3 = bridgeField3;
 		}
 
 		@Override
 		public void write(DocumentElement target, Person person, TypeBridgeWriteContext context) {
 			target.addValue(bridgeField1, "f1val");
 			target.addValue(bridgeField2, "f2val");
+			for (String degree : person.getDegrees()) {
+				target.addValue(bridgeField3, degree);
+			}
 		}
 
 	}

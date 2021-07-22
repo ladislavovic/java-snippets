@@ -25,24 +25,4 @@ public class Example09Test extends HibernateSearch6Test {
 
 	}
 
-
-
-
-
-	private String getPersonField(long personId, String fieldName) {
-		return getPerson(personId).get(fieldName).getAsString();
-	}
-
-	private JsonObject getPerson(long personId) {
-		return jpaService().doInTransactionAndFreshSession(session -> {
-			SearchSession searchSession = Search.session(session);
-			return searchSession.search(Person.class)
-					.extension(ElasticsearchExtension.get())
-					.select(f -> f.source())
-					.where(f -> f.id().matching(personId))
-					.fetchSingleHit()
-					.get();
-		});
-	}
-
 }

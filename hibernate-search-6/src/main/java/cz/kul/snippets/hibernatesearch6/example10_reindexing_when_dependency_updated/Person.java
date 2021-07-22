@@ -1,9 +1,8 @@
-package cz.kul.snippets.hibernatesearch6.example09_typical_fields_with_bridge;
+package cz.kul.snippets.hibernatesearch6.example10_reindexing_when_dependency_updated;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -12,8 +11,6 @@ public class Person {
 	@Id
 	@GeneratedValue
 	private Long id;
-
-	private int age;
 
 	private String name;
 
@@ -40,9 +37,10 @@ public class Person {
 		this.name = name;
 	}
 
-	public List<String> getDegrees() {
-		return Arrays.asList("Prof", "ing", "CsC");
-//		return Arrays.asList("Prof");
+	public List<Car> getMyCars() {
+		PersonService personService = ApplicationContextProvider.getBean(PersonService.class);
+		List<Car> myCars = personService.getOwnedCars(this);
+		return myCars;
 	}
 
 }
