@@ -1,4 +1,4 @@
-package cz.kul.snippets.springresttesting.app;
+package cz.kul.snippets.springdoc.app;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package cz.kul.snippets.springresttesting;
+package cz.kul.snippets.springdoc;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package cz.kul.snippets.springresttesting;
+package cz.kul.snippets.springdoc;
 
-import cz.kul.snippets.springresttesting.config.ServletContextConfiguration;
+import cz.kul.snippets.springdoc.config.ServletContextConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 

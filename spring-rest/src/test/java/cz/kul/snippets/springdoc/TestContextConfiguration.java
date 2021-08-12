@@ -1,4 +1,4 @@
-package cz.kul.snippets.springresttesting;
+package cz.kul.snippets.springdoc;
 
 import cz.kul.snippets.springrest.example_01_demo.config.ServletContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

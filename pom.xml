@@ -57,7 +57,7 @@
         <spring-security.version>5.1.8.RELEASE</spring-security.version>
         <spring-batch.version>4.1.3.RELEASE</spring-batch.version>
         <spring-ws.version>3.0.8.RELEASE</spring-ws.version>
-        <jackson.version>2.9.4</jackson.version>
+        <jackson.version>2.12.4</jackson.version>
         <aspectj.version>1.8.9</aspectj.version>
         <junit.version>4.12</junit.version>
         <selenium.version>2.47.1</selenium.version>
@@ -124,6 +124,7 @@
         <module>spring-web-security</module>
         <module>spring-rest</module>
         <module>spring-rest-testing</module>
+        <module>springdoc</module>
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
@@ -655,6 +656,11 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>

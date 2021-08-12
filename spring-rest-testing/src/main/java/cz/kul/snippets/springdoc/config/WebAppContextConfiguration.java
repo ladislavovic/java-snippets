@@ -1,4 +1,4 @@
-package cz.kul.snippets.springresttesting.config;
+package cz.kul.snippets.springdoc.config;
 
 import org.springframework.context.annotation.Configuration;
 
