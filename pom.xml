@@ -68,8 +68,6 @@
         <javax.mail.version>1.4.7</javax.mail.version>
         <jms.version>1.1</jms.version>
         <activemq.version>5.7.0</activemq.version>
-<!--        <httpcore.version>4.4.5</httpcore.version>-->
-<!--        <httpclient.version>4.5.2</httpclient.version>-->
         <sfl4j.version>1.7.21</sfl4j.version>
         <groovy.version>2.1.6</groovy.version>
         <geodb.version>0.8</geodb.version>
@@ -120,6 +118,7 @@
         <module>jpa</module>
         <module>liquidbase</module>
         <module>spring</module>
+        <module>spring-boot-lk</module>
         <module>spring-mvc</module>
         <module>spring-web-security</module>
         <module>spring-rest</module>
@@ -281,16 +280,6 @@
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.apache.httpcomponents</groupId>-->
-<!--                <artifactId>httpcore</artifactId>-->
-<!--                <version>${httpcore.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.httpcomponents</groupId>-->
-<!--                <artifactId>httpclient</artifactId>-->
-<!--                <version>${httpclient.version}</version>-->
-<!--            </dependency>-->
             <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>

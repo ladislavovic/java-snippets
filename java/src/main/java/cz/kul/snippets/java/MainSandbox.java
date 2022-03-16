@@ -5,6 +5,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.nio.ByteBuffer;
@@ -16,6 +18,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class MainSandbox {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(MainSandbox.class);
 
 private Set<Object> customCriteria;
 
@@ -67,17 +71,26 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
-        String tpl = " ahoj <#include_query AA> cau";
-        String included = "aaa ${txt} aaa";
+        RuntimeException ex = new RuntimeException("An message");
 
-        Pattern pattern = Pattern.compile("<#include_query (.*?)>");
+        LOGGER.info("An exception", ex);
 
-        Matcher matcher = pattern.matcher(tpl);
-        matcher.find();
-        System.out.println(matcher.group(1));
-        System.out.println(matcher.start() + " " + matcher.end());
-        tpl = tpl.substring(0, matcher.start()) + included + tpl.substring(matcher.end());
-        System.out.println(tpl);
+        ex.printStackTrace();
+
+
+
+
+//        String tpl = " ahoj <#include_query AA> cau";
+//        String included = "aaa ${txt} aaa";
+//
+//        Pattern pattern = Pattern.compile("<#include_query (.*?)>");
+//
+//        Matcher matcher = pattern.matcher(tpl);
+//        matcher.find();
+//        System.out.println(matcher.group(1));
+//        System.out.println(matcher.start() + " " + matcher.end());
+//        tpl = tpl.substring(0, matcher.start()) + included + tpl.substring(matcher.end());
+//        System.out.println(tpl);
 
 
 

@@ -45,18 +45,18 @@ public class TestGenerics {
         a = new ArrayList<Integer>();
         
         // "? extends Number" collections (Read only) 
-        // reading: you can read fromt this coll. The retunr type is "Number"
-        // writing: You can not write because you do no know the real type of
+        // reading: you can read from this coll. The returned type is "Number"
+        // writing: You can not write because you do not know the real type of
         // collection.
         // a.get(0); // this is OK
         // a.add(10); // This is wrong!
         
         // "? super Integer" collections (Write only)
-        // reading: you can read but you can getAppender only "Object type"
+        // reading: you can read, but you can getAppender only "Object type"
         // writing: you can write "Integer" types into coll like this. This
         // the only type, which is secure to write.
         List<? super Integer> b = new ArrayList<Number>(Arrays.asList(10, 20));
-        Object o = b.get(0); // correct but not very usefull
+        Object o = b.get(0); // correct but not very useful
         b.add(10); // correct, you can do it for List<Integer>, List<Number>,
                    // List<Object>. So it is ok.
     }

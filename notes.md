@@ -171,6 +171,70 @@ Hibernate Search
   properties you change, it always create whole fulltext document and
   reindex it.
 
+Kafka
+====================
+Core Concepts
+-------------------
+### Basic terms
+**event** - an object which describes a change in a system. An event has a key,
+value, timestamp, and optional metadata headers.
+In Kafka world, it is called event. Not message or item but event.
+
+**topic**
+* Topic is am ordered collection of events stored in a durable way. 
+So it is stored on disc. Topic can be small or large. They can remember 
+data just for a little while, for an hour, day, year or forever.
+* always multi producers and multi subscribers
+* events are not deleted after consumption
+
+**publish/subscribe** - write/read events to/from the topic
+
+**Kafka broker** - ???
+
+### Kafka Connect
+Kafka Connect is a framework for connecting Kafka with external systems such
+as databases, key-value stores, search indexes, and file systems,
+using so-called Connectors.
+
+Kafka Connectors are ready-to-use components, which can help us to import data
+from external systems into Kafka topics and export data from Kafka topics into
+external systems.
+
+A source connector collects data from a system. Source systems can be entire
+databases, streams tables, or message brokers. A source connector could also
+collect metrics from application servers into Kafka topics, making the data
+available for stream processing with low latency.
+
+A sink connector delivers data from Kafka topics into other systems,
+which might be indexes such as Elasticsearch, batch systems such as Hadoop,
+or any kind of database.
+
+In practise Kafka Connect is a standalone process. It has several connectors
+and from configuration it knows their classes. The configuration is stored
+locally for standalone approach. You can have also distributed Kafka Connect,
+so several processes is executed. Then the configuration is stored in Kafka
+topic.
+
+### Topic partitioning
+* events with the same id are always written to the same topic partition
+
+### Guarantees
+* events from topic partition are read in the same order as they were written
+
+### Notes
+* A common production setting is a replication factor of 3, i.e., there will  
+always be three copies of your data.
+* Kafka is not waiting for disk flush by default. The durability is realized
+through replication.
+* By default, Kafka acknowledge the message when acks=1. It is good for latency,
+but it is dangerous for durability. For best durability use acks=all
+
+
+
+
+
+
+
 
 Lucene
 ================
@@ -253,3 +317,17 @@ Misc
   for them which allows sorting and reange queries. For example when you
   index an entity id, which is usually Long Java data type, use normal
   StringField for that.
+
+
+Spring Boot
+============================
+* @SpringBootApplication - encapsulates three stuffs:
+  * @Configuration - marks a class as a source of Spring beans,
+  * @ComponentsScan - tells Spring Boot to scan the current package (with all sub-packages) for components,
+  * @EnableAutoConfiguration - enables Spring Boot to auto-configure the application based on included jar files in the classpath.
+
+* Starters - Starters are an official Spring Boot dependency descriptors created to facilitate extending the application with new functionalities. For example, if you want to integrate your Spring application with a non-relational database - MongoDB, simply include the spring-boot-starter-data-mongodb dependency in your project, and you are good to go.
+
+
+todo: 
+spring-boot-starter-actuator

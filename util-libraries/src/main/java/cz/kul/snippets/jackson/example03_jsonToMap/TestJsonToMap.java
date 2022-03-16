@@ -5,13 +5,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class TestJsonToMap {
 
 	@Test
 	public void jsonToMap() throws IOException {
-		String json = "{\"a\": \"val1\", \"b\": 10, \"c\": 10.1, \"d\": true, \"e\": null}";
+		String json = "{\"a\": \"val1\", \"b\": 10, \"c\": 10.1, \"d\": true, \"e\": null, \"f\": [10, 20, 30]}";
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, Object> map = objectMapper.readValue(json, Map.class);
 
@@ -21,8 +22,8 @@ public class TestJsonToMap {
 		Assert.assertEquals(map.get("d"), true);
 		Assert.assertEquals(map.get("e"), null);
 
-
-
+		Assert.assertEquals(ArrayList.class, map.get("f").getClass());
+		Assert.assertEquals(Integer.class, ((ArrayList) map.get("f")).get(0).getClass());
 	}
 
 }
