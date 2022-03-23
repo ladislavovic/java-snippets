@@ -2,7 +2,8 @@ package cz.kul.snippets.kafka.example01_hw;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.text.RandomStringGenerator;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,7 +14,9 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.TopicPartition;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
@@ -24,24 +27,28 @@ public class KafkaHw {
 
 	private static final String TOPIC = "kafka_hw";
 
-	public static void main(String[] args) throws Exception	{
-
-		// Produce
-		{
-			Stopwatch stopwatch = Stopwatch.createStarted();
-			final long NO_OF_RECORDS = 1_000_000;
-			produce(TOPIC, NO_OF_RECORDS);
-			stopwatch.stop();
-			long timeMs = stopwatch.elapsed(TimeUnit.MILLISECONDS);
-			double timeS = timeMs / (double) 1000;
-			System.out.println("" + NO_OF_RECORDS + " records produced in " + timeMs + " ms (" + NO_OF_RECORDS / timeS + " rec/s)");
+	public static class ProducerRunner {
+		public static void main(String[] args) throws Exception {
+				Stopwatch stopwatch = Stopwatch.createStarted();
+				final long NO_OF_RECORDS = 1_000_000;
+				produce(TOPIC, NO_OF_RECORDS);
+				stopwatch.stop();
+				long timeMs = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+				double timeS = timeMs / (double) 1000;
+				System.out.println("" + NO_OF_RECORDS + " records produced in " + timeMs + " ms (" + NO_OF_RECORDS / timeS + " rec/s)");
 		}
+	}
 
-		// Consume
-		{
-			consume(TOPIC, 1000000);
+	public static class ConsumerRunner {
+		public static void main(String[] args) throws Exception{
+			consume(TOPIC, 3);
 		}
+	}
 
+	public static class ConsumerWithRebalanceListenerRunner {
+		public static void main(String[] args) throws Exception{
+				consumeWithRebalanceListener(TOPIC, 1000000);
+		}
 	}
 
 	public static void produce(String topic, long noOfRecords) throws Exception {
@@ -71,7 +78,39 @@ public class KafkaHw {
 		producer.flush();
 	}
 
-	public static void consume(String topic, long noOfRecords) throws Exception {
+	public static void consume(String topic, int limit) throws UnknownHostException {
+		final Properties props = new Properties();
+		props.put(ConsumerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
+		props.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka_hw_group");
+		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+		// Add additional required properties for this consumer app
+		final Consumer<String, String> consumer = new KafkaConsumer<>(props);
+		consumer.subscribe(Arrays.asList(topic));
+
+		try {
+			int counter = 0;
+			L0: while (true) {
+				ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+				for (ConsumerRecord<String, String> record : records) {
+					String key = record.key();
+					String value = record.value();
+					System.out.println(
+							String.format("Consumed event from topic %s: key = %-10s value = %s", topic, key, value));
+					if (counter++ > limit) {
+						break L0;
+					}
+				}
+			}
+		} finally {
+			consumer.close();
+		}
+	}
+
+	public static void consumeWithRebalanceListener(String topic, long noOfRecords) throws Exception {
 		// client creating
 		Properties config = new Properties();
 		config.put("client.id", InetAddress.getLocalHost().getHostName());
@@ -120,8 +159,6 @@ public class KafkaHw {
 		}
 
 	}
-
-
 
 
 }
