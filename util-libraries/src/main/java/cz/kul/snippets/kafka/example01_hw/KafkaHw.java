@@ -54,6 +54,7 @@ public class KafkaHw {
 	public static void produce(String topic, long noOfRecords) throws Exception {
 
 		Properties config = new Properties();
+//		config.put("client.id", InetAddress.getLocalHost().getHostName());
 		config.put("client.id", InetAddress.getLocalHost().getHostName());
 		config.put("bootstrap.servers", "localhost:9092");
 		config.put("acks", "all");
@@ -80,7 +81,8 @@ public class KafkaHw {
 
 	public static void consume(String topic, int limit) throws UnknownHostException {
 		final Properties props = new Properties();
-		props.put(ConsumerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
+//		props.put(ConsumerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
+		props.put(ConsumerConfig.CLIENT_ID_CONFIG, "client_1");
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka_hw_group");
 		props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
