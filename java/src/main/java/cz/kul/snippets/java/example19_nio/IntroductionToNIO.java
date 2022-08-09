@@ -1,5 +1,6 @@
 package cz.kul.snippets.java.example19_nio;
 
+import com.google.common.collect.Lists;
 import cz.kul.snippets.FilesystemHelper;
 import cz.kul.snippets.SnippetsTest;
 import org.junit.Test;
@@ -15,7 +16,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -230,6 +235,22 @@ public class IntroductionToNIO extends SnippetsTest {
             Path relative = path1.relativize(Paths.get("/tmp/a/b/file1.txt"));
             assertEquals(Paths.get("a/b/file1.txt"), relative);
         }
+    }
+
+    @Test
+    public void pathElements() {
+        assertEquals(Lists.newArrayList(), toElements("/"));
+        assertEquals(Lists.newArrayList("foo"), toElements("/foo"));
+        assertEquals(Lists.newArrayList("foo", "bar"), toElements("/foo/bar"));
+
+        assertEquals(Lists.newArrayList("foo"), toElements("foo"));
+        assertEquals(Lists.newArrayList("foo", "bar"), toElements("foo/bar"));
+    }
+
+    private List<String> toElements(String path) {
+        return Lists.newArrayList(Paths.get(path).iterator()).stream()
+            .map(Path::toString)
+            .collect(Collectors.toList());
     }
     
 }

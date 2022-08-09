@@ -1,0 +1,9 @@
+# the default port is 8080
+server:
+  port: 8888
+
+
+spring:
+  security:
+    user:
+      password: tree

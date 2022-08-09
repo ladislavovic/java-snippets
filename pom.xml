@@ -57,7 +57,7 @@
         <spring-security.version>5.1.8.RELEASE</spring-security.version>
         <spring-batch.version>4.1.3.RELEASE</spring-batch.version>
         <spring-ws.version>3.0.8.RELEASE</spring-ws.version>
-        <jackson.version>2.12.4</jackson.version>
+        <jackson.version>2.13.2</jackson.version>
         <aspectj.version>1.8.9</aspectj.version>
         <junit.version>4.12</junit.version>
         <selenium.version>2.47.1</selenium.version>
@@ -635,6 +635,11 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-jaxb-annotations</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>

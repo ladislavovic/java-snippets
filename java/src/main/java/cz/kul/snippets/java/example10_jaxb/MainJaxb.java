@@ -11,122 +11,71 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import cz.kul.snippets.java.example10_jaxb.model.Address;
+import cz.kul.snippets.java.example10_jaxb.model.Customer;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
- *
  * @author kulhalad
  */
 public class MainJaxb {
 
-    // TODO reworked a lot
+	@Test
+	public void marshall() throws Exception {
+		Customer customer = new Customer();
+		customer.setId(10L);
+		customer.setAddress(new Address());
+		customer.getAddress().setCity("Ostrava");
+		customer.setName("Tieto");
 
-    public static void main(String[] args) throws Exception {
-        marshall();
-    }
-    
-    private static String convUserInput(String userInput) {
-        String result = userInput.replaceAll("[^\\w\\*]", "");
-        return result;
-    }
-    
-    private static void marshall() throws Exception {
-        Customer customer = new Customer();
-        customer.setAddress(new Address());
-        customer.getAddress().setCity("Ostrava");
-        customer.setName("Tieto");
-        
-        JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        
-        StringWriter sw = new StringWriter();
-        marshaller.marshal(customer, sw);
-        System.out.println(sw.toString());
-    }
+		JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
+		Marshaller marshaller = jaxbContext.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-    private static void unmarshall() {
-        try {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<customer id='10'>\n");
-            sb.append("  <name>Ikea</name>\n");
-            sb.append("  <address>\n");
-            sb.append("    <city>Stockholm</city>\n");
-            sb.append("    <zip>12345</zip>\n");
-            sb.append("  </address>\n");
-            sb.append("</customer>\n");
+		StringWriter sw = new StringWriter();
+		marshaller.marshal(customer, sw);
+		System.out.println(sw);
+	}
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Customer customer = (Customer) jaxbUnmarshaller.unmarshal(new StringReader(sb.toString()));
-            Assert.assertEquals(10, (long) customer.getId());
-            Assert.assertEquals("Stockholm", customer.getAddress().getCity());
-         
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+	@Test
+	public void unmarshall() throws Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<customer id='10'>\n");
+		sb.append("  <name>Ikea</name>\n");
+		sb.append("  <address>\n");
+		sb.append("    <city>Stockholm</city>\n");
+		sb.append("    <zip>12345</zip>\n");
+		sb.append("  </address>\n");
+		sb.append("</customer>\n");
 
-    }
+		JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		Customer customer = (Customer) jaxbUnmarshaller.unmarshal(new StringReader(sb.toString()));
+		Assert.assertEquals(10, (long) customer.getId());
+		Assert.assertEquals("Stockholm", customer.getAddress().getCity());
+	}
 
-    @XmlRootElement
-    @XmlAccessorType(XmlAccessType.FIELD)
-    private static class Customer {
-        
-        @XmlAttribute
-        private Long id;
-        private String name;
-        private Address address;
+	// This is implemented by Jacskon. Standard JAXB implementation can not
+	// generate JSON output.
+	@Test
+	public void marshallToJson() throws Exception {
+		Customer customer = new Customer();
+		customer.setId(10L);
+		customer.setAddress(new Address());
+		customer.getAddress().setCity("Ostrava");
+		customer.setName("Tieto");
 
-        public Long getId() {
-            return id;
-        }
+		ObjectMapper mapper = new ObjectMapper();
+		AnnotationIntrospector introspector = new JaxbAnnotationIntrospector(mapper.getTypeFactory());
+		mapper.setAnnotationIntrospector(introspector);
 
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Address getAddress() {
-            return address;
-        }
-
-        public void setAddress(Address address) {
-            this.address = address;
-        }
-    }
-
-    private static class Address {
-
-        private String city;
-        private int zip;
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public int getZip() {
-            return zip;
-        }
-
-        public void setZip(int zip) {
-            this.zip = zip;
-        }
-
-    }
+		String result = mapper.writeValueAsString(customer);
+		System.out.println(result);
+	}
 
 }

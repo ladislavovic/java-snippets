@@ -3,12 +3,15 @@ package cz.kul.snippets.java;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.net.MediaType;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.expression.spel.support.ReflectionHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
@@ -70,27 +73,6 @@ private Set<Object> customCriteria;
     }
 
     public static void main(String[] args) throws Exception {
-
-        RuntimeException ex = new RuntimeException("An message");
-
-        LOGGER.info("An exception", ex);
-
-        ex.printStackTrace();
-
-
-
-
-//        String tpl = " ahoj <#include_query AA> cau";
-//        String included = "aaa ${txt} aaa";
-//
-//        Pattern pattern = Pattern.compile("<#include_query (.*?)>");
-//
-//        Matcher matcher = pattern.matcher(tpl);
-//        matcher.find();
-//        System.out.println(matcher.group(1));
-//        System.out.println(matcher.start() + " " + matcher.end());
-//        tpl = tpl.substring(0, matcher.start()) + included + tpl.substring(matcher.end());
-//        System.out.println(tpl);
 
 
 
