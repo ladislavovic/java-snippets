@@ -119,6 +119,7 @@
         <module>liquidbase</module>
         <module>spring</module>
         <module>spring-boot-lk</module>
+        <module>spring-boot-lib</module>
         <module>spring-mvc</module>
         <module>spring-web-security</module>
         <module>spring-rest</module>
@@ -127,6 +128,8 @@
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
+        <module>example_spring_cloud_gateway/backend-api-1</module>
+        <module>example_spring_cloud_gateway/gateway</module>
     </modules>
 
     <repositories>

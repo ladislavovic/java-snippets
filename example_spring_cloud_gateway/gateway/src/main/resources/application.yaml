@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: toBackendApi1
+          uri: http://localhost:8889
+          predicates:
+            - Path=/api1/**
+          filters:
+            - RewritePath=/api1/?(?<segment>.*), /$\{segment}
