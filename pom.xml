@@ -130,6 +130,8 @@
         <module>xml</module>
         <module>example_spring_cloud_gateway/backend-api-1</module>
         <module>example_spring_cloud_gateway/gateway</module>
+        <module>example_oauth2</module>
+        <module>example_spring_cloud_gateway_with_oauth2_2</module>
     </modules>
 
     <repositories>
