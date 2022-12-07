@@ -1,0 +1,9 @@
+version: '3'
+services:
+  uaa:
+    image: example-oauth2-uaa:latest
+    container_name: uaa
+    expose:
+      - "8881"
+    ports:
+      - "8881:8881"
