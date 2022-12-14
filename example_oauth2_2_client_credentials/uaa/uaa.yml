@@ -26,21 +26,23 @@ oauth:
 #      scope: openid,profile,email,resource.read
 #      authorities: uaa.resource
 #      redirect-uri: http://localhost:8080/login/oauth2/code/gateway
-    articles:
-      name: articles
-      secret: secret
+    user1:
+      name: user1_name
+      secret: user1pswd
       authorized-grant-types: client_credentials
-      scope: openid articles.read
-      authorities: uaa.resource
+      scope: openid articles.read auth1
+      authorities: uaa.resource auth1
       redirect-uri: http://localhost:8883/login/oauth2/code/articles
 
 
+# todo can I comment it out?
 scim:
   groups:
     email: Access your email address
     resource.read: Allow access with 'resource.read'
+    auth1: custom group
   users:
-    - user1|password|user1@provider.com|first1|last1|uaa.user,profile,email,resource.read,articles.read
+    - anotherUser|password|user1@provider.com|first1|last1|uaa.user,profile,email,resource.read,articles.read
 
 jwt:
   token:

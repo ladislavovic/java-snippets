@@ -1,9 +1,14 @@
 package com.baeldung.config;
 
+import io.netty.handler.logging.LogLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.reactive.ClientHttpConnector;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.InMemoryReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -11,35 +16,38 @@ import org.springframework.security.oauth2.client.registration.InMemoryReactiveC
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 @Configuration
 public class WebClientConfig {
 
-    @Value("${my.security.oauth2.client.provider.spring.token-uri}")
+    private static final Logger WC_LOGGER = LoggerFactory.getLogger("WEB_CLIENT");
+
+    @Value("${client-app.token-uri}")
     private String tokenUri;
 
-    @Value("${my.security.oauth2.client.registration.articles-client-authorization-code.client-id}")
+    @Value("${client-app.client-id}")
     private String clientId;
 
-    @Value("${my.security.oauth2.client.registration.articles-client-authorization-code.client-secret}")
+    @Value("${client-app.client-secret}")
     private String clientSecret;
 
-    @Value("${my.security.oauth2.client.registration.articles-client-authorization-code.scope}")
-    private String scope;
-
-    @Value("${my.security.oauth2.client.registration.articles-client-authorization-code.authorization-grant-type}")
-    private String authorizationGrantType;
+//    @Value("${my.security.oauth2.client.registration.articles-client-authorization-code.scope}")
+//    private String scope;
 
     @Bean
     ReactiveClientRegistrationRepository myRepo() {
         ClientRegistration registration = ClientRegistration
-            .withRegistrationId("articles-client-authorization-code")
+            .withRegistrationId("client-registration-id")
             .tokenUri(tokenUri)
             .clientId(clientId)
             .clientSecret(clientSecret)
-            .scope(scope)
-            .authorizationGrantType(new AuthorizationGrantType(authorizationGrantType))
+//            .scope(scope)
+            .authorizationGrantType(new AuthorizationGrantType("client_credentials"))
             .build();
         return new InMemoryReactiveClientRegistrationRepository(registration);
     }
@@ -48,36 +56,17 @@ public class WebClientConfig {
     WebClient webClient(@Qualifier("myRepo") ReactiveClientRegistrationRepository clientRegistrationRepository) {
         var clientService = new InMemoryReactiveOAuth2AuthorizedClientService(clientRegistrationRepository);
         var authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(clientRegistrationRepository, clientService);
-        var oauth = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-        oauth.setDefaultClientRegistrationId("articles-client-authorization-code");
-        return WebClient.builder()
-            .filter(oauth)
+        var oauthFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+        oauthFilter.setDefaultClientRegistrationId("client-registration-id"); // TODO
+
+        HttpClient httpClient = HttpClient
+            .create();
+
+        return WebClient
+            .builder()
+            .clientConnector(new ReactorClientHttpConnector(httpClient))
+            .filter(oauthFilter)
             .build();
     }
 
-//    @Bean
-//    WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
-//        ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
-//          new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-//        return WebClient.builder()
-//          .apply(oauth2Client.oauth2Configuration())
-//          .build();
-//    }
-//
-//    @Bean
-//    OAuth2AuthorizedClientManager authorizedClientManager(
-//        ClientRegistrationRepository clientRegistrationRepository,
-//        OAuth2AuthorizedClientRepository authorizedClientRepository) {
-//
-//        OAuth2AuthorizedClientProvider authorizedClientProvider =
-//          OAuth2AuthorizedClientProviderBuilder.builder()
-//            .authorizationCode()
-//            .refreshToken()
-//            .build();
-//        DefaultOAuth2AuthorizedClientManager authorizedClientManager = new DefaultOAuth2AuthorizedClientManager(
-//          clientRegistrationRepository, authorizedClientRepository);
-//        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-//
-//        return authorizedClientManager;
-//    }
 }

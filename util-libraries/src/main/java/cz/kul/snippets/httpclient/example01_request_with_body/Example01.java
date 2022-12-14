@@ -54,7 +54,7 @@ public class Example01 {
 				"    }\n" +
 				"  ],\n" +
 				"  \"fromToUpHierarchyEnabled\": false  \n" +
-				"}";
+				"}"    ;
 
 
 

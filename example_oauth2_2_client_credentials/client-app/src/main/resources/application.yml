@@ -12,6 +12,13 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
+    reactor.netty.http.client: TRACE
+    WEB_CLIENT: DEBUG
+
+client-app:
+  client-id: user1
+  client-secret: user1pswd
+  token-uri: http://auth-server:8881/uaa/oauth/token
 
 #spring:
 my:
