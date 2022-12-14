@@ -18,3 +18,8 @@ The flow description:
 1. `build.sh` - it builds docker images
 2. `docker-compose up` - run all services
 3. `run.sh` - send test requests
+
+### Notes
+* Spring map each authority from JWT token to Spring authority. It adds prefix
+  SCOPE_. Example "node.write" -> SCOPE_node.write
+* Docker use container name for DNS lookup. For example url http://uaa:8881/foo goes to UAA server, because UAA docker container has name "uaa".
