@@ -1,8 +1,15 @@
 Spring Cloud Gateway Example
 ===============================
 
-SCG with one backend service. The example contains the following features:
-* Routing from gateway to backend service
-* logging of request/response body (LoggingFilter.java)
+### Description
+This is Hello World Spring Cloud Gateway example. It contains
+gateway and one background service. All requests with path
+/api1/** are redirected to the background api.
 
-How to run it:
+### Logging
+It also contains an example of logging filter. This filter logs
+request and responses including body.
+
+### How to run it
+Execute `run.sh` script. It builds all modules, run them and
+execute some tests.
