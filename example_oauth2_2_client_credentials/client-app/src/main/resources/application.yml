@@ -1,7 +1,6 @@
 server:
   port: 8883
 
-
 security:
   basic:
     enabled: false
@@ -13,55 +12,8 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     reactor.netty.http.client: TRACE
-    WEB_CLIENT: DEBUG
 
 client-app:
   client-id: user1
   client-secret: user1pswd
-  token-uri: http://auth-server:8881/uaa/oauth/token
-
-#spring:
-my:
-  security:
-    oauth2:
-      client:
-        registration:
-          articles-client-authorization-code:
-            client-name: Web client with client credentials flow
-            client-id: articles
-            client-secret: secret
-            authorization-grant-type: client_credentials
-#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-#            scope: openid,articles.read
-            scope:
-            provider: spring
-#        registration:
-#          articles-client-oidc:
-#            provider: spring
-#            client-id: articles-client
-#            client-secret: secret
-#            authorization-grant-type: authorization_code
-#            redirect-uri: "http://127.0.0.1:8883/login/oauth2/code/{registrationId}"
-#            scope: openid
-#            client-name: articles-client-oidc # descriptive name, for the client only, not sent to server
-#          articles-client-authorization-code:
-#            provider: spring
-#            client-id: articles-client
-#            client-secret: secret
-#            authorization-grant-type: authorization_code
-#            redirect-uri: "http://127.0.0.1:8883/authorized"
-#            scope: articles.read
-#            client-name: articles-client-authorization-code
-
-
-        provider:
-          spring:
-#            issuer-uri: http://auth-server:8881/uaa/oauth/token
-            authorization-uri: http://auth-server:8881/uaa/oauth/authorize
-            token-uri: http://auth-server:8881/uaa/oauth/token
-            user-info-uri: http://auth-server:8881/uaa/userinfo
-            user-name-attribute: sub
-            jwk-set-uri: http://auth-server:8881/uaa/token_keys
-
-
-#            issuer-uri: http://auth-server:8881
+  token-uri: http://uaa:8881/uaa/oauth/token

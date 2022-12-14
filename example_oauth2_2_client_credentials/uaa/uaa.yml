@@ -1,5 +1,5 @@
 issuer:
-  uri: http://auth-server:8881/uaa
+  uri: http://uaa:8881/uaa
 
 encryption:
   encryption_keys:
@@ -9,7 +9,7 @@ encryption:
 
 oauth:
   user:
-    authorities:
+    authorities: # I do not know what this list is good for
       - openid
       - articles.read
       - scim.me
@@ -18,29 +18,33 @@ oauth:
       - uaa.user
       - approvals.me
       - oauth.approvals
+
+# Definition of clients
+#
+# In production it should take clients from some DB (LDAP), because any use can
+# access resource server.
   clients:
-#    gateway:
-#      name: gateway
-#      secret: secret
-#      authorized-grant-types: authorization_code
-#      scope: openid,profile,email,resource.read
-#      authorities: uaa.resource
-#      redirect-uri: http://localhost:8080/login/oauth2/code/gateway
-    user1:
-      name: user1_name
-      secret: user1pswd
+    user1:                                                            # username (or ID), it is just used in principal
+      name: Monica Geller                                             # descriptive name, not important
+      secret: user1pswd                                               # user password
+      authorized-grant-types: client_credentials                      # specify OAuth2 "flow"
+#      scope: openid                                                  # probably not needed for client_credentials flow
+      authorities: booking-calendar.read,auth1                        # user authorities
+#      redirect-uri: http://localhost:8883/login/oauth2/code/articles # not needed in client_credentials flow
+    user2:
+      name: Rachel Green
+      secret: user2pswd
       authorized-grant-types: client_credentials
-      scope: openid articles.read auth1
-      authorities: uaa.resource auth1
-      redirect-uri: http://localhost:8883/login/oauth2/code/articles
+#      scope: openid
+      authorities: auth1,auth2
 
 
-# todo can I comment it out?
+# This user section is probably not needed in this example, because in
+# client_credentials flow there is no user - client access the resource directly
 scim:
   groups:
     email: Access your email address
     resource.read: Allow access with 'resource.read'
-    auth1: custom group
   users:
     - anotherUser|password|user1@provider.com|first1|last1|uaa.user,profile,email,resource.read,articles.read
 
