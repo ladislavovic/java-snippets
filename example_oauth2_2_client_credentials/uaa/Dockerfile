@@ -28,9 +28,9 @@ COPY host-manager.xml $CATALINA_HOME/webapps/host-manager/META-INF/context.xml
 ENV SPRING_PROFILES_ACTIVE=default,hsqldb
 CMD ["catalina.sh", "run"]
 
-# Tomcat will start on port 8090 – but don't forget to publish a port on the host when you run!
+# Tomcat will start on port 8881 – but don't forget to publish a port on the host when you run!
 EXPOSE 8881
 
 # To build use `docker build --tag uaa .`
-# To run use `docker run -p 8888:8090 --name=uaa uaa`
-# To test use `http://localhost:8888/uaa/login` User: user1 Password: password
+# To run use `docker run -p 8080:8881 --name=uaa uaa`
+# To test use `http://localhost:8080/uaa/login` User: user1 Password: password

@@ -1,9 +1,17 @@
 server:
-  port: 8081
+  port: 8882
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
 
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://uaa:8090/uaa/token_keys
+          issuer-uri: http://uaa:8881/uaa/oauth/token
+#          jwk-set-uri: http://uaa:8090/uaa/token_keys

@@ -8,11 +8,11 @@
 		<version>2.7.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cz.kul.snippets</groupId>
-	<artifactId>example-spring-cloud-gateway-with-oauth2-backend-api-1</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>cz.kul.snippets.example.scg.with.ouath2</groupId>
+	<artifactId>backend-api-1</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<name>example-spring-cloud-gateway-with-oauth2-backend-api-1</name>
-	<description>The Api behind gateway</description>
+	<description>The Api behind the gateway</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

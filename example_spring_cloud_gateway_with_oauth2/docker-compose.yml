@@ -1,26 +1,30 @@
 version: '3'
 services:
+
   uaa:
-    image: scg-demo-uaa:latest
-    container_name: uaa
+    image: example-scg-with-oauth2-uaa:latest
     expose:
-      - "8090"
+      - "8881"
     ports:
-      - "8090:8090"
+      - "8881:8881"
 
+  backend-api-1:
+    image: example-scg-with-oauth2-backend-api-1:latest
+    expose:
+      - "8882"
+    ports:
+      - "8882:8882"
 
-#  secured-service:
-#    image: scg-demo-secured-service:latest
-#    container_name: resource
-#    expose:
-#      - "9000"
-#  gateway:
-#    image: scg-demo-security-gateway:latest
-#    container_name: gateway
-#    expose:
-#      - "8080"
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - secured-service
-#      - uaa
+  gateway:
+    image: example-scg-with-oauth2-gateway:latest
+    expose:
+      - "8883"
+    ports:
+      - "8883:8883"
+
+  client:
+    image: example-scg-with-oauth2-client:latest
+    expose:
+      - "8884"
+    ports:
+      - "8884:8884"
