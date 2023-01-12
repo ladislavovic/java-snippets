@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.net.MediaType;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,21 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
+        Foo foo = new Foo();
+        System.out.println(foo.getRandomString(10));
 
+        String myString = foo.getRandomString(3) + "_" + foo.getRandomString(5);
+        System.out.println(myString);
+
+
+
+    }
+
+    public static class Foo {
+
+        public String getRandomString(int length) {
+            return RandomStringUtils.randomAlphabetic(length);
+        }
 
     }
     
