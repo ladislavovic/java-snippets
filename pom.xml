@@ -137,6 +137,7 @@
         <module>example_spring_cloud_gateway_with_oauth2</module>
         <module>example_spring_cloud_gateway_with_oauth2_2</module>
         <module>example_spring_cloud_gateway_with_springdoc</module>
+        <module>example-openapi-polymorphism</module>
     </modules>
 
     <repositories>
