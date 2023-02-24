@@ -75,11 +75,6 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
-        Foo foo = new Foo();
-        System.out.println(foo.getRandomString(10));
-
-        String myString = foo.getRandomString(3) + "_" + foo.getRandomString(5);
-        System.out.println(myString);
 
 
 
