@@ -139,6 +139,7 @@
         <module>example_spring_cloud_gateway_with_springdoc</module>
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
+        <module>custom-rest-api</module>
     </modules>
 
     <repositories>
