@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfigura
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication(
@@ -16,7 +17,8 @@ import org.springframework.context.annotation.Import;
 			FreeMarkerAutoConfiguration.class,
 			DataSourceAutoConfiguration.class,
 			DataSourceTransactionManagerAutoConfiguration.class,
-			HibernateJpaAutoConfiguration.class})
+			HibernateJpaAutoConfiguration.class,
+			SecurityAutoConfiguration.class})
 @Import(ApplicationLogicContextConfiguration.class)
 public class CustomRestApiApplication {
 
