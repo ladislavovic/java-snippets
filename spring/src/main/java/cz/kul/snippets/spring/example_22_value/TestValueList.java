@@ -1,5 +1,6 @@
 package cz.kul.snippets.spring.example_22_value;
 
+import com.google.common.collect.Sets;
 import cz.kul.snippets.spring.common.SpringTestUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -46,6 +48,14 @@ public class TestValueList {
 		// This way you can also insert to Integer list out of the box
 		@Value("#{'${numbers}'.split('\\s*,\\s*')}")
 		private List<Integer> integerList;
+
+		// It works also for Set
+		@Value("#{'${numbers}'.split('\\s*,\\s*')}")
+		private Set<String> stringSet;
+
+		public Set<String> getStringSet() {
+			return stringSet;
+		}
 
 		public List<Integer> getIntegerList() {
 			return integerList;
@@ -90,6 +100,8 @@ public class TestValueList {
 			assertEquals(Arrays.asList("1", "2", "3"), conf.getStringList2());
 
 			assertEquals(Arrays.asList(1, 2, 3), conf.getIntegerList());
+
+			assertEquals(Sets.newHashSet("1", "2", "3"), conf.getStringSet());
 
 		});
 	}

@@ -4,15 +4,11 @@ import com.cross_ni.cross.app_int.NodeInterface;
 import com.cross_ni.cross.app_int.entity.NodeDto;
 import com.cross_ni.cross.app_int.entity.NodeReference;
 import com.cross_ni.cross.app_int.entity.NodeStatusDto;
-import com.my.project.customrestapi.model.DatacenterInputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-public class MyOperations {
+public class CustomOperationsController {
 
     @Autowired
     private NodeInterface nodeInterface;
@@ -38,20 +34,5 @@ public class MyOperations {
                 "types", dto.getTypeDiscriminators(),
                 "status", dto.getNodeStatus().map(NodeStatusDto::getName).orElse("NOT_INITIALIZED"));
     }
-
-    @PostMapping(value = "/datacenter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object createDatacenter(@RequestBody DatacenterInputDto dto) {
-        Optional<NodeDto> nodeDtoOpt = nodeInterface.find(
-                new NodeReference(nodeId),
-                NodeDto.NodeFetch.FETCH_NODETYPES,
-                NodeDto.NodeFetch.FETCH_STATUS);
-        NodeDto dto = nodeDtoOpt.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return Map.of(
-                "id", dto.getNodeId(),
-                "name", dto.getName(),
-                "types", dto.getTypeDiscriminators(),
-                "status", dto.getNodeStatus().map(NodeStatusDto::getName).orElse("NOT_INITIALIZED"));
-    }
-
 
 }
