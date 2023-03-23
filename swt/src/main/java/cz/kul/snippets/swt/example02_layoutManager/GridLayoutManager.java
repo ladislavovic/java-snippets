@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.*;
 /**
  * TODO put layout manager examples here, not only grid
  */
-public class MainLayoutManager {
+public class GridLayoutManager {
 
     public static void main(String[] args) {
         Display display = new Display();

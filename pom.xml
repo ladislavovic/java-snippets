@@ -140,6 +140,7 @@
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
         <module>custom-rest-api</module>
+        <module>rap</module>
     </modules>
 
     <repositories>

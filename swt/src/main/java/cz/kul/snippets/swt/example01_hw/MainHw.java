@@ -9,7 +9,12 @@ import org.eclipse.swt.widgets.Text;
 public class MainHw {
 
     public static void main(String[] args) {
+
+        // It is absolutely the basic class for SWT. It manages event loop and many more stuffs
+        // You have to have a Display instance if you want a SWT aplication
         Display display = new Display();
+
+        // It represents a window
         Shell shell = new Shell(display);
         shell.open();
 
@@ -17,8 +22,10 @@ public class MainHw {
         helloWorldTest.setText("Hello World SWT");
         helloWorldTest.pack();
 
-        // run the event loop as long as the window is open
-        while (!shell.isDisposed()) {
+        // An event loop is needed to transfer user input events from the underlying native operating system widgets to the SWT event system.
+        // The programmer explicitly starts and checks the event loop to update the user interface.
+        while (!shell.isDisposed()) { // run the event loop as long as the window is open
+
             // read the next OS event queue and transfer it to a SWT event
             if (!display.readAndDispatch())
             {
