@@ -75,7 +75,11 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
-
+        String str = "aa bb,cc, dd , ee;ff ;gg; hh ; ii;,jj     kk            ,      ll";
+        String[] split = str.split("[\\s,;]+");
+        for (String s : split) {
+            System.out.println("|" + s + "|");
+        }
 
 
     }
