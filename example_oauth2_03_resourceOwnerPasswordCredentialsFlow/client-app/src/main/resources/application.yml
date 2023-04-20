@@ -1,0 +1,19 @@
+server:
+  port: 8883
+
+security:
+  basic:
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    reactor.netty.http.client: TRACE
+
+client-app:
+  client-id: user1
+  client-secret: user1pswd
+  token-uri: http://uaa:8881/uaa/oauth/token

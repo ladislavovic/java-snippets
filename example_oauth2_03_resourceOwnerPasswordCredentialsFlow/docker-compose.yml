@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  uaa:
+    image: example-oauth2-2-client-credentials-uaa:latest
+    container_name: uaa
+    expose:
+      - "8881"
+    ports:
+      - "8881:8881"
+
+  resource-server:
+    image: example-oauth2-2-client-credentials-rs:latest
+    container_name: resource-server
+    expose:
+      - "8882"
+    ports:
+      - "8882:8882"
+    depends_on:
+      - uaa
+#
+  client:
+    image: example-oauth2-2-client-credentials-client:latest
+    container_name: client
+    expose:
+      - "8883"
+    ports:
+      - "8883:8883"
+    depends_on:
+      - uaa

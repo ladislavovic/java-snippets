@@ -128,14 +128,13 @@
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
-        <module>example_spring_cloud_gateway/backend-api-1</module>
-        <module>example_spring_cloud_gateway/gateway</module>
         <module>example_oauth2_01_authorizationCodeFlow</module>
         <module>example_oauth2_02_clientCredentialsFlow</module>
-        <module>example_spring_cloud_gateway</module>
-        <module>example_spring_cloud_gateway_with_oauth2</module>
-        <module>example_spring_cloud_gateway_with_oauth2_2</module>
-        <module>example_spring_cloud_gateway_with_springdoc</module>
+        <module>example_oauth2_03_resourceOwnerPasswordCredentialsFlow</module>
+        <module>example_spring_cloud_gateway_01</module>
+        <module>example_spring_cloud_gateway_02_oauth2ClientCredentialsFlow</module>
+        <module>example_spring_cloud_gateway_03_oauth2authorizationCodeFlow</module>
+        <module>example_spring_cloud_gateway_04_springdoc</module>
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
         <module>custom-rest-api</module>
