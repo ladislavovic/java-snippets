@@ -1,6 +1,7 @@
 package cz.kul.snippets.junit;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 public class Feature3IT {
 
