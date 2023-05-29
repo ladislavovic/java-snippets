@@ -60,13 +60,13 @@ public class IntroductionToNIO extends SnippetsTest {
 
     @Test
     public void buffers() {
-        // Buffer is just wrapped part of the memmoty with several helper methods.
+        // Buffer is just wrapped part of the memory with several helper methods.
         // It has three basic properties:
         //  * capacity - just the size of the buffer
         //  * position - when you read or write, it starts from the position. It is automatically
         //               increased when you read/write
-        //  * limit - the limit how much data can read or write. It is the position, not count! For example
-        //            if the position position is 0 and limit is 2 then it reads items 0 and 1. 2 nots.
+        //  * limit - the limit how much data can you read or write. It is the position, not count! For example
+        //            if the position is 0 and limit is 2 then it reads items 0 and 1. 2 not.
         //            So the limit is on the first position which is not read / written.  
         
         // Allocation

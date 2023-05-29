@@ -34,6 +34,13 @@ oauth:
       authorities: uaa.resource
       redirect-uri: http://localhost:8883/login/oauth2/code/articles
 
+    suic:
+      name: suic
+      secret: secret
+      authorized-grant-types: authorization_code
+      scope: openid,articles.read
+      authorities: uaa.resource
+      redirect-uri: http://localhost:8080/swagger-ui/oauth2-redirect.html
 
 scim:
   groups:

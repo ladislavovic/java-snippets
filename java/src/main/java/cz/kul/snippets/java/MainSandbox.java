@@ -13,10 +13,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -75,13 +85,78 @@ private Set<Object> customCriteria;
 
     public static void main(String[] args) throws Exception {
 
-        String str = "aa bb,cc, dd , ee;ff ;gg; hh ; ii;,jj     kk            ,      ll";
-        String[] split = str.split("[\\s,;]+");
-        for (String s : split) {
-            System.out.println("|" + s + "|");
+        String foo = "Ostrava";
+        byte[] bytes = foo.getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bb = ByteBuffer.wrap(bytes);
+        System.out.println(bb.position());
+        System.out.println(bb.limit());
+        System.out.println(bb.capacity());
+
+        int LIMIT = 50;
+        int actualLimit = Math.min(bb.capacity(), LIMIT);
+
+
+        bb.limit(actualLimit);
+        ByteBuffer bb2 = bb.slice();
+        System.out.println(bb2.capacity());
+
+        System.out.println(StandardCharsets.UTF_8.decode(bb2));
+
+
+
+
+
+//        long from = 12_500_000;
+//        long to = 22_500_000;
+//
+//        HttpClient httpClient = HttpClient.newHttpClient();
+//        ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(300);
+//        for (long i = from; i < to; i++) {
+//            pool.submit(new AddDoc(i, httpClient));
+//        }
+//        pool.shutdown();
+    }
+
+    public static class AddDoc implements Runnable {
+
+        private long id;
+
+        private HttpClient httpClient;
+
+        public AddDoc(long id, HttpClient httpClient) {
+            this.id = id;
+            this.httpClient = httpClient;
         }
 
+        @Override
+        public void run() {
+            String crossId = RandomStringUtils.randomAlphabetic(14);
+            String name = RandomStringUtils.randomAlphabetic(20);
+            String nodeType = RandomStringUtils.randomAlphabetic(10);
 
+            String payload = String.format(
+                "{\"_entity_type\": \"Node\", \"crossId\": \"%s\", \"name\":\"%s\", \"nodeTypes\":\"%s\"}",
+                crossId,
+                name,
+                nodeType);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9200/cross_node-000001/_doc/" + id))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build();
+
+            try {
+                HttpResponse<byte[]> response = httpClient.send(request, HttpResponse.BodyHandlers.ofByteArray());
+                if (id % 10000 == 0) {
+                    System.out.println("DONE " + id);
+                }
+//                Thread.sleep(10);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
 
     public static class Foo {

@@ -1,22 +1,28 @@
 server:
-  port: 8080
+  port: 9990
 
 spring:
   cloud:
     gateway:
       routes:
         - id: api1
-          uri: http://localhost:8081
+          uri: http://localhost:9991
           predicates:
             - Path=/api1/**
           filters:
             - RewritePath=/api1/?(?<segment>.*), /$\{segment}
         - id: api2
-          uri: http://localhost:8082
+          uri: http://localhost:9992
           predicates:
             - Path=/api2/**
           filters:
             - RewritePath=/api2/?(?<segment>.*), /$\{segment}
+        - id: api3
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api3/**
+          filters:
+            - RewritePath=/api3/?(?<segment>.*), /$\{segment}
 #        - id: openapi
 #          uri: http://localhost:${server.port}
 #          predicates:
@@ -24,11 +30,14 @@ spring:
 #          filters:
 #            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 
-#springdoc:
-#  swagger-ui:
-#    urls[0]:
-#      url: http://localhost:8080/v3/api-docs/api1
-#      name: api1
-#    urls[1]:
-#      url: http://localhost:8080/v3/api-docs/api2
-#      name: api2
+springdoc:
+  swagger-ui:
+    urls[0]:
+      url: http://localhost:9990/api1/v3/api-docs
+      name: api1
+    urls[1]:
+      url: http://localhost:9990/api2/v3/api-docs
+      name: api2
+    urls[2]:
+      url: http://localhost:9990/api3/v3/api-docs
+      name: api3

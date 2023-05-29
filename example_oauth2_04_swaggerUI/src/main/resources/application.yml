@@ -1,0 +1,21 @@
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+#          issuer-uri: http://uaa:8881/uaa/oauth/token
+          issuer-uri: http://uaa:9999/realms/myrealm
+          # TODO what is this: jwk-set-uri: ${OAUTH2_SERVER:http://localhost:8083}/auth/realms/springdoc/protocol/openid-connect/certs
+
+springdoc:
+  swagger-ui:
+    oauth:
+      clientId: suic # TODO rename
+#      clientSecret: secret # TODO how should the secret looks like?
+#      usepkcewithauthorizationcodegrant: true
+  oAuthFlow:
+#    authorizationUrl: http://auth-server:8881/uaa/oauth/authorize
+#    tokenUrl: http://auth-server:8881/uaa/oauth/token
+    authorizationUrl: http://uaa:9999/realms/myrealm/protocol/openid-connect/auth
+    tokenUrl: http://uaa:9999/realms/myrealm/protocol/openid-connect/token
