@@ -17,6 +17,13 @@ public class GreetClient {
 
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
+
+        String msg = "Socket\n  local addr/port:%s\n  remote addr/port: %s";
+        System.out.println(String.format(
+                msg,
+                clientSocket.getLocalAddress() + ":" + clientSocket.getLocalPort(),
+                clientSocket.getInetAddress() + ":" + clientSocket.getPort()));
+
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
     }
