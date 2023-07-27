@@ -7,7 +7,7 @@ Client request the resource on its own, there is no User log in.
 So the flow is more simple.
 
 The flow description:
-1. Client requests ticket from UAA server. It sends its username and
+1. Client requests token from UAA server. It sends its username and
    password.
 2. Client make a request to Resource Server and put the token to 
    Authorization header.

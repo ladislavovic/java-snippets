@@ -128,6 +128,7 @@
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>
+        <module>example-spring-web-security</module>
         <module>example_oauth2_01_authorizationCodeFlow</module>
         <module>example_oauth2_02_clientCredentialsFlow</module>
         <module>example_oauth2_03_resourceOwnerPasswordCredentialsFlow</module>

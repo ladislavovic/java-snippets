@@ -1,12 +1,18 @@
 package cz.kul.snippets.java;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.net.MediaType;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import jdk.dynalink.beans.StaticClass;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +20,7 @@ import org.springframework.expression.spel.support.ReflectionHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -83,25 +90,112 @@ private Set<Object> customCriteria;
         }
     }
 
+    public static class Parent {
+
+        private Class<?> clazz = this.getClass();
+
+        public Class<?> getClazz() {
+            return clazz;
+        }
+
+    }
+
+    public static class Child extends Parent {
+        int a;
+        int b;
+
+        public Child() {
+            a = 10;
+            b = 20;
+        }
+
+        public int getA() {
+            return a;
+        }
+
+        public void setA(int a) {
+            this.a = a;
+        }
+
+        public int getB() {
+            return b;
+        }
+
+        public void setB(int b) {
+            this.b = b;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
-        String foo = "Ostrava";
-        byte[] bytes = foo.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer bb = ByteBuffer.wrap(bytes);
-        System.out.println(bb.position());
-        System.out.println(bb.limit());
-        System.out.println(bb.capacity());
+        if (true) {
 
-        int LIMIT = 50;
-        int actualLimit = Math.min(bb.capacity(), LIMIT);
+            String str = "Švéds\"\\";
+
+//            String s = StringEscapeUtils.escapeJson(str);
+//            System.out.println(s);
+
+            JsonElement jsonTree = new Gson().toJsonTree(str);
+            System.out.println(jsonTree);
+            System.out.println(jsonTree.getAsString());
+            System.out.println(jsonTree.getAsJsonPrimitive().getAsString());
+
+            String strGson = (new Gson()).toJson(str);
+            System.out.println("gson: " + strGson);
 
 
-        bb.limit(actualLimit);
-        ByteBuffer bb2 = bb.slice();
-        System.out.println(bb2.capacity());
+//            new ObjectMapper().writeValueAsString()
 
-        System.out.println(StandardCharsets.UTF_8.decode(bb2));
 
+            System.out.println(new ObjectMapper().writeValueAsString(str));
+
+            if (true) return;
+        }
+
+
+//        String data = "\u0001\u0001\u0000\u0000\u0000ú\u0015¾  þiÁõP°Å°YQA";
+//        byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+//        String base64 = Base64.getEncoder().encodeToString(bytes);
+//        System.out.println(base64);
+//        if(true) return;
+
+        byte[] bytes = new byte[] {1, 1, 0, 0, 0, 61, 97, 71, -60, -84, 70, 105, -63, 50, -119, -88, -121, -55, 23, 80, 65};
+
+
+        String b64 = "AQEAAAD6Fb4gIP5pwfVQsMWwWVFB";
+
+
+
+
+
+
+//        byte[] bytes = Base64.getDecoder().decode(b64);
+        for (int i = 0; i < bytes.length; i++) {
+            byte aByte = bytes[i];
+            System.out.print(String.format("%02X", aByte));
+        }
+
+
+        if (true) return;
+
+
+        Set<Set<Integer>> sets = Set.of(
+            Set.of(1, 2, 3),
+            Set.of(5, 6));
+
+        List<Integer> collect = sets.stream().flatMap(Set::stream).collect(Collectors.toList());
+        System.out.println(collect);
+
+
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.add("hi");
+        arr.add("hello");
+        arr.add("bye");
+        System.out.println(arr);
+        System.out.println(arr.size());
+        arr.remove(0);
+        System.out.println(arr);
+        System.out.println(arr.size());
 
 
 
