@@ -17,11 +17,11 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
  *   - set UserDetail as principal (by default Jwt is a principal)
  *
  */
-public class MyJwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class MyJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
 	private JwtAuthenticationConverter jwtAuthenticationConverter;
 
-	public MyJwtAuthConverter() {
+	public MyJwtAuthenticationConverter() {
 		this.jwtAuthenticationConverter = new JwtAuthenticationConverter();
 		this.jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new MyGrantedAuthoritiesConverter());
 	}

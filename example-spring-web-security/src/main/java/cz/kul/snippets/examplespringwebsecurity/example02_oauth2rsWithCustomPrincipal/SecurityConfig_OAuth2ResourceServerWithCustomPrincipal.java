@@ -4,19 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.AbstractOAuth2TokenAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 
 @EnableWebSecurity
 @Profile("example02")
@@ -34,7 +29,7 @@ public class SecurityConfig_OAuth2ResourceServerWithCustomPrincipal {
 //          .access("hasAuthority('SCOPE_booking-calendar.write')")
             .oauth2ResourceServer(httpSecurity -> httpSecurity
                 .jwt()
-                .jwtAuthenticationConverter(new MyJwtAuthConverter()))
+                .jwtAuthenticationConverter(new MyJwtAuthenticationConverter()))
             .build();
     }
 
