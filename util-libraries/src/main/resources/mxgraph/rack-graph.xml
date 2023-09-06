@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel>
+    <root>
+        <mxCell id="0" />
+        <graphMain id="1" iw_loc_msg="{&quot;schema.toolbar.save&quot;:&quot;Save&quot;,&quot;schema.toolbar.measurementTool&quot;:&quot;Measurement tool&quot;,&quot;schema.toolbar.export&quot;:&quot;Export&quot;,&quot;widgets.iwSchemaWidget.overlapMsg&quot;:&quot;The graph contains overlapped items.\nPosition of items overlapping master object will not be saved. Do you still want to save the graph?&quot;,&quot;schema.toolbar.edit&quot;:&quot;Edit&quot;,&quot;schema.toolbar.backView&quot;:&quot;Back view&quot;}" iw_wid="w1999">
+            <mxCell parent="0" />
+        </graphMain>
+        <mxCell id="masterVertexWrapper" parent="1" style="MASTER_WRAPPER_STYLE" value="" vertex="1">
+            <mxGeometry as="geometry" height="277.6" width="99.54822335025382" x="392.7258883248731" y="19.399999999999977" />
+        </mxCell>
+        <rack description="" id="122" iw_back_view_active="false" iw_double_sided="true" iw_graph_scale="0.14091370558375638" iw_master="true" iw_u_height="44.45" name="RACK|Albuquerque/1/1/1" tooltip="RACK|Albuquerque/1/1/1">
+            <mxCell parent="masterVertexWrapper" style="RACK_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="277.6" width="84.54822335025382" x="15.0" />
+            </mxCell>
+        </rack>
+        <uLabel id="uLabel_1" name="1">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="263.0086294416244" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_2" name="2">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="256.74501522842644" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_3" name="3">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="250.48140101522847" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_4" name="4">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="244.2177868020305" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_5" name="5">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="237.95417258883253" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_6" name="6">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="231.69055837563457" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_7" name="7">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="225.4269441624366" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_8" name="8">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="219.16332994923863" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_9" name="9">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="212.89971573604066" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_10" name="10">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="206.6361015228427" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_11" name="11">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="200.37248730964473" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_12" name="12">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="194.10887309644676" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_13" name="13">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="187.8452588832488" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_14" name="14">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="181.58164467005082" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_15" name="15">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="175.31803045685285" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_16" name="16">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="169.05441624365488" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_17" name="17">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="162.79080203045692" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_18" name="18">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="156.52718781725895" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_19" name="19">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="150.26357360406098" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_20" name="20">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="143.999959390863" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_21" name="21">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="137.73634517766504" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_22" name="22">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="131.47273096446708" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_23" name="23">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="125.20911675126911" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_24" name="24">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="118.94550253807114" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_25" name="25">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="112.68188832487317" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_26" name="26">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="106.4182741116752" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_27" name="27">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="100.15465989847723" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_28" name="28">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="93.89104568527927" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_29" name="29">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="87.6274314720813" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_30" name="30">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="81.36381725888333" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_31" name="31">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="75.10020304568536" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_32" name="32">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="68.8365888324874" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_33" name="33">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="62.572974619289425" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_34" name="34">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="56.30936040609146" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_35" name="35">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="50.04574619289349" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_36" name="36">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="43.78213197969552" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_37" name="37">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="37.51851776649755" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_38" name="38">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="31.25490355329958" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_39" name="39">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="24.99128934010161" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_40" name="40">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="18.727675126903637" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_41" name="41">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="12.464060913705666" />
+            </mxCell>
+        </uLabel>
+        <uLabel id="uLabel_42" name="42">
+            <mxCell parent="masterVertexWrapper" style="RACK_U_SCHEMA_STYLE" vertex="1">
+                <mxGeometry as="geometry" height="1.0" width="15.0" y="6.200446700507694" />
+            </mxCell>
+        </uLabel>
+        <member c_id="190" description="MX480 5G Universal Routing Platform" id="190" iw_double_sided="true" iw_slave="true" name="MPLS-PE|Albuquerque" tooltip="MPLS-PE|Albuquerque">
+            <mxCell parent="1" style="RACK_SCHEMA_CHILD_STYLE190" vertex="1">
+                <mxGeometry as="geometry" height="50.16527918781727" width="62.424771573604076" x="527.0" y="25.0" />
+            </mxCell>
+        </member>
+        <member c_id="274" description="ODF basic 2x8" id="274" iw_double_sided="false" iw_slave="true" name="ODF|Albuquerque" tooltip="ODF|Albuquerque">
+            <mxCell parent="1" style="RACK_SCHEMA_CHILD_STYLE274" vertex="1">
+                <mxGeometry as="geometry" height="6.200203045685281" width="62.28385786802032" x="599.4247715736041" y="25.0" />
+            </mxCell>
+        </member>
+    </root>
+</mxGraphModel>

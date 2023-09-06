@@ -269,6 +269,20 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.jgraph</groupId>
+            <artifactId>mxgraph-core</artifactId>
+            <version>3.3.1.1</version>
+        </dependency>
+
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>OSGeo</id>
+            <name>Open Source Geospatial Foundation</name>
+            <url>https://repo.osgeo.org/repository/release/</url>
+        </repository>
+    </repositories>
 
 </project>
