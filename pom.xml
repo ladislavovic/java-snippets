@@ -141,6 +141,7 @@
         <module>example_junit_parallel_run</module>
         <module>custom-rest-api</module>
         <module>rap</module>
+        <module>example-servlet-async</module>
     </modules>
 
     <repositories>

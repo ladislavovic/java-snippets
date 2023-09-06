@@ -5,15 +5,6 @@
  */
 package cz.kul.snippets.java.example13_java8features;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntBinaryOperator;
@@ -22,8 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import cz.kul.snippets.agent.AgentLog;
 import cz.kul.snippets.agent.AgentManager;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -120,10 +111,11 @@ public class MainJava8Features {
     }
 
     /**
-     * - Optional type helps you to avoid NPE. - use it as return value of
-     * service. It is very well self documenting feature. - do not use it in
-     * domain model, it is not serializable - you can check null more
-     * effectively with it because of Java 8 new syntax possibilities
+     * <ul>
+     *    <li>Optional type helps you to avoid NPE</li>
+     *    <li>Use it as return value of service. It is very well self documenting feature</li>
+     *    <li>do not use it in domain model, it is not serializable</li>
+     * </ul>
      */
     @Test
     public void optional() {
@@ -138,21 +130,54 @@ public class MainJava8Features {
 
         {
             // map()
-            // By map() function you can getAppender through object hierarchy without
+            //
+            // If a value is present, it returns an Optional containing the result of applying the given mapping function.
+            // Otherwise, it returns an empty Optional.
+            //
+            // By map() function you can get through object hierarchy without
             // explicit null check. Null check is done internally in map function.
-            Optional<Level1> optional = Optional.ofNullable(new Level1());
-            String value = optional
-                    .map(Level1::getLevel2)
-                    .map(Level2::getLevel3)
-                    .map(Level3::getValue).orElse("default");
-            Assert.assertEquals("default", value);
+            Optional<User> user = Optional.of(new User());
+            String addressStr = user
+                    .map(User::getInvoiceData) // Invoice data is null, but everything works without any null check
+                    .map(InvoiceData::getAddress)
+                    .map(Address::getAddressString)
+                    .orElse("No address");
+            Assert.assertEquals("No address", addressStr);
+        }
+
+        {
+            // flatMap()
+            //
+            // The map() operation creates a new Optional<T> instance. You do not want it when the
+            // method returns an Optional instance already. Then you have Optional<Optional<T>> as
+            // a result type.
+            //
+            // In this case use flatMap(), it does not create another Optional<T> instance.
+            Optional<User> user = Optional.of(new User());
+            String addressStr = user
+                    .flatMap(User::getInvoiceDataOpt) // map would return Optional<Optional<InvoiceData>>
+                    .map(InvoiceData::getAddress)
+                    .map(Address::getAddressString)
+                    .orElse("No address");
+            Assert.assertEquals("No address", addressStr);
         }
         
         {
             // filter()
-            Optional<String> optional = Optional.of("hi");
-            Optional<String> optional2 = optional.filter(Thread::holdsLock);
-            Assert.assertFalse(optional2.isPresent());
+            //
+            // If a value is present, and the value matches the given predicate, returns the same Optional.
+            // Otherwise, returns an empty Optional.
+            //
+            Optional<User> user = Optional.of(new User());
+            boolean hasAddress = user
+                    .flatMap(User::getInvoiceDataOpt)
+                    .map(InvoiceData::getAddress)
+                    .filter(addr -> {
+                        String addressString = addr.getAddressString();
+                        return StringUtils.isNoneBlank(addressString) && addressString.length() > 5;
+                    })
+                    .isPresent();
+            Assert.assertFalse(hasAddress);
         }
 
     }
@@ -330,6 +355,32 @@ public class MainJava8Features {
         assertTrue(firstLetterToString.get("m").contains("mia"));
         assertTrue(firstLetterToString.get("m").contains("maddison"));
         assertEquals(2, AgentManager.getAgentLog("colToMap").getCallCount());
+    }
+
+    @Test
+    public void testExceptionsInLambda() {
+        // When the exception is thrown from lambda it works like any other exception, In stacktrace you have:
+        //   * lambda itself
+        //   * filter method (which executed the lambda)
+        //   * testExceptionsInLambda (which executed the filter method)
+        //
+        // But there is not an "Predicate.test()". But it is a detail.
+        //
+
+        Address address = new Address();
+        InvoiceData invoiceData = new InvoiceData();
+        invoiceData.setAddress(address);
+        User user = new User();
+        user.setInvoiceData(invoiceData);
+
+        boolean isAddressPresent = Optional.of(user)
+                .map(User::getInvoiceData)
+                .map(InvoiceData::getAddress)
+                .filter(addr -> {
+                    return addr.getAddressString().length() > 10; // <-- an exception thrown, because no address String present
+                })
+                .isPresent();
+
     }
 
 }

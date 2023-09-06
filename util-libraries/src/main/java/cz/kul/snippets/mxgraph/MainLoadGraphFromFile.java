@@ -3,10 +3,13 @@ package cz.kul.snippets.mxgraph;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxCellRenderer;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.util.mxXmlUtils;
+import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
+import org.apache.xerces.dom.ElementImpl;
 import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
@@ -20,14 +23,106 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class MainLoadGraphFromFile {
 
+	private static Double computeFontSizeForULabels(String str, Double uHeight, Double scaleCoef) {
+
+		if (str == null || uHeight == null || scaleCoef == null) {
+			return null;
+		}
+
+		double MAX_SIZE = 12;
+
+		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
+		int fontSize = mxConstants.DEFAULT_FONTSIZE;
+		int swingFontStyle = Font.PLAIN;
+
+		Font font = new Font(fontFamily, swingFontStyle, fontSize);
+
+		double availableHeight = uHeight * scaleCoef;
+		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
+		return Math.min(
+				  (mxConstants.DEFAULT_FONTSIZE * availableHeight) / textSize.getHeight(),
+				  MAX_SIZE);
+	}
+
+	private static Double getFontSize(mxCellState cellState) {
+		if (cellState == null || cellState.getStyle() == null) {
+			return null;
+		}
+
+		Object fontSize = cellState.getStyle().get(mxConstants.STYLE_FONTSIZE);
+		if (!(fontSize instanceof Number)) {
+			return null;
+		}
+
+		return ((Number) fontSize).doubleValue();
+	}
+
+	private static Double getFontSize(Map<String, Object> styles) {
+		if (styles == null) {
+			return null;
+		}
+
+		Object fontSize = styles.get(mxConstants.STYLE_FONTSIZE);
+		if (fontSize == null) {
+			return null;
+		}
+
+		if (fontSize instanceof Number) {
+			return ((Number) fontSize).doubleValue();
+		}
+
+		if (fontSize instanceof String) {
+			try {
+				return Double.parseDouble((String) fontSize);
+			} catch (NumberFormatException e) {
+				// nothing to do
+			}
+		}
+
+		return null;
+	}
+
+	private static Double computeFontSizeForSlaveObjects(String str, mxCellState cellState) {
+
+		Double fontSize = getFontSize(cellState);
+
+		if (fontSize == null) {
+			return null;
+		}
+
+		double availableWidth = cellState.getWidth() - (cellState.getWidth() * 0.05) - 2;
+		double availableHieght = cellState.getHeight() - (cellState.getHeight() * 0.05) - 2;
+
+		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
+		int defaultFontsize = mxConstants.DEFAULT_FONTSIZE;
+		int swingFontStyle = Font.PLAIN;
+		Font font = new Font(fontFamily, swingFontStyle, defaultFontsize);
+		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
+
+		double widthBasedFontSize = fontSize * availableWidth / textSize.getWidth();
+		double heightBasedFontSize = fontSize * availableHieght / textSize.getHeight();
+
+		double updatedFontSize = Math.min(fontSize, Math.min(widthBasedFontSize, heightBasedFontSize));
+
+		// small correction to be safe
+		updatedFontSize *= 0.9;
+
+		return updatedFontSize;
+	}
+
+	private static Set getAllGraphCells(mxGraph graph) {
+		return new HashSet<>(graph.getView().getStates().keySet());
+	}
+
 	public static void main(String[] args) throws Exception {
 
-		mxGraph graph = new mxGraph();
+		mxGraph graph = new CrossMxGraph();
 
 		// put styles
 		putStyles(graph);
@@ -43,33 +138,95 @@ public class MainLoadGraphFromFile {
 		mxCodec codec = new mxCodec(document);
 		codec.decode(document.getDocumentElement(), graph.getModel());
 
+		// Find the master cell
+		mxCell masterObject = null;
+//		Object[] childCells = graph.getChildCells(graph.getDefaultParent());
+		Set childCells = graph.getView().getStates().keySet();
+		for (Object childCell : childCells) {
+			String iwMasterAttr = ((mxCell) childCell).getAttribute("iw_master");
+			if (Boolean.parseBoolean(iwMasterAttr)) {
+				masterObject = (mxCell) childCell;
+			}
+		}
+		Object graphObjectToExport = masterObject != null ? masterObject.getParent() : graph.getDefaultParent();
+
+
 		// Set labels
-		Set cells = graph.getView().getStates().keySet();
-		for (Object c : cells) {
+		final String VERTEX_LABEL = "iw_vertex_label";
+		for (Object c : getAllGraphCells(graph)) {
 			if (c instanceof mxCell) {
 				mxCell cell = (mxCell) c;
 				if (cell.getValue() instanceof org.apache.xerces.dom.ElementImpl) { // TODO probably can use cell.getAttribute()
 					org.apache.xerces.dom.ElementImpl value = (org.apache.xerces.dom.ElementImpl) cell.getValue();
 					String name = value.getAttribute("name");
-					cell.setValue(name);
+//					cell.setValue(name);
+					cell.setAttribute(VERTEX_LABEL, name);
 				}
 			}
 		}
 
+
+		// compute font size for u labels
+		Double scaleCoef = masterObject != null ? Double.parseDouble(masterObject.getAttribute("iw_graph_scale")) : null; // TODO create method getDoubleAttribute()
+		Double iwHeight = masterObject != null ? Double.parseDouble(masterObject.getAttribute("iw_u_height")) : null;
+		Double fontSizeULabels = computeFontSizeForULabels("10", iwHeight, scaleCoef);
+
+
+		// set font sizes
+		final String IW_SLAVE_TAG_NAME = "member";
+      final String U_LABEL_TAG_NAME = "uLabel";
+		for (Object c : getAllGraphCells(graph)) {
+			if (c instanceof mxCell) {
+				mxCell cell = (mxCell) c;
+				if (cell.getValue() instanceof org.apache.xerces.dom.ElementImpl) {
+					ElementImpl value = (ElementImpl) cell.getValue();
+					String tagName = value.getTagName();
+
+					Double updatedFontSize = null;
+					if (IW_SLAVE_TAG_NAME.equals(tagName)) {
+						String label = cell.getAttribute(VERTEX_LABEL);
+						mxCellState cellState = graph.getView().getState(cell);
+						updatedFontSize = computeFontSizeForSlaveObjects(label, cellState);
+					} else if (U_LABEL_TAG_NAME.equals(tagName)) {
+						updatedFontSize = fontSizeULabels;
+					}
+
+					if (updatedFontSize != null) {
+						graph.setCellStyles(mxConstants.STYLE_FONTSIZE, updatedFontSize.toString(), new Object[] {cell});
+					}
+				}
+			}
+		}
+
+		graph.refresh();
+
 		// Compute the min font size
 		final int DEFAULT_FONT_SIZE = 11;
-		int minFontSize = DEFAULT_FONT_SIZE;
+		double minFontSize = DEFAULT_FONT_SIZE;
 		Set cells2 = graph.getView().getStates().keySet();
 		for (Object c : cells2) {
 			if (c instanceof mxCell) {
 				mxCell cell = (mxCell) c;
 				Map<String, Object> cellStyles = graph.getCellStyle(cell);
-				Object cellFontSize = cellStyles.get("fontSize");
-				if (cellFontSize instanceof Integer) {
-					minFontSize = Math.min(minFontSize, (Integer) cellFontSize);
+				Double cellFontSize = getFontSize(cellStyles);
+				if (cellFontSize != null) {
+					minFontSize = Math.min(minFontSize, cellFontSize);
 				}
 			}
 		}
+
+		mxRectangle boundingBox = ((mxCell) graphObjectToExport).getGeometry();
+
+
+
+
+//		double x = 200;
+//		double y = 0;
+//		double width = 500;
+//		double height = 500;
+//		mxRectangle mxRectangle = new mxRectangle(x, y, width, height);
+
+
 
 		// Compute the right scale
 		// 12px - desired min font size in image export
@@ -78,29 +235,35 @@ public class MainLoadGraphFromFile {
 		double viewScale = graph.getView().getScale();
 		double exportScale = targetScale / viewScale;
 
-		// Find the master cell
-		mxCell masterObject = null;
-		for (Object childCell : graph.getChildCells(graph.getDefaultParent())) {
-			String iwMasterAttr = ((mxCell) childCell).getAttribute("iw_master");
-			if (Boolean.parseBoolean(iwMasterAttr)) {
-				masterObject = (mxCell) childCell;
-			}
-		}
-		Object graphObjectToExport = masterObject != null ? masterObject.getParent() : graph.getDefaultParent();
-		mxRectangle boundingBox = graph.getView().getBoundingBox(graph.getView().getState(graphObjectToExport));
-//		mxRectangle boundingBox = graph.getView().getBoundingBox(graph.getView().getState(masterObject));
 
-		// Create an image Way1
+
+		mxRectangle mxRectangle = new mxRectangle(boundingBox);
+
+		// add border
+		double border = 30;
+		mxRectangle.setX(mxRectangle.getX() - border);
+		mxRectangle.setY(mxRectangle.getY() - border);
+		mxRectangle.setWidth(mxRectangle.getWidth() + 2 * border);
+		mxRectangle.setHeight(mxRectangle.getHeight() + 2 * border);
+
+		// adjust according to scale
+		mxRectangle.setX(mxRectangle.getX() * exportScale);
+		mxRectangle.setY(mxRectangle.getY() * exportScale);
+		mxRectangle.setWidth(mxRectangle.getWidth() * exportScale);
+		mxRectangle.setHeight(mxRectangle.getHeight() * exportScale);
+
+
+		// Create an image Way0
 		try {
-
-
 			BufferedImage image = mxCellRenderer.createBufferedImage(
 					graph,
-					new Object[] {graphObjectToExport},
+					null,
 					exportScale,
+//					1,
 					Color.WHITE,
 					true,
-					boundingBox);
+					mxRectangle);
+//					null);
 			ImageIO.write(image, "PNG", new File("/home/ladislav/tmp/IW/graph-snippets-xml.png"));
 		} catch (Exception e) {
 			System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEee");
@@ -108,15 +271,17 @@ public class MainLoadGraphFromFile {
 			e.printStackTrace();
 		}
 
-		// Create an image Way0
+		// Create an image Way1
 //		try {
+//
+//
 //			BufferedImage image = mxCellRenderer.createBufferedImage(
-//					graph,
-//					null,
-//					exportScale,
-//					Color.WHITE,
-//					true,
-//					boundingBox);
+//					  graph,
+//					  new Object[] {graphObjectToExport},
+//					  exportScale,
+//					  Color.WHITE,
+//					  true,
+//					  boundingBox);
 //			ImageIO.write(image, "PNG", new File("/home/ladislav/tmp/IW/graph-snippets-xml.png"));
 //		} catch (Exception e) {
 //			System.out.println("EEEEEEEEEEEEEEEEEEEEEEEEEee");
@@ -126,6 +291,14 @@ public class MainLoadGraphFromFile {
 
 
 
+	}
+
+	private static void printCoordinates(String msg, mxRectangle boundingBox) {
+		System.out.println("\n" + msg);
+		System.out.println("x: " + boundingBox.getX());
+		System.out.println("y: " + boundingBox.getY());
+		System.out.println("w: " + boundingBox.getWidth());
+		System.out.println("h: " + boundingBox.getHeight());
 	}
 
 	private static void putStyles(mxGraph graph) {
@@ -188,6 +361,7 @@ public class MainLoadGraphFromFile {
 		p1.put("strokeWidth", 1);
 		p1.put("shape", "line");
 		p1.put("labelPosition", "left");
+		p1.put("verticalLabelPosition", "bottom"); // TODO added manualy!
 		p1.put("selectable", 0);
 		p1.put("strokeColor", "#0000FF");
 		styles.put("RACK_U_SCHEMA_STYLE", p1);
