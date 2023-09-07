@@ -1,4 +1,4 @@
-package cz.kul.snippets.mxgraph;
+package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
 
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
@@ -17,7 +17,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,117 +26,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MainLoadGraphFromFile {
+public class GraphRenderer {
 
-	private static Double computeFontSizeForULabels(String str, Double uHeight, Double scaleCoef) {
-
-		if (str == null || uHeight == null || scaleCoef == null) {
-			return null;
-		}
-
-		double MAX_SIZE = 12;
-
-		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
-		int fontSize = mxConstants.DEFAULT_FONTSIZE;
-		int swingFontStyle = Font.PLAIN;
-
-		Font font = new Font(fontFamily, swingFontStyle, fontSize);
-
-		double availableHeight = uHeight * scaleCoef;
-		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
-		return Math.min(
-				  (mxConstants.DEFAULT_FONTSIZE * availableHeight) / textSize.getHeight(),
-				  MAX_SIZE);
-	}
-
-	private static Double getFontSize(mxCellState cellState) {
-		if (cellState == null || cellState.getStyle() == null) {
-			return null;
-		}
-
-		Object fontSize = cellState.getStyle().get(mxConstants.STYLE_FONTSIZE);
-		if (!(fontSize instanceof Number)) {
-			return null;
-		}
-
-		return ((Number) fontSize).doubleValue();
-	}
-
-	private static Double getFontSize(Map<String, Object> styles) {
-		if (styles == null) {
-			return null;
-		}
-
-		Object fontSize = styles.get(mxConstants.STYLE_FONTSIZE);
-		if (fontSize == null) {
-			return null;
-		}
-
-		if (fontSize instanceof Number) {
-			return ((Number) fontSize).doubleValue();
-		}
-
-		if (fontSize instanceof String) {
-			try {
-				return Double.parseDouble((String) fontSize);
-			} catch (NumberFormatException e) {
-				// nothing to do
-			}
-		}
-
-		return null;
-	}
-
-	private static Double computeFontSizeForSlaveObjects(String str, mxCellState cellState) {
-
-		Double fontSize = getFontSize(cellState);
-
-		if (fontSize == null) {
-			return null;
-		}
-
-		double availableWidth = cellState.getWidth() - (cellState.getWidth() * 0.05) - 2;
-		double availableHieght = cellState.getHeight() - (cellState.getHeight() * 0.05) - 2;
-
-		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
-		int defaultFontsize = mxConstants.DEFAULT_FONTSIZE;
-		int swingFontStyle = Font.PLAIN;
-		Font font = new Font(fontFamily, swingFontStyle, defaultFontsize);
-		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
-
-		double widthBasedFontSize = fontSize * availableWidth / textSize.getWidth();
-		double heightBasedFontSize = fontSize * availableHieght / textSize.getHeight();
-
-		double updatedFontSize = Math.min(fontSize, Math.min(widthBasedFontSize, heightBasedFontSize));
-
-		// small correction to be safe
-		updatedFontSize *= 0.9;
-
-		return updatedFontSize;
-	}
-
-	private static Set getAllGraphCells(mxGraph graph) {
-		return new HashSet<>(graph.getView().getStates().keySet());
-	}
-
-	public static void main(String[] args) throws Exception {
-
-		mxGraph graph = new CrossMxGraph();
-
-		// put styles
-		putStyles(graph);
-
-		// Load xml
-		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
-		Path path = Paths.get(uri);
-		byte[] bytes = Files.readAllBytes(path);
-		String xml = new String(bytes, StandardCharsets.UTF_8);
-
-		// Create graph
-		Document document = mxXmlUtils.parseXml(xml);
-		mxCodec codec = new mxCodec(document);
-		codec.decode(document.getDocumentElement(), graph.getModel());
-
+	public static void renderGraph(mxGraph graph) {
 		// Find the master cell
 		mxCell masterObject = null;
 //		Object[] childCells = graph.getChildCells(graph.getDefaultParent());
@@ -156,8 +47,8 @@ public class MainLoadGraphFromFile {
 		for (Object c : getAllGraphCells(graph)) {
 			if (c instanceof mxCell) {
 				mxCell cell = (mxCell) c;
-				if (cell.getValue() instanceof org.apache.xerces.dom.ElementImpl) { // TODO probably can use cell.getAttribute()
-					org.apache.xerces.dom.ElementImpl value = (org.apache.xerces.dom.ElementImpl) cell.getValue();
+				if (cell.getValue() instanceof ElementImpl) { // TODO probably can use cell.getAttribute()
+					ElementImpl value = (ElementImpl) cell.getValue();
 					String name = value.getAttribute("name");
 //					cell.setValue(name);
 					cell.setAttribute(VERTEX_LABEL, name);
@@ -174,11 +65,11 @@ public class MainLoadGraphFromFile {
 
 		// set font sizes
 		final String IW_SLAVE_TAG_NAME = "member";
-      final String U_LABEL_TAG_NAME = "uLabel";
+		final String U_LABEL_TAG_NAME = "uLabel";
 		for (Object c : getAllGraphCells(graph)) {
 			if (c instanceof mxCell) {
 				mxCell cell = (mxCell) c;
-				if (cell.getValue() instanceof org.apache.xerces.dom.ElementImpl) {
+				if (cell.getValue() instanceof ElementImpl) {
 					ElementImpl value = (ElementImpl) cell.getValue();
 					String tagName = value.getTagName();
 
@@ -288,10 +179,100 @@ public class MainLoadGraphFromFile {
 //			System.out.println(e.getMessage());
 //			e.printStackTrace();
 //		}
-
-
-
 	}
+
+	private static Double computeFontSizeForULabels(String str, Double uHeight, Double scaleCoef) {
+
+		if (str == null || uHeight == null || scaleCoef == null) {
+			return null;
+		}
+
+		double MAX_SIZE = 12;
+
+		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
+		int fontSize = mxConstants.DEFAULT_FONTSIZE;
+		int swingFontStyle = Font.PLAIN;
+
+		Font font = new Font(fontFamily, swingFontStyle, fontSize);
+
+		double availableHeight = uHeight * scaleCoef;
+		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
+		return Math.min(
+				  (mxConstants.DEFAULT_FONTSIZE * availableHeight) / textSize.getHeight(),
+				  MAX_SIZE);
+	}
+
+	private static Double getFontSize(mxCellState cellState) {
+		if (cellState == null || cellState.getStyle() == null) {
+			return null;
+		}
+
+		Object fontSize = cellState.getStyle().get(mxConstants.STYLE_FONTSIZE);
+		if (!(fontSize instanceof Number)) {
+			return null;
+		}
+
+		return ((Number) fontSize).doubleValue();
+	}
+
+	private static Double getFontSize(Map<String, Object> styles) {
+		if (styles == null) {
+			return null;
+		}
+
+		Object fontSize = styles.get(mxConstants.STYLE_FONTSIZE);
+		if (fontSize == null) {
+			return null;
+		}
+
+		if (fontSize instanceof Number) {
+			return ((Number) fontSize).doubleValue();
+		}
+
+		if (fontSize instanceof String) {
+			try {
+				return Double.parseDouble((String) fontSize);
+			} catch (NumberFormatException e) {
+				// nothing to do
+			}
+		}
+
+		return null;
+	}
+
+	private static Double computeFontSizeForSlaveObjects(String str, mxCellState cellState) {
+
+		Double fontSize = getFontSize(cellState);
+
+		if (fontSize == null) {
+			return null;
+		}
+
+		double availableWidth = cellState.getWidth() - (cellState.getWidth() * 0.05) - 2;
+		double availableHieght = cellState.getHeight() - (cellState.getHeight() * 0.05) - 2;
+
+		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
+		int defaultFontsize = mxConstants.DEFAULT_FONTSIZE;
+		int swingFontStyle = Font.PLAIN;
+		Font font = new Font(fontFamily, swingFontStyle, defaultFontsize);
+		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
+
+		double widthBasedFontSize = fontSize * availableWidth / textSize.getWidth();
+		double heightBasedFontSize = fontSize * availableHieght / textSize.getHeight();
+
+		double updatedFontSize = Math.min(fontSize, Math.min(widthBasedFontSize, heightBasedFontSize));
+
+		// small correction to be safe
+		updatedFontSize *= 0.9;
+
+		return updatedFontSize;
+	}
+
+	private static Set getAllGraphCells(mxGraph graph) {
+		return new HashSet<>(graph.getView().getStates().keySet());
+	}
+
+
 
 	private static void printCoordinates(String msg, mxRectangle boundingBox) {
 		System.out.println("\n" + msg);
