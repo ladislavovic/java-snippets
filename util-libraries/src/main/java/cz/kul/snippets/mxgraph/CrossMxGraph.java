@@ -9,6 +9,9 @@ public class CrossMxGraph extends mxGraph {
 	public String convertValueToString(Object o) {
 		if (o instanceof mxCell) {
 			String label = ((mxCell) o).getAttribute("iw_vertex_label");
+			if (label != null && label.length() > 10) {
+				System.out.println(label);
+			}
 			return label != null ? label : "";
 		}
 		return "";

@@ -1,32 +1,24 @@
 package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
 
-import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
-import com.mxgraph.util.mxXmlUtils;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
 import org.apache.xerces.dom.ElementImpl;
-import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GraphRenderer {
+public class GraphRendererSnippets {
 
 	public static void renderGraph(mxGraph graph) {
 		// Find the master cell
@@ -58,8 +50,8 @@ public class GraphRenderer {
 
 
 		// compute font size for u labels
-		Double scaleCoef = masterObject != null ? Double.parseDouble(masterObject.getAttribute("iw_graph_scale")) : null; // TODO create method getDoubleAttribute()
-		Double iwHeight = masterObject != null ? Double.parseDouble(masterObject.getAttribute("iw_u_height")) : null;
+		Double scaleCoef = getDoubleAttribute(masterObject, "iw_graph_scale");
+		Double iwHeight = getDoubleAttribute(masterObject, "iw_u_height");
 		Double fontSizeULabels = computeFontSizeForULabels("10", iwHeight, scaleCoef);
 
 
@@ -432,6 +424,21 @@ public class GraphRenderer {
 		for (Map.Entry<String, Map<String, Object>> stylestheet : styles.entrySet()) {
 			graph.getStylesheet().putCellStyle(stylestheet.getKey(), stylestheet.getValue());
 		}
+	}
+
+	private static Double getDoubleAttribute(mxCell cell, String attrName) {
+		if (cell == null) {
+			return null;
+		}
+
+		String attrStr = cell.getAttribute(attrName);
+		try {
+			return Double.parseDouble(attrStr);
+		} catch (NumberFormatException e) {
+			// nothing to do
+		}
+
+		return null;
 	}
 
 }

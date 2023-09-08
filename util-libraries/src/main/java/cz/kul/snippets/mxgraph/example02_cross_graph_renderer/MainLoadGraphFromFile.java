@@ -6,6 +6,9 @@ import com.mxgraph.view.mxGraph;
 import cz.kul.snippets.mxgraph.CrossMxGraph;
 import org.w3c.dom.Document;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,12 +22,14 @@ public class MainLoadGraphFromFile {
 	public static void main(String[] args) throws Exception {
 
 		mxGraph graph = new CrossMxGraph();
+		graph.setHtmlLabels(true);
 
 		// put styles
 		putStyles(graph);
 
 		// Load xml
-		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
+		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/odf-graph.xml").toURI();
+//		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
 		Path path = Paths.get(uri);
 		byte[] bytes = Files.readAllBytes(path);
 		String xml = new String(bytes, StandardCharsets.UTF_8);
@@ -35,7 +40,10 @@ public class MainLoadGraphFromFile {
 		codec.decode(document.getDocumentElement(), graph.getModel());
 
 		// draw graph to png file
-		GraphRenderer.renderGraph(graph);
+//		GraphRendererSnippets.renderGraph(graph);
+
+		BufferedImage bufferedImage = new GraphRendererCROSS().renderGraph(graph);
+		ImageIO.write(bufferedImage, "PNG", new File("/home/ladislav/tmp/IW/graph-snippets-xml.png"));
 	}
 
 	private static void putStyles(mxGraph graph) {
