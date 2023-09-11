@@ -193,6 +193,34 @@ public class MainLoadGraphFromFile {
 		p1.put("foldable", 0);
 		styles.put("ROOM_SCHEMA_STYLE", p1);
 
+		p1 = new HashMap<>();
+		p1.put("fillColor", "none");
+		p1.put("overflow", "hidden");
+		p1.put("shape", "rectangle");
+		p1.put("resizable", 0);
+		p1.put("labelPosition", "center");
+		p1.put("editable", 0);
+		p1.put("rotation", 0);
+		p1.put("rounded", false);
+		p1.put("fontSize", 12);
+		p1.put("strokeColor", "#22B14C");
+		p1.put("foldable", 0);
+		styles.put("SHELF_SCHEMA_CHILD_STYLE660", p1);
+
+		p1 = new HashMap<>();
+		p1.put("fillColor", "none");
+		p1.put("overflow", "hidden"); // <-- this one hides the number
+		p1.put("shape", "rectangle");
+		p1.put("resizable", 0);
+		p1.put("labelPosition", "center");
+		p1.put("editable", 0);
+		p1.put("rotation", 0);
+		p1.put("rounded", false);
+		p1.put("fontSize", 12);
+		p1.put("strokeColor", "#22B14C");
+		p1.put("foldable", 0);
+		styles.put("SHELF_SCHEMA_CHILD_STYLE663", p1);
+
 		for (Map.Entry<String, Map<String, Object>> stylestheet : styles.entrySet()) {
 			graph.getStylesheet().putCellStyle(stylestheet.getKey(), stylestheet.getValue());
 		}
