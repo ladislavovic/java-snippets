@@ -1,10 +1,9 @@
-package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
+package cz.kul.snippets.mxgraph.example03_geometries;
 
-import com.mxgraph.canvas.mxGraphics2DCanvas;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
-import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
@@ -21,13 +20,12 @@ import java.util.Set;
 /**
  * Can render the given graph to {@link BufferedImage}.
  */
-public class GraphRendererCROSS {
+public class Example03GraphRenderer {
 
 	public static final String VERTEX_LABEL = "iw_vertex_label";
 	public static final String IW_MASTER = "iw_master";
 	public static final String IW_SCALE_COEF = "iw_graph_scale";
 	public static final String IW_U_HEIGHT_MM = "iw_u_height";
-
 
 
 	public BufferedImage renderGraph(mxGraph graph) {
@@ -39,48 +37,19 @@ public class GraphRendererCROSS {
 				.orElse((mxCell) graph.getDefaultParent());
 		Object graphObjectToExport = masterObject != null ? masterObject.getParent() : graph.getDefaultParent();
 
-		// Set labels
-		for (mxCell cell : getAllGraphCells(graph)) {
-			String name = cell.getAttribute("name");
-			String description = abbreviateVertexDescriptionBasedOnAvailSpace(graph, cell);
-
-			// join name and (abbreviated) description into one label
-			String vertexLabelToShow = StringUtils.hasText(description)
-					? name + "<br> <span class='iwSlaveLabelDescription'>" + description + "</span>"
-					: name;
-
-			cell.setAttribute(VERTEX_LABEL, vertexLabelToShow);
-		}
+		// OP 1
+		setLabels(graph);
 
 		// Compute font size for u-labels
 		Double scaleCoef = getDoubleAttribute(masterObject, IW_SCALE_COEF);
 		Double iwHeight = getDoubleAttribute(masterObject, IW_U_HEIGHT_MM);
 		Double fontSizeULabels = computeFontSizeForULabels("10", iwHeight, scaleCoef);
 
-		// Set font sizes
-		final String IW_SLAVE_TAG_NAME = "member";
-		final String U_LABEL_TAG_NAME = "uLabel";
-//		for (mxCell cell : getAllGraphCells(graph)) {
-//			if (cell.getValue() instanceof ElementImpl) {
-//				ElementImpl value = (ElementImpl) cell.getValue();
-//				String tagName = value.getTagName();
-//
-//				Double updatedFontSize = null;
-//				if (IW_SLAVE_TAG_NAME.equals(tagName)) {
-//					String label = cell.getAttribute(VERTEX_LABEL);
-//					mxCellState cellState = graph.getView().getState(cell);
-//					updatedFontSize = computeFontSizeForSlaveObjects(label, cellState);
-//				} else if (U_LABEL_TAG_NAME.equals(tagName)) {
-//					updatedFontSize = fontSizeULabels;
-//				}
-//
-//				if (updatedFontSize != null) {
-//					graph.setCellStyles(mxConstants.STYLE_FONTSIZE, updatedFontSize.toString(), new Object[]{cell});
-//				}
-//			}
-//		}
+		// OP 2
+//		setFontSizes(graph, fontSizeULabels);
 
-//		graph.refresh(); // TODO is it needed?
+		// OP 3
+		graph.refresh(); // TODO is it needed?
 
 		// Compute the min font size
 		final int DEFAULT_FONT_SIZE = 11;
@@ -117,23 +86,14 @@ public class GraphRendererCROSS {
 		mxRectangle.setWidth(mxRectangle.getWidth() * exportScale);
 		mxRectangle.setHeight(mxRectangle.getHeight() * exportScale);
 
-		System.out.println("View scale   : " + graph.getView().getScale());
-		System.out.println("Graph bounds : " + graph.getView().getGraphBounds());
-		System.out.println("mxRectangle  : " + mxRectangle);
 
-		mxRectangle mxRectangle2 = new mxRectangle();
-		mxRectangle2.setX(-10.0);
-		mxRectangle2.setY(-20.0);
-		mxRectangle2.setWidth(1200);
-		mxRectangle2.setHeight(300);
+		graph.getView().setScale(2);
+		for (mxCell cell : getAllGraphCells(graph)) {
+			printGeometries(graph, cell);
+		}
 
-//		graph.getView().setTranslate(new mxPoint(20, 20));
-
-
-		mxGraphics2DCanvas canvas = new mxGraphics2DCanvas();
-		canvas.setTranslate(20, 20);
-		canvas.setScale(3);
-
+		graph.refresh();
+		graph.repaint();
 
 		// Create an image Way0
 		BufferedImage image = mxCellRenderer.createBufferedImage(
@@ -143,12 +103,23 @@ public class GraphRendererCROSS {
 				1,
 				Color.WHITE,
 				true,
-				null,
-				canvas);
+				null);
 //				mxRectangle);
-//				mxRectangle2);
 
 		return image;
+	}
+
+	private void printGeometries(mxGraph graph, mxCell cell) {
+		mxGeometry cellGeometry = cell.getGeometry();
+
+		mxCellState state = graph.getView().getState(cell);
+		mxRectangle stateBoundingBox = state.getBoundingBox();
+		mxRectangle labelBounds = state.getLabelBounds();
+
+		System.out.println("Cell id=" + cell.getId() + " geometry:");
+		System.out.println("  cell geom: " + cellGeometry);
+		System.out.println("  state bb : " + stateBoundingBox);
+		System.out.println("  label bb : " + labelBounds);
 	}
 
 	private Double computeFontSizeForULabels(String str, Double uHeight, Double scaleCoef) {
@@ -300,6 +271,44 @@ public class GraphRendererCROSS {
 		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
 		int swingFontStyle = Font.PLAIN;
 		return new Font(fontFamily, swingFontStyle, fontSize);
+	}
+
+	private void setLabels(mxGraph graph) {
+		for (mxCell cell : getAllGraphCells(graph)) {
+			String name = cell.getAttribute("name");
+			String description = abbreviateVertexDescriptionBasedOnAvailSpace(graph, cell);
+
+			// join name and (abbreviated) description into one label
+			String vertexLabelToShow = StringUtils.hasText(description)
+					  ? name + "<br> <span class='iwSlaveLabelDescription'>" + description + "</span>"
+					  : name;
+
+			cell.setAttribute(VERTEX_LABEL, vertexLabelToShow);
+		}
+	}
+
+	private void setFontSizes(mxGraph graph, Double fontSizeULabels) {
+		final String IW_SLAVE_TAG_NAME = "member";
+		final String U_LABEL_TAG_NAME = "uLabel";
+		for (mxCell cell : getAllGraphCells(graph)) {
+			if (cell.getValue() instanceof ElementImpl) {
+				ElementImpl value = (ElementImpl) cell.getValue();
+				String tagName = value.getTagName();
+
+				Double updatedFontSize = null;
+				if (IW_SLAVE_TAG_NAME.equals(tagName)) {
+					String label = cell.getAttribute(VERTEX_LABEL);
+					mxCellState cellState = graph.getView().getState(cell);
+					updatedFontSize = computeFontSizeForSlaveObjects(label, cellState);
+				} else if (U_LABEL_TAG_NAME.equals(tagName)) {
+					updatedFontSize = fontSizeULabels;
+				}
+
+				if (updatedFontSize != null) {
+					graph.setCellStyles(mxConstants.STYLE_FONTSIZE, updatedFontSize.toString(), new Object[]{cell});
+				}
+			}
+		}
 	}
 
 }

@@ -1,10 +1,9 @@
-package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
+package cz.kul.snippets.mxgraph.example03_geometries;
 
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.util.mxXmlUtils;
 import com.mxgraph.view.mxGraph;
 import cz.kul.snippets.mxgraph.CrossMxGraph;
-import cz.kul.snippets.mxgraph.example03_geometries.Example03GraphRenderer;
 import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
@@ -18,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainLoadGraphFromFile {
+public class MainEx03 {
 
 	public static void main(String[] args) throws Exception {
 
@@ -29,8 +28,7 @@ public class MainLoadGraphFromFile {
 		putStyles(graph);
 
 		// Load xml
-		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/odf-graph.xml").toURI();
-//		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
+		URI uri = MainEx03.class.getResource("/mxgraph/example03/odf.xml").toURI();
 		Path path = Paths.get(uri);
 		byte[] bytes = Files.readAllBytes(path);
 		String xml = new String(bytes, StandardCharsets.UTF_8);
@@ -41,10 +39,8 @@ public class MainLoadGraphFromFile {
 		codec.decode(document.getDocumentElement(), graph.getModel());
 
 		// draw graph to png file
-//		GraphRendererSnippets.renderGraph(graph);
-
-		BufferedImage bufferedImage = new GraphRendererCROSS().renderGraph(graph);
-		ImageIO.write(bufferedImage, "PNG", new File("/home/ladislav/tmp/IW/graph-snippets-xml.png"));
+		BufferedImage bufferedImage = new Example03GraphRenderer().renderGraph(graph);
+		ImageIO.write(bufferedImage, "PNG", new File("/home/ladislav/tmp/IW/graph-example03.png"));
 	}
 
 	private static void putStyles(mxGraph graph) {
@@ -209,6 +205,19 @@ public class MainLoadGraphFromFile {
 		styles.put("SHELF_SCHEMA_CHILD_STYLE660", p1);
 
 		p1 = new HashMap<>();
+//		p1.put("fillColor", "none");
+//		p1.put("overflow", "hidden"); // <-- this one hides the number
+//		p1.put("shape", "rectangle");
+//		p1.put("resizable", 0);
+//		p1.put("labelPosition", "center");
+//		p1.put("editable", 0);
+//		p1.put("rotation", 0);
+//		p1.put("rounded", false);
+//		p1.put("fontSize", 12);
+//		p1.put("strokeColor", "#22B14C");
+//		p1.put("foldable", 0);
+//		styles.put("SHELF_SCHEMA_CHILD_STYLE663", p1);
+
 		p1.put("fillColor", "none");
 		p1.put("overflow", "hidden"); // <-- this one hides the number
 		p1.put("shape", "rectangle");

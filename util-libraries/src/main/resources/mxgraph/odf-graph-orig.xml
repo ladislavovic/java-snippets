@@ -2,11 +2,11 @@
 <mxGraphModel>
     <root>
         <mxCell id="0" />
-        <graphMain id="1" iw_wid="w829">
+        <graphMain id="1" iw_loc_msg="{&quot;schema.toolbar.save&quot;:&quot;Save&quot;,&quot;schema.toolbar.measurementTool&quot;:&quot;Measurement tool&quot;,&quot;schema.toolbar.export&quot;:&quot;Export&quot;,&quot;widgets.iwSchemaWidget.overlapMsg&quot;:&quot;The graph contains overlapped items.\nPosition of items overlapping master object will not be saved. Do you still want to save the graph?&quot;,&quot;schema.toolbar.edit&quot;:&quot;Edit&quot;,&quot;schema.toolbar.backView&quot;:&quot;Back view&quot;}" iw_wid="w829">
             <mxCell parent="0" />
         </graphMain>
         <mxCell id="masterVertexWrapper" parent="1" style="MASTER_WRAPPER_STYLE" value="" vertex="1">
-            <mxGeometry as="geometry" height="65.30316742081449" width="656.0" x="0.0" y="0.0" />
+            <mxGeometry as="geometry" height="65.30316742081449" width="656.0" x="122.0" y="124.84841628959276" />
         </mxCell>
         <master description="ODF basic 2x8" id="274" iw_back_view_active="false" iw_double_sided="false" iw_graph_scale="1.4841628959276019" iw_master="true" name="ODF|Albuquerque" tooltip="ODF|Albuquerque">
             <mxCell parent="masterVertexWrapper" style="SHELF_SCHEMA_STYLE" vertex="1">
