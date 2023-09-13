@@ -2,6 +2,7 @@ package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
 
 import com.mxgraph.canvas.mxGraphics2DCanvas;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGeometry;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxPoint;
@@ -39,6 +40,11 @@ public class GraphRendererCROSS {
 				.orElse((mxCell) graph.getDefaultParent());
 		Object graphObjectToExport = masterObject != null ? masterObject.getParent() : graph.getDefaultParent();
 
+		mxGeometry geom = graph.getCellGeometry(graphObjectToExport);
+		geom.setX(0);
+		geom.setY(0);
+//		graph.refresh();
+
 		// Set labels
 		for (mxCell cell : getAllGraphCells(graph)) {
 			String name = cell.getAttribute("name");
@@ -60,27 +66,27 @@ public class GraphRendererCROSS {
 		// Set font sizes
 		final String IW_SLAVE_TAG_NAME = "member";
 		final String U_LABEL_TAG_NAME = "uLabel";
-//		for (mxCell cell : getAllGraphCells(graph)) {
-//			if (cell.getValue() instanceof ElementImpl) {
-//				ElementImpl value = (ElementImpl) cell.getValue();
-//				String tagName = value.getTagName();
-//
-//				Double updatedFontSize = null;
-//				if (IW_SLAVE_TAG_NAME.equals(tagName)) {
-//					String label = cell.getAttribute(VERTEX_LABEL);
-//					mxCellState cellState = graph.getView().getState(cell);
-//					updatedFontSize = computeFontSizeForSlaveObjects(label, cellState);
-//				} else if (U_LABEL_TAG_NAME.equals(tagName)) {
-//					updatedFontSize = fontSizeULabels;
-//				}
-//
-//				if (updatedFontSize != null) {
-//					graph.setCellStyles(mxConstants.STYLE_FONTSIZE, updatedFontSize.toString(), new Object[]{cell});
-//				}
-//			}
-//		}
+		for (mxCell cell : getAllGraphCells(graph)) {
+			if (cell.getValue() instanceof ElementImpl) {
+				ElementImpl value = (ElementImpl) cell.getValue();
+				String tagName = value.getTagName();
 
-//		graph.refresh(); // TODO is it needed?
+				Double updatedFontSize = null;
+				if (IW_SLAVE_TAG_NAME.equals(tagName)) {
+					String label = cell.getAttribute(VERTEX_LABEL);
+					mxCellState cellState = graph.getView().getState(cell);
+					updatedFontSize = computeFontSizeForSlaveObjects(label, cellState);
+				} else if (U_LABEL_TAG_NAME.equals(tagName)) {
+					updatedFontSize = fontSizeULabels;
+				}
+
+				if (updatedFontSize != null) {
+					graph.setCellStyles(mxConstants.STYLE_FONTSIZE, updatedFontSize.toString(), new Object[]{cell});
+				}
+			}
+		}
+
+		graph.refresh();
 
 		// Compute the min font size
 		final int DEFAULT_FONT_SIZE = 11;
@@ -101,15 +107,16 @@ public class GraphRendererCROSS {
 		double exportScale = targetScale / viewScale;
 
 		// Get the bounding box
-		mxRectangle boundingBox = ((mxCell) graphObjectToExport).getGeometry();
+		mxRectangle boundingBox = graph.getView().getBoundingBox(new Object[] {masterObject, graphObjectToExport});
 		mxRectangle mxRectangle = new mxRectangle(boundingBox);
 
 		// Add border to bounding box
-		double border = 30;
-		mxRectangle.setX(mxRectangle.getX() - border);
-		mxRectangle.setY(mxRectangle.getY() - border);
+		double border = 20;
+//		mxRectangle.setX(mxRectangle.getX() - border);
+//		mxRectangle.setY(mxRectangle.getY() - border);
 		mxRectangle.setWidth(mxRectangle.getWidth() + 2 * border);
 		mxRectangle.setHeight(mxRectangle.getHeight() + 2 * border);
+		graph.getView().setTranslate(new mxPoint(border, border));
 
 		// Adjust bounding box according to scale
 		mxRectangle.setX(mxRectangle.getX() * exportScale);
@@ -121,32 +128,16 @@ public class GraphRendererCROSS {
 		System.out.println("Graph bounds : " + graph.getView().getGraphBounds());
 		System.out.println("mxRectangle  : " + mxRectangle);
 
-		mxRectangle mxRectangle2 = new mxRectangle();
-		mxRectangle2.setX(-10.0);
-		mxRectangle2.setY(-20.0);
-		mxRectangle2.setWidth(1200);
-		mxRectangle2.setHeight(300);
-
-//		graph.getView().setTranslate(new mxPoint(20, 20));
-
-
-		mxGraphics2DCanvas canvas = new mxGraphics2DCanvas();
-		canvas.setTranslate(20, 20);
-		canvas.setScale(3);
-
-
 		// Create an image Way0
 		BufferedImage image = mxCellRenderer.createBufferedImage(
 				graph,
 				null,
-//				exportScale,
-				1,
+				exportScale,
+//				1,
 				Color.WHITE,
 				true,
-				null,
-				canvas);
-//				mxRectangle);
-//				mxRectangle2);
+//				null,
+				mxRectangle);
 
 		return image;
 	}

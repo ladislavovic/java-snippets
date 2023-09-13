@@ -6,7 +6,7 @@
             <mxCell parent="0" />
         </graphMain>
         <mxCell id="masterVertexWrapper" parent="1" style="MASTER_WRAPPER_STYLE" value="" vertex="1">
-            <mxGeometry as="geometry" height="65.30316742081449" width="656.0" x="0.0" y="0.0" />
+            <mxGeometry as="geometry" height="65.30316742081449" width="656.0" x="100.0" y="100.0" />
         </mxCell>
         <master description="ODF basic 2x8" id="274" iw_back_view_active="false" iw_double_sided="false" iw_graph_scale="1.4841628959276019" iw_master="true" name="ODF|Albuquerque" tooltip="ODF|Albuquerque">
             <mxCell parent="masterVertexWrapper" style="SHELF_SCHEMA_STYLE" vertex="1">

@@ -4,6 +4,7 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -70,15 +72,17 @@ public class Example03GraphRenderer {
 		double exportScale = targetScale / viewScale;
 
 		// Get the bounding box
-		mxRectangle boundingBox = ((mxCell) graphObjectToExport).getGeometry();
+		mxRectangle boundingBox = graph.getView().getBoundingBox(new Object[] {masterObject, graphObjectToExport});
+
 		mxRectangle mxRectangle = new mxRectangle(boundingBox);
 
 		// Add border to bounding box
 		double border = 30;
-		mxRectangle.setX(mxRectangle.getX() - border);
-		mxRectangle.setY(mxRectangle.getY() - border);
+//		mxRectangle.setX(mxRectangle.getX() - border);
+//		mxRectangle.setY(mxRectangle.getY() - border);
 		mxRectangle.setWidth(mxRectangle.getWidth() + 2 * border);
 		mxRectangle.setHeight(mxRectangle.getHeight() + 2 * border);
+		graph.getView().setTranslate(new mxPoint(border, border));
 
 		// Adjust bounding box according to scale
 		mxRectangle.setX(mxRectangle.getX() * exportScale);
@@ -87,24 +91,25 @@ public class Example03GraphRenderer {
 		mxRectangle.setHeight(mxRectangle.getHeight() * exportScale);
 
 
-		graph.getView().setScale(2);
+//		graph.getView().setScale(2);
 		for (mxCell cell : getAllGraphCells(graph)) {
 			printGeometries(graph, cell);
 		}
 
-		graph.refresh();
-		graph.repaint();
+//		graph.refresh();
+//		graph.repaint();
+
 
 		// Create an image Way0
 		BufferedImage image = mxCellRenderer.createBufferedImage(
 				graph,
 				null,
-//				exportScale,
-				1,
+				exportScale,
+//				1,
 				Color.WHITE,
 				true,
-				null);
-//				mxRectangle);
+//				null);
+				mxRectangle);
 
 		return image;
 	}
