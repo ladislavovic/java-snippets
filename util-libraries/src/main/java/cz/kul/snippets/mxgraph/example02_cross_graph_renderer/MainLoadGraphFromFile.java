@@ -29,7 +29,7 @@ public class MainLoadGraphFromFile {
 		putStyles(graph);
 
 		// Load xml
-		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/odf-graph.xml").toURI();
+		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/pinhoe.xml").toURI();
 //		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
 		Path path = Paths.get(uri);
 		byte[] bytes = Files.readAllBytes(path);
@@ -206,7 +206,7 @@ public class MainLoadGraphFromFile {
 		p1.put("fontSize", 12);
 		p1.put("strokeColor", "#22B14C");
 		p1.put("foldable", 0);
-		styles.put("SHELF_SCHEMA_CHILD_STYLE660", p1);
+//		styles.put("SHELF_SCHEMA_CHILD_STYLE660", p1);
 
 		p1 = new HashMap<>();
 		p1.put("fillColor", "none");
@@ -220,7 +220,26 @@ public class MainLoadGraphFromFile {
 		p1.put("fontSize", 12);
 		p1.put("strokeColor", "#22B14C");
 		p1.put("foldable", 0);
-		styles.put("SHELF_SCHEMA_CHILD_STYLE663", p1);
+//		styles.put("SHELF_SCHEMA_CHILD_STYLE663", p1);
+
+
+		p1 = new HashMap<>();
+		p1.put("verticalAlign", "middle");
+		p1.put("verticalLabelPosition", "middle");
+		p1.put("shape", "rectangle");
+		p1.put("resizable", 0);
+		p1.put("editable", 0);
+		p1.put("rotation", 0);
+		p1.put("align", "center");
+		p1.put("fillColor", "#EEEEEE");
+		p1.put("spacing", 0);
+		p1.put("overflow", "hidden");
+		p1.put("rounded", false);
+		p1.put("rectangle", "#66ffcc");
+		p1.put("fontSize", 12);
+		p1.put("strokeColor", "#22B14C");
+		p1.put("foldable", 0);
+		styles.put("ROOM_SCHEMA_CHILD_STYLE2381", p1);
 
 		for (Map.Entry<String, Map<String, Object>> stylestheet : styles.entrySet()) {
 			graph.getStylesheet().putCellStyle(stylestheet.getKey(), stylestheet.getValue());

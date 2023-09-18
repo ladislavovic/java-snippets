@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -29,9 +30,9 @@ public class GraphRendererCROSS {
 	public static final String IW_SCALE_COEF = "iw_graph_scale";
 	public static final String IW_U_HEIGHT_MM = "iw_u_height";
 
-
-
 	public BufferedImage renderGraph(mxGraph graph) {
+
+		graph.refresh(); // TODO without that the stylesheets were not applied to the graph view
 
 		// Find the master cell
 		mxCell masterObject = getAllGraphCells(graph).stream()
@@ -40,10 +41,11 @@ public class GraphRendererCROSS {
 				.orElse((mxCell) graph.getDefaultParent());
 		Object graphObjectToExport = masterObject != null ? masterObject.getParent() : graph.getDefaultParent();
 
+		// Move geometry of "graphObjectToExport" to [0, 0]. Otherwise it cause problems with label rendering - they are
+		// considered as overflow and when the style is "overflow: hidden", they are not visible
 		mxGeometry geom = graph.getCellGeometry(graphObjectToExport);
 		geom.setX(0);
 		geom.setY(0);
-//		graph.refresh();
 
 		// Set labels
 		for (mxCell cell : getAllGraphCells(graph)) {
@@ -86,6 +88,8 @@ public class GraphRendererCROSS {
 			}
 		}
 
+		// It is needed to refresh mxCellState instances after font size change. Otherwise
+		// cells bounding boxes are not correct
 		graph.refresh();
 
 		// Compute the min font size
@@ -112,11 +116,9 @@ public class GraphRendererCROSS {
 
 		// Add border to bounding box
 		double border = 20;
-//		mxRectangle.setX(mxRectangle.getX() - border);
-//		mxRectangle.setY(mxRectangle.getY() - border);
 		mxRectangle.setWidth(mxRectangle.getWidth() + 2 * border);
 		mxRectangle.setHeight(mxRectangle.getHeight() + 2 * border);
-		graph.getView().setTranslate(new mxPoint(border, border));
+		graph.getView().setTranslate(new mxPoint(border, border)); // it moves graph view to the bottom and right. It cause a border on the top side and left side
 
 		// Adjust bounding box according to scale
 		mxRectangle.setX(mxRectangle.getX() * exportScale);
@@ -124,19 +126,13 @@ public class GraphRendererCROSS {
 		mxRectangle.setWidth(mxRectangle.getWidth() * exportScale);
 		mxRectangle.setHeight(mxRectangle.getHeight() * exportScale);
 
-		System.out.println("View scale   : " + graph.getView().getScale());
-		System.out.println("Graph bounds : " + graph.getView().getGraphBounds());
-		System.out.println("mxRectangle  : " + mxRectangle);
-
 		// Create an image Way0
 		BufferedImage image = mxCellRenderer.createBufferedImage(
 				graph,
 				null,
 				exportScale,
-//				1,
 				Color.WHITE,
 				true,
-//				null,
 				mxRectangle);
 
 		return image;
@@ -216,10 +212,10 @@ public class GraphRendererCROSS {
 		int defaultFontsize = mxConstants.DEFAULT_FONTSIZE;
 		int swingFontStyle = Font.PLAIN;
 		Font font = new Font(fontFamily, swingFontStyle, defaultFontsize);
-		mxRectangle textSize = mxUtils.getSizeForString(str, font, 1.0);
+		mxRectangle textSize = mxUtils.getSizeForHtml(str, new HashMap<>(), 1.0, 0.0);
 
-		double widthBasedFontSize = fontSize * availableWidth / textSize.getWidth();
-		double heightBasedFontSize = fontSize * availableHieght / textSize.getHeight();
+		double widthBasedFontSize = (fontSize * availableWidth) / textSize.getWidth();
+		double heightBasedFontSize = (fontSize * availableHieght) / textSize.getHeight();
 
 		double updatedFontSize = Math.min(fontSize, Math.min(widthBasedFontSize, heightBasedFontSize));
 
@@ -257,7 +253,7 @@ public class GraphRendererCROSS {
 			return null;
 		}
 
-		if (StringUtils.hasText(name)) {
+		if (!StringUtils.hasText(name)) {
 			// do not abbreaviate
 			return description;
 		}

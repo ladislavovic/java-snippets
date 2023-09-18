@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel>
+    <root>
+        <mxCell id="0" />
+        <graphMain id="1" iw_loc_msg="{&quot;schema.toolbar.save&quot;:&quot;Save&quot;,&quot;schema.toolbar.measurementTool&quot;:&quot;Measurement tool&quot;,&quot;schema.toolbar.export&quot;:&quot;Export&quot;,&quot;widgets.iwSchemaWidget.overlapMsg&quot;:&quot;The graph contains overlapped items.\nPosition of items overlapping master object will not be saved. Do you still want to save the graph?&quot;,&quot;schema.toolbar.edit&quot;:&quot;Edit&quot;,&quot;schema.toolbar.backView&quot;:&quot;Back view&quot;}" iw_wid="w792">
+            <mxCell parent="0" />
+        </graphMain>
+        <mxCell id="masterVertexWrapper" parent="1" style="MASTER_WRAPPER_STYLE" value="" vertex="1">
+            <mxGeometry as="geometry" height="277.6" width="388.0284836065574" x="255.9857581967213" y="19.399999999999977" />
+        </mxCell>
+        <room description="" id="2061" iw_graph_scale="0.03555327868852459" iw_master="true" name="Pinhoe Exchange DC1" tooltip="Pinhoe Exchange DC1">
+            <mxCell parent="masterVertexWrapper" style="ROOM_SCHEMA_STYLE2061" vertex="1">
+                <mxGeometry as="geometry" height="277.6" width="388.0284836065574" />
+            </mxCell>
+        </room>
+        <member c_id="2352" description="RMA-42-A66-CAX-A1" id="2352" iw_double_sided="true" iw_slave="true" name="RCK-ODF-01" tooltip="RCK-ODF-01">
+            <mxCell parent="2061" style="ROOM_SCHEMA_CHILD_STYLE2352" vertex="1">
+                <mxGeometry as="geometry" height="21.331967213114755" width="21.331967213114755" x="98.79082889344264" y="163.28589856557377" />
+            </mxCell>
+        </member>
+        <member c_id="2381" description="RMA-42-A66-CAX-A1" id="2381" iw_double_sided="true" iw_slave="true" name="RCK-PE-01" tooltip="RCK-PE-01">
+            <mxCell parent="2061" style="ROOM_SCHEMA_CHILD_STYLE2381" vertex="1">
+                <mxGeometry as="geometry" height="21.331967213114755" width="21.331967213114755" x="166.06012090163935" y="119.9151649590164" />
+            </mxCell>
+        </member>
+        <member c_id="2434" description="RMA-42-A66-CAX-A1" id="2434" iw_double_sided="true" iw_slave="true" name="RCK-OLT-01" tooltip="RCK-OLT-01">
+            <mxCell parent="2061" style="ROOM_SCHEMA_CHILD_STYLE2434" vertex="1">
+                <mxGeometry as="geometry" height="21.331967213114755" width="21.331967213114755" x="326.2663944672131" y="64.15304713114755" />
+            </mxCell>
+        </member>
+        <member c_id="15657" description="RMA-42-A66-CAX-A1" id="15657" iw_double_sided="true" iw_slave="true" name="RCK-NON-TELCO" tooltip="RCK-NON-TELCO">
+            <mxCell parent="2061" style="ROOM_SCHEMA_CHILD_STYLE15657" vertex="1">
+                <mxGeometry as="geometry" height="21.331967213114755" width="21.331967213114755" x="182.87646618852457" y="184.52862704918033" />
+            </mxCell>
+        </member>
+    </root>
+</mxGraphModel>
