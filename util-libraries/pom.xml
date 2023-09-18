@@ -244,10 +244,22 @@
             <version>2.2.4.Final</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.apache.kafka</groupId>-->
+<!--            <artifactId>kafka_2.13</artifactId>-->
+<!--            <version>3.1.0</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.13</artifactId>
-            <version>3.1.0</version>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>7.1.1</version>
         </dependency>
 
         <dependency>
@@ -283,6 +295,15 @@
             <name>Open Source Geospatial Foundation</name>
             <url>https://repo.osgeo.org/repository/release/</url>
         </repository>
+
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
     </repositories>
 
 </project>
