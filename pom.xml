@@ -125,6 +125,7 @@
         <module>spring-rest</module>
         <module>spring-rest-testing</module>
         <module>springdoc</module>
+        <module>spring-webflux</module>
         <module>sql</module>
         <module>swt</module>
         <module>xml</module>

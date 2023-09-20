@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import jdk.dynalink.beans.StaticClass;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -127,6 +128,12 @@ private Set<Object> customCriteria;
     }
 
     public static void main(String[] args) throws Exception {
+
+        String s = "\u0001\u0001\u0000\u0000\u0000ö\r\f&I\u001biÁ¥îú@\u0017ËNA";
+        String s1 = Hex.encodeHexString(s.getBytes(StandardCharsets.UTF_8));
+        System.out.println(s1);
+        if (true) return;
+
 
         if (true) {
 
