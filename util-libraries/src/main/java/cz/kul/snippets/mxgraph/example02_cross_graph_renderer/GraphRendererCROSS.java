@@ -51,6 +51,10 @@ public class GraphRendererCROSS {
 		for (mxCell cell : getAllGraphCells(graph)) {
 			String name = cell.getAttribute("name");
 			String description = abbreviateVertexDescriptionBasedOnAvailSpace(graph, cell);
+//			name = "<span style='transform: rotate(-90deg);'>" + name + "</span>";
+//			name = "<span style='rotate: 180deg;'>" + name + "</span>";
+//			name = "<span style='color: blue;'>" + name + "</span>";
+//			name = "<span style='text-orientation: upright;'>" + name + "</span>";
 
 			// join name and (abbreviated) description into one label
 			String vertexLabelToShow = StringUtils.hasText(description)
@@ -100,13 +104,31 @@ public class GraphRendererCROSS {
 			Double cellFontSize = getFontSize(cellStyles);
 			if (cellFontSize != null) {
 				minFontSize = Math.min(minFontSize, cellFontSize);
+				if (cellFontSize < 1) {
+					graph.setCellStyles(mxConstants.STYLE_FONTSIZE, "1", new Object[]{cell});
+				}
 			}
 		}
+
+		if (minFontSize < 1) {
+			double factor = (1 / minFontSize) * 1.1;
+			for (mxCell cell : getAllGraphCells(graph)) {
+				mxGeometry geometry = cell.getGeometry();
+				if (geometry != null) {
+					geometry.setX(geometry.getX() * factor);
+					geometry.setY(geometry.getY() * factor);
+					geometry.setHeight(geometry.getHeight() * factor);
+					geometry.setWidth(geometry.getWidth() * factor);
+				}
+			}
+			graph.refresh();
+		}
+
 
 		// Compute the right scale
 		// 12px - desired min font size in image export
 		final double MAX_SCALE_FOR_EXPORT = 15;
-		double targetScale = Math.min(MAX_SCALE_FOR_EXPORT, 12d / minFontSize); // the final scale value of export image (determine picture resolution)
+		double targetScale = Math.min(MAX_SCALE_FOR_EXPORT, 12d / Math.max(minFontSize, 1)); // the final scale value of export image (determine picture resolution)
 		double viewScale = graph.getView().getScale();
 		double exportScale = targetScale / viewScale;
 
@@ -172,6 +194,19 @@ public class GraphRendererCROSS {
 		return ((Number) fontSize).doubleValue();
 	}
 
+	private boolean is90degreesRotated(mxCellState cellState) {
+		if (cellState == null || cellState.getStyle() == null) {
+			return false;
+		}
+
+		Object rotation = cellState.getStyle().get(mxConstants.STYLE_ROTATION);
+		if (!(rotation instanceof Number)) {
+			return false;
+		}
+
+		return Math.abs(((Number) rotation).intValue()) == 90;
+	}
+
 	private Double getFontSize(Map<String, Object> styles) {
 		if (styles == null) {
 			return null;
@@ -207,6 +242,11 @@ public class GraphRendererCROSS {
 
 		double availableWidth = cellState.getWidth() - (cellState.getWidth() * 0.05) - 2;
 		double availableHieght = cellState.getHeight() - (cellState.getHeight() * 0.05) - 2;
+		if (is90degreesRotated(cellState)) {
+			double d = availableWidth;
+			availableWidth = availableHieght;
+			availableHieght = d;
+		}
 
 		String fontFamily = mxConstants.DEFAULT_FONTFAMILIES;
 		int defaultFontsize = mxConstants.DEFAULT_FONTSIZE;

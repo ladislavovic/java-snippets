@@ -2,7 +2,10 @@ package cz.kul.snippets.jpa.example02_hibernateSessionOperations;
 
 import cz.kul.snippets.jpa.common.JPATest;
 import cz.kul.snippets.jpa.common.model.Person;
+import cz.kul.snippets.jpa.common.model.PersonDetail;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.stat.SessionStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -113,6 +116,33 @@ public class TestHibernateSessionOperations extends JPATest {
             return null;
         });
     }
+
+    @Test
+    public void testIsProxyInSession() {
+        PersonDetail detail = jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Person monica = new Person("Monica");
+            monica = entityManager.merge(monica);
+
+            PersonDetail detail1 = new PersonDetail();
+            detail1.setValue("d1");
+            detail1.setPerson(monica);
+            detail1 = entityManager.merge(detail1);
+            return detail1;
+        });
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            PersonDetail personDetail = entityManager.find(PersonDetail.class, detail.getId());
+
+            System.out.println("is person initialized: " + Hibernate.isInitialized(personDetail.getPerson()));
+            System.out.println("session contains person: " + entityManager.contains(personDetail.getPerson()));
+
+            Person person = entityManager.find(Person.class, personDetail.getPerson().getId());
+            System.out.println("Person loaded directly");
+            System.out.println("is person initialized: " + Hibernate.isInitialized(personDetail.getPerson()));
+            System.out.println("session contains person: " + entityManager.contains(personDetail.getPerson()));
+            return null;
+        });
+    }
+
 
     private int getNumberOfEntitiesInSession(EntityManager entityManager) {
         return entityManager.unwrap(Session.class).getStatistics().getEntityCount();

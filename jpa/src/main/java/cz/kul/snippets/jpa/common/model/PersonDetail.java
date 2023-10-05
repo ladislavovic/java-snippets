@@ -15,7 +15,7 @@ public class PersonDetail {
     private Long id;
     private String value;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
     

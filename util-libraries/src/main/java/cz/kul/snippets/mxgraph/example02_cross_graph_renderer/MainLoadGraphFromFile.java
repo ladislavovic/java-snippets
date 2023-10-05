@@ -1,6 +1,7 @@
 package cz.kul.snippets.mxgraph.example02_cross_graph_renderer;
 
 import com.mxgraph.io.mxCodec;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxXmlUtils;
 import com.mxgraph.view.mxGraph;
 import cz.kul.snippets.mxgraph.CrossMxGraph;
@@ -29,7 +30,7 @@ public class MainLoadGraphFromFile {
 		putStyles(graph);
 
 		// Load xml
-		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/pinhoe.xml").toURI();
+		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/card.xml").toURI();
 //		URI uri = MainLoadGraphFromFile.class.getResource("/mxgraph/rack-graph.xml").toURI();
 		Path path = Paths.get(uri);
 		byte[] bytes = Files.readAllBytes(path);
@@ -240,6 +241,22 @@ public class MainLoadGraphFromFile {
 		p1.put("strokeColor", "#22B14C");
 		p1.put("foldable", 0);
 		styles.put("ROOM_SCHEMA_CHILD_STYLE2381", p1);
+
+		p1 = new HashMap<>();
+		p1.put("fillColor", "none");
+//		p1.put("overflow", "hidden");
+		p1.put("overflow", "fill");
+		p1.put("shape", "rectangle");
+		p1.put("resizable", 0);
+		p1.put("labelPosition", "center");
+//		p1.put("labelPosition", "right");
+		p1.put("editable", 0);
+		p1.put("rotation", -90);
+		p1.put("rounded", false);
+		p1.put("fontSize", 12);
+		p1.put("strokeColor", "#22B14C");
+		p1.put("foldable", 0);
+		styles.put("SHELF_SCHEMA_CHILD_STYLE4322", p1);
 
 		for (Map.Entry<String, Map<String, Object>> stylestheet : styles.entrySet()) {
 			graph.getStylesheet().putCellStyle(stylestheet.getKey(), stylestheet.getValue());
