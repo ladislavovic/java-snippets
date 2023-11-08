@@ -269,6 +269,19 @@ public class MainJava8Features {
             assertArrayEquals(new String[] {"hi", "by"}, Stream.of("hi", "by").toArray(String[]::new));
         }
 
+        {
+            // Runtime exception throwed during stream transformations is throwen out without any wrapper
+            RuntimeException ex = new RuntimeException("foo");
+            try {
+                Stream
+                    .of("hi", "hello")
+                    .map(x -> {
+                        throw ex;
+                    });
+            } catch (Exception e) {
+                Assert.assertSame(ex, e);
+            }
+        }
     }
 
     @Test

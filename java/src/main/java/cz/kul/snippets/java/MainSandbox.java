@@ -52,6 +52,10 @@ private Set<Object> customCriteria;
             .collect(Collectors.toList());
     }
 
+    public static abstract class AA {
+
+    }
+
     public static final class F {
 
         private F() {
@@ -128,6 +132,14 @@ private Set<Object> customCriteria;
     }
 
     public static void main(String[] args) throws Exception {
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("key1", "cus");
+        map.put("key2", new Date());
+        System.out.println(map);
+        if (true) return;
+
+
 
         String s = "\u0001\u0001\u0000\u0000\u0000ö\r\f&I\u001biÁ¥îú@\u0017ËNA";
         String s1 = Hex.encodeHexString(s.getBytes(StandardCharsets.UTF_8));

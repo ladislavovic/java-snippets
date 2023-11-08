@@ -1,0 +1,18 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Secured page</title>
+</head>
+
+<body>
+
+<h2>Secured page</h2>
+
+<p>Token: <span th:text="${token}">token</span></p>
+<p>Exp: <span th:text="${exp}">exp</span></p>
+<p>Valid: <span th:text="${valid}">valid</span></p>
+
+</body>
+</html>

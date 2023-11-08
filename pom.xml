@@ -140,6 +140,7 @@
         <module>example_spring_cloud_gateway_04_springdoc</module>
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
+        <module>example-spring-boot-keycloak-sso</module>
         <module>custom-rest-api</module>
         <module>rap</module>
         <module>example-servlet-async</module>
