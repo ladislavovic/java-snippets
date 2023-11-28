@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -30,6 +31,12 @@ public class PagesController {
 	public String home(Model model) {
 		model.addAttribute("attr", "foo");
 		return "home";
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request) throws Exception {
+		request.logout();
+		return "redirect:/";
 	}
 
 	@GetMapping("/secured")

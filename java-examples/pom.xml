@@ -6,7 +6,7 @@
         <artifactId>snippets</artifactId>
         <version>1.0-SNAPSHOT</version>
   </parent>
-	<artifactId>java</artifactId>
+	<artifactId>java-examples</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>java</name>

@@ -114,7 +114,7 @@
         <module>hibernate-search-6</module>
         <module>hsqldb</module>
         <module>postgresql</module>
-        <module>java</module>
+        <module>java-examples</module>
         <module>jpa</module>
         <module>liquidbase</module>
         <module>spring</module>

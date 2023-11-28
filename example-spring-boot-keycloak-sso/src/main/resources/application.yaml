@@ -7,25 +7,25 @@ spring:
   security:
     oauth2:
       client:
-        registration:
-          keycloak:
-            client-id: cross-app-2
-            client-secret: EbbnSFh8efb8DpfcjiMN8Lshvvexy7lh
-            scope: openid
-        provider:
-          keycloak:
-            issuer-uri: https://test-master-gitlab.k.cross-ni.com/auth/realms/cross
-            user-name-attribute: preferred_username
-
 #        registration:
 #          keycloak:
-#            client-id: cross-app
-#            client-secret: znMjhk0Cp6ZERejs6muemzFvNbZ256SF
+#            client-id: cross-app-2
+#            client-secret: EbbnSFh8efb8DpfcjiMN8Lshvvexy7lh
 #            scope: openid
 #        provider:
 #          keycloak:
-#            issuer-uri: http://uaa:9999/realms/cross
-##            user-name-attribute: sub
+#            issuer-uri: https://test-master-gitlab.k.cross-ni.com/auth/realms/cross
 #            user-name-attribute: preferred_username
 
-#logging.level.org.springframework: TRACE
+        registration:
+          keycloak:
+            client-id: cross-app-2
+            client-secret: o6EKafPDhlCzVXjq6UkA6d7ZAFV6tllF
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://uaa:9999/realms/cross
+#            user-name-attribute: sub
+            user-name-attribute: preferred_username
+
+logging.level.org.springframework: TRACE
