@@ -96,7 +96,7 @@
         <xerces.version>2.12-beta-r1667115</xerces.version>
         <guava.version>18.0</guava.version>
         <testcontainer.version>1.4.3</testcontainer.version>
-        <tomcat.version>9.0.6</tomcat.version>
+        <tomcat.version>9.0.83</tomcat.version>
         <javaee-api.version>8.0</javaee-api.version>
 
         <springfox-swagger.version>2.7.0</springfox-swagger.version>
