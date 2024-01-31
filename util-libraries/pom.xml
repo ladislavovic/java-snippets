@@ -282,12 +282,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.jgraph</groupId>
-            <artifactId>mxgraph-core</artifactId>
-            <version>3.3.1.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
             <version>7.1.1</version>

@@ -13,10 +13,10 @@ My snippets have this structure:
     |        +- resources                          10
     |           +- example01                       11
     |              +- resource.xml                 12
-    +- description.md                              13
-    
++- description.md                              13
+
 1. name of main maven project
-2. name of project. Usually it is name of a technology. For 
+2. name of project. Usually it is name of a technology. For
    example Java, SQL, spring, ...
 3. standard maven directory
 4. standard maven directory

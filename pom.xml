@@ -13,8 +13,8 @@
 
         <!-- Project properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version.source>11</java.version.source>
-        <java.version.target>11</java.version.target>
+        <java.version.source>21</java.version.source>
+        <java.version.target>21</java.version.target>
 
         <!-- Plugins -->
         <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
@@ -104,7 +104,7 @@
     </properties>
 
     <modules>
-        <module>aspectj</module>
+<!--        <module>aspectj</module>--> <!-- It does not work yet after upgrade to Java 21 -->
         <module>concurrency</module>
         <module>commons</module>
         <module>commons-jpa</module>
@@ -141,9 +141,9 @@
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
         <module>example-spring-boot-keycloak-sso</module>
-        <module>custom-rest-api</module>
         <module>rap</module>
         <module>example-servlet-async</module>
+        <module>benchmark-postgresql-table-and-index-size</module>
     </modules>
 
     <repositories>
