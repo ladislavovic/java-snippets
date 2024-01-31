@@ -81,7 +81,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <commons-collections.version>3.1</commons-collections.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <mapdb.version>1.0.8</mapdb.version>
         <geolatte-geom.version>1.0.1-SDC</geolatte-geom.version>
         <opencsv.version>2.3</opencsv.version>
