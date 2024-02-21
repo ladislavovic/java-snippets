@@ -36,7 +36,7 @@
         <!-- versions -->
         <hsql.version>2.3.1</hsql.version>
         <mysql-connector.version>5.1.20</mysql-connector.version>
-        <postgresql.version>42.1.4</postgresql.version>
+        <postgresql.version>42.7.2</postgresql.version>
         <postgis-jdbc.version>2.1.7</postgis-jdbc.version>
         <liquibase.version>3.3.2</liquibase.version>
         <jta.version>1.1</jta.version>
