@@ -17,7 +17,7 @@ public class TestPartialmock {
 
     @Test
     public void test() {
-        Person p = mock(Person.class, Answers.CALLS_REAL_METHODS.get());
+        Person p = mock(Person.class, Answers.CALLS_REAL_METHODS);
         p.setName("Jane"); // original method is called
         Assert.assertEquals("Jane", p.getName());
     }

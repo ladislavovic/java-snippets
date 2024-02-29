@@ -114,7 +114,9 @@
         <module>hibernate-search-6</module>
         <module>hsqldb</module>
         <module>postgresql</module>
-        <module>java-examples</module>
+        <module>examples_general</module>
+        <module>examples-java-language</module>
+        <module>examples-testing-with-spring-boot</module>
         <module>jpa</module>
         <module>liquidbase</module>
         <module>spring</module>
@@ -169,10 +171,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>

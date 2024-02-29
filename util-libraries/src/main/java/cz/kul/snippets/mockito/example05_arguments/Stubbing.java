@@ -1,6 +1,6 @@
 package cz.kul.snippets.mockito.example05_arguments;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 import org.junit.Assert;

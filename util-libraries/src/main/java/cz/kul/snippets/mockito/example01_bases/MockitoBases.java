@@ -30,14 +30,16 @@ public class MockitoBases {
         // It does not call class constructor. It create it by cglib. So if there is
         // a logic in constructor, it is not called.
 
-        Foo.setProperty(false);
-        assertFalse(Foo.getProperty());
+        // The constructor set the property to "true"
+        Foo.setSystemProperty(false);
+        assertFalse(Foo.getSystemProperty());
         new Foo();
-        assertTrue(Foo.getProperty());
+        assertTrue(Foo.getSystemProperty());
 
-        Foo.setProperty(false);
+        // But when creating with mockito, the constructor is not called so the property is still false
+        Foo.setSystemProperty(false);
         Mockito.mock(Foo.class);
-        assertFalse(Foo.getProperty());
+        assertFalse(Foo.getSystemProperty());
     }
 
     @Test
@@ -50,13 +52,15 @@ public class MockitoBases {
     @Test
     public void dynamicMockOfReturnValue() {
         Foo mock = Mockito.mock(Foo.class);
-        Mockito.doAnswer(new Answer<String>() {
-            @Override
-            public String answer(InvocationOnMock invocation) {
+
+        Mockito
+            .doAnswer((Answer<String>) invocation -> {
                 Object[] args = invocation.getArguments();
                 return ((String) args[0]) + ((String) args[0]);
-            }
-        }).when(mock).methodWithArg(Mockito.anyString());
+            })
+            .when(mock)
+            .methodWithArg(Mockito.anyString());
+
         assertEquals("foofoo", mock.methodWithArg("foo"));
     }
 
@@ -103,14 +107,14 @@ public class MockitoBases {
         private static final String PROP = Foo.class.getName();
 
         public Foo() {
-            setProperty(true);
+            setSystemProperty(true);
         }
 
-        public static void setProperty(boolean value) {
+        public static void setSystemProperty(boolean value) {
             System.setProperty(PROP, Boolean.toString(value));
         }
 
-        public static boolean getProperty() {
+        public static boolean getSystemProperty() {
             return Boolean.parseBoolean(System.getProperty(PROP));
         }
 
