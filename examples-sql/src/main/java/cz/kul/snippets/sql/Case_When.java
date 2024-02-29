@@ -5,6 +5,8 @@
  */
 package cz.kul.snippets.sql;
 
+import cz.kul.snippets.sql.commons.PrintUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +20,8 @@ import java.sql.Statement;
  * 
  * @author kulhalad
  */
-public class _04_Case_When {
+public class Case_When
+{
 
     public static void main(String[] args) {
 

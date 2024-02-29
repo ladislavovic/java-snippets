@@ -5,14 +5,16 @@
  */
 package cz.kul.snippets.sql;
 
-import java.math.BigDecimal;
+import cz.kul.snippets.sql.commons.Data;
+import cz.kul.snippets.sql.commons.Database;
 import org.junit.Assert;
 
 /**
  *
  * @author kulhalad
  */
-public class _06_Basics {
+public class Basics
+{
     
     public static void main(String[] args) {
         nullValue();

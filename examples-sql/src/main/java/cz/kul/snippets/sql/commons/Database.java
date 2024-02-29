@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.kul.snippets.sql;
+package cz.kul.snippets.sql.commons;
+
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,36 +14,47 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author kulhalad
  */
-public class Database {
+public class Database implements AutoCloseable {
     
     private Connection conn;
     
-    private Database() {
+    private Database(Connection conn) {
+        this.conn = conn;
     }
-    
+
+    @Override
+    public void close() throws SQLException
+    {
+        conn.close();
+    }
+
     public static Database connect(String connStr, String user, String pswd) {
         try {
-            Database database = new Database();
-            database.conn = DriverManager.getConnection(connStr, user, pswd);
-            return database;
+            Connection connection = DriverManager.getConnection(connStr, user, pswd);
+            return new Database(connection);
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     }
+    public static Database connect(PostgreSQLContainer postgresContainer) throws SQLException {
+        Connection connection = DriverManager.getConnection(
+            postgresContainer.getJdbcUrl(),
+            postgresContainer.getUsername(),
+            postgresContainer.getPassword()
+        );
+        return new Database(connection);
+    }
     
-    public void executeUpdate(String query) {
+    public void executeUpdate(String sql) {
         try {
             Statement stm = conn.createStatement();
-            stm.executeUpdate(query);
+            stm.executeUpdate(sql);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

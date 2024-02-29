@@ -1,4 +1,4 @@
-package cz.kul.snippets.sql;
+package cz.kul.snippets.sql.commons;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

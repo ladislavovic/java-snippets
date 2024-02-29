@@ -1,5 +1,7 @@
 package cz.kul.snippets.sql;
 
+import cz.kul.snippets.sql.commons.PrintUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -11,7 +13,8 @@ import java.sql.Statement;
  * @since 7.4
  *
  */
-public class _03_Nth_greatest_per_group {
+public class Nth_greatest_per_group
+{
 
     public static void main(String[] args) {
 

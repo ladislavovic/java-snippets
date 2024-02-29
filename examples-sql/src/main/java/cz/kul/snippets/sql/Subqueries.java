@@ -1,14 +1,6 @@
 package cz.kul.snippets.sql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import cz.kul.snippets.sql.commons.Database;
 
 /**
  * Subqueries are very powerful.
@@ -18,7 +10,8 @@ import org.apache.commons.lang3.StringUtils;
  * @since 7.4
  *
  */
-public class _05_Subqueries {
+public class Subqueries
+{
 
     /**
      * You can put subquery in the select part. It is very strong feature expecially

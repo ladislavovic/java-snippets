@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.kul.snippets.sql;
+package cz.kul.snippets.sql.commons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,14 @@ public class Data {
     public int getYSize() {
         return data.size();
     }
+
+    public int getRowsCount() {
+        return getYSize();
+    }
+
+    public int getCollumnsCount() {
+        return getXSize();
+    }
     
     public Object getData(int x, int y) {
         return data.get(y).get(x);
@@ -41,6 +49,14 @@ public class Data {
     public Object getData(String label, int y) {
         int x = labelToX(label);
         return getData(x, y);
+    }
+
+    public List<Object> getColumnData(int x) {
+        ArrayList<Object> result = new ArrayList<>(getRowsCount());
+        for (int row = 0; row < getRowsCount(); row++) {
+            result.add(getData(x, row));
+        }
+        return result;
     }
     
     public void add(int x, int y, Object inst) {

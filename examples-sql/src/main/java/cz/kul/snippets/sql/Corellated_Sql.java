@@ -1,14 +1,10 @@
 package cz.kul.snippets.sql;
 
+import cz.kul.snippets.sql.commons.PrintUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Correlated subqueries are queries, which use values from outer query. They
@@ -22,7 +18,8 @@ import org.apache.commons.lang3.StringUtils;
  * @since 7.4
  *
  */
-public class _01_Corellated_Sql {
+public class Corellated_Sql
+{
 
     public static void main(String[] args) {
 
