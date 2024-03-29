@@ -10,44 +10,49 @@ import org.apache.commons.lang3.StringUtils;
 
 public class PrintUtils {
 
+    public static final int DEFAULT_COLUMN_SIZE = 11;
+
     public static void exectuteAndPrint(String title, Connection conn, String q) throws SQLException {
+        exectuteAndPrint(title, conn, q, DEFAULT_COLUMN_SIZE);
+    }
+
+    public static void exectuteAndPrint(String title, Connection conn, String q, int columnSize) throws SQLException {
         System.out.println(title + ":");
         System.out.println();
         ResultSet rs = conn.prepareStatement(q).executeQuery();
-        print(rs);
+        print(rs, columnSize);
     }
     
-    private static void print(ResultSet rs) throws SQLException {
+    private static void print(ResultSet rs, int columnSize) throws SQLException {
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnCount = rsmd.getColumnCount();
         
         StringBuilder header = new StringBuilder();
-        header.append(toConstSize(""));
+        header.append(toGivenSize("", columnSize));
         for (int i = 1; i <= columnCount; i++) {
-            header.append(toConstSize(rsmd.getColumnLabel(i)));
+            header.append(toGivenSize(rsmd.getColumnLabel(i), columnSize));
         }
         header.append("\n");
         for (int i = 1; i <= (columnCount + 1); i++) {
-            header.append("------------");
+            header.append("-".repeat(columnCount + 1));
         }
         header.append("\n");
         
         StringBuilder data = new StringBuilder();
         for (int i = 1; rs.next(); i++) {
-            data.append(toConstSize(Integer.toString(i)));
+            data.append(toGivenSize(Integer.toString(i), columnSize));
             for (int j = 1; j <= columnCount; j++) {
                 Object obj = ObjectUtils.defaultIfNull(rs.getObject(j), "NULL");
-                data.append(toConstSize(obj.toString()));
+                data.append(toGivenSize(obj.toString(), columnSize));
             }
             data.append("\n");
         }
         
-        String result = header.toString() + data.toString();
+        String result = header.append(data).toString();
         System.out.println(result);
     }
     
-    private static String toConstSize(String str) {
-        int size = 11;
+    private static String toGivenSize(String str, final int size) {
         str = StringUtils.abbreviate(str, size);
         str = StringUtils.rightPad(str, size);
         str = str + "|";

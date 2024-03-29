@@ -61,8 +61,12 @@ public class Database implements AutoCloseable {
     }
     
     public void executeSelectAndPrint(String title, String query) {
+        executeSelectAndPrint(title, query, PrintUtils.DEFAULT_COLUMN_SIZE);
+    }
+
+    public void executeSelectAndPrint(String title, String query, int columnSize) {
         try {
-            PrintUtils.exectuteAndPrint(title, conn, query);
+            PrintUtils.exectuteAndPrint(title, conn, query, columnSize);
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
