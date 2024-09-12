@@ -1,9 +1,15 @@
 package cz.kul.snippets.java.java_14_features;
 
+import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class Java14Features {
+
+  record Person (String name, String address) {}
 
   @Test
   public void records() {
@@ -19,16 +25,61 @@ public class Java14Features {
     Person monica = new Person("Monica", "New York");
 
     // automatically generated getter (it is NOT java beans getter, it does not start with "get")
-    Assert.assertEquals("Monica", monica.name());
+    assertEquals("Monica", monica.name());
 
     // automatically generated equals method
-    Assert.assertEquals(new Person("Monica", "New York"), monica);
+    assertEquals(new Person("Monica", "New York"), monica);
 
     // Automatically generated toString
-    Assert.assertEquals("Person[name=Monica, address=New York]", monica.toString());
+    assertEquals("Person[name=Monica, address=New York]", monica.toString());
 
   }
 
-  record Person (String name, String address) {}
+  // Canonical Constructor
+  // * Automatically created by compiller
+  record Address1(String street)
+  {
+  }
+
+  // Compact Form of Canonical Constructor
+  // * you can modify behaviour of canonical constructor this way
+  // * compiler probably assign the field first and then you can validate or modify them
+  record Address2(String street)
+  {
+    Address2 {
+      Preconditions.checkArgument(StringUtils.isNotBlank(street), "The street is blank.");
+      street = street.toUpperCase();
+    }
+  }
+
+  // Your own Canonical Constructor
+  // * you can define you own Canonical Constructor
+  // * it MUST be public. You just can not make it private, it is a compilation error
+  record Address3(String street)
+  {
+    public Address3(String street) {
+      this.street = street;
+    }
+  }
+
+  // Overloading constructor
+  // * overloading record constructor is required to explicitly delegate to another record constructor on the first line.
+  //   The requirement exists because all construction must eventually delegate to the canonical constructor.
+  record Address4(String street)
+  {
+    public Address4() {
+      this("unknown");
+    }
+  }
+
+  @Test
+  public void recordConstructors() {
+    // compact form
+    Address2 address2 = new Address2("1st Street");
+    assertEquals("1ST STREET", address2.street());
+
+    // Your own canonical constructor
+    assertEquals("Main Street", new Address3("Main Street").street());
+  }
 
 }

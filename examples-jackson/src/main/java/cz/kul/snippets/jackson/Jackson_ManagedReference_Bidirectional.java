@@ -1,12 +1,11 @@
-package cz.kul.snippets.jackson.example02_managedReference;
+package cz.kul.snippets.jackson;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * <p>
@@ -28,7 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author kulhalad
  * @since 7.4.2
  */
-public class MainManagedReference {
+public class Jackson_ManagedReference_Bidirectional
+{
 
     public static void main(String[] args) throws JsonProcessingException {
         A a = new A("objectA");
@@ -39,8 +39,8 @@ public class MainManagedReference {
         String aSerialization = new ObjectMapper().writeValueAsString(a);
         String bSerialization = new ObjectMapper().writeValueAsString(b);
 
-        assertTrue(aSerialization.contains("objectB"));
-        assertFalse(bSerialization.contains("objectA"));
+        Assertions.assertTrue(aSerialization.contains("objectB"));
+        Assertions.assertFalse(bSerialization.contains("objectA"));
 
     }
 

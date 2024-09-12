@@ -1,6 +1,4 @@
-package cz.kul.snippets.jackson.example01_bidirectional_relationships;
-
-import static org.junit.Assert.assertEquals;
+package cz.kul.snippets.jackson;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author kulhalad
  * @since 7.4.2
  */
-public class MainIdentityInfo {
+public class Jackson_MainIdentityInfo_Bidirectional
+{
 
     public static void main(String[] args) throws JsonProcessingException {
         A a = new A();

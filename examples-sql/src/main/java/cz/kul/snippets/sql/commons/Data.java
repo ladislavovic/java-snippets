@@ -6,6 +6,7 @@
 package cz.kul.snippets.sql.commons;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +50,10 @@ public class Data {
     public Object getData(String label, int y) {
         int x = labelToX(label);
         return getData(x, y);
+    }
+
+    public List<List<Object>> getRowsData() {
+        return Collections.unmodifiableList(data);
     }
 
     public List<Object> getColumnData(int x) {

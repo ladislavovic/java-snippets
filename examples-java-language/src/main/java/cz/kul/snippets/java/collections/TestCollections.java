@@ -67,6 +67,22 @@ public class TestCollections {
     }
 
     @Test
+    public void identityHashMap() {
+        // * it uses reference equality (==) on key search operations. So it violates the Map interface contract.
+        // * it calls System.identityHashCode() for hash code, so it completely ignore key's hashCode() method
+        // * key and value can be null
+        // * use cases:
+        //    * map with metadata
+
+        var obj1 = new Object();
+        var obj2 = new Object();
+        var metadataMap = new IdentityHashMap<Object, List<String>>();
+        metadataMap.put(obj1, List.of("value1", "value2"));
+        metadataMap.put(obj2, List.of("value1", "value2", "value3"));
+        assertEquals(List.of("value1", "value2"), metadataMap.get(obj1));
+    }
+
+    @Test
     public void testNullInList() {
         List<Integer> list = new ArrayList<>();
         list.add(null);

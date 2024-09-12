@@ -16,6 +16,8 @@ public class TestGenerics {
 
         // But you can explicitely define type during the call
         List<Object> objects = Arrays.<Object>asList(10, 20, 30);
+
+        List<? extends Number> list = Arrays.asList(10, 10.5, 20.5);
     }
 
     @Test
@@ -44,10 +46,10 @@ public class TestGenerics {
         
         // "? extends Number" collections (Read only) 
         // reading: you can read from this coll. The returned type is "Number"
-        // writing: You can not write because you do not know the real type of
+        // writing: You can not write because you do not know the real type of the
         // collection.
         // a.get(0); // this is OK
-        // a.add(10); // This is wrong!
+        // a.add(10); // This is wrong! Because you are inserting Integer, but the collection can be List<Short> for example
         
         // "? super Integer" collections (Write only)
         // reading: you can read, but you can getAppender only "Object type"

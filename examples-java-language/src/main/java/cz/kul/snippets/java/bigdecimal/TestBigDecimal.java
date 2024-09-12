@@ -10,6 +10,7 @@ import java.math.RoundingMode;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestBigDecimal {
 
@@ -64,9 +65,15 @@ public class TestBigDecimal {
         // round() method round an unscaledValue according to math context.
         // You can NOT use if for tasks like "round it to two decimals". You
         // must use setScale() for that.
-        BigDecimal num = new BigDecimal(new BigInteger("1239000"), 3);
+        //
+        // round() also change scale to keep the value (almost) the same
+        BigDecimal num = new BigDecimal(new BigInteger("1239000"), 3); // 1239.000
+
         MathContext mc = new MathContext(3, RoundingMode.HALF_UP);
-        assertEquals(new BigDecimal(new BigInteger("124"), -1), num.round(mc));
+        BigDecimal roundedNum = num.round(mc); // 1240
+
+        assertEquals(new BigDecimal(new BigInteger("124"), -1), roundedNum);
+        assertEquals(0, roundedNum.compareTo(new BigDecimal(new BigInteger("1240"), 0)));
     }
 
     @Test
