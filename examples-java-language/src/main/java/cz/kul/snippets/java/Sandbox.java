@@ -1,5 +1,6 @@
 package cz.kul.snippets.java;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.time.Duration;
@@ -22,8 +23,6 @@ public class Sandbox extends SandboxSuper
 //    }
 
     public static void main(String[] args) {
-
-1        aaa();
 
     }
 

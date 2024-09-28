@@ -22,6 +22,11 @@ public class JPAService {
         this.emf = (EntityManagerFactory) ctx.getBean("entityManagerFactory");
     }
 
+    public <T> T getSpringBean(Class<T> clazz)
+    {
+        return ctx.getBean(clazz);
+    }
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }

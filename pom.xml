@@ -143,6 +143,7 @@
         <module>example-openapi-polymorphism</module>
         <module>example_junit_parallel_run</module>
         <module>example-spring-boot-keycloak-sso</module>
+        <module>examples-spring-boot</module>
         <module>rap</module>
         <module>example-servlet-async</module>
         <module>benchmark-postgresql-table-and-index-size</module>
