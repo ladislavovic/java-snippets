@@ -36,6 +36,12 @@
             <version>${junit.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
         <!-- Java Bean Validation API -->
         <dependency>
             <groupId>jakarta.validation</groupId>

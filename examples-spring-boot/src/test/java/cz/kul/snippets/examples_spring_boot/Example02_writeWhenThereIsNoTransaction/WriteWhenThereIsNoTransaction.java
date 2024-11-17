@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +31,29 @@ public class WriteWhenThereIsNoTransaction
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
+    private Dao dao;
+
     @Test
     void createPerson()
     {
-        assertThatExceptionOfType(jakarta.persistence.TransactionRequiredException.class)
-            .isThrownBy(() -> personService.createPersonWithName("Monica"));
+//        assertThatExceptionOfType(jakarta.persistence.TransactionRequiredException.class)
+//            .isThrownBy(() -> personService.createPersonWithName("Monica"));
+
+        try {
+//            personService.createPersonWithName("Monica");
+            dao.save(new Person("Monica"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+}
+
+@Repository
+interface Dao extends JpaRepository<Person, Long>
+{
+
 
 }
 

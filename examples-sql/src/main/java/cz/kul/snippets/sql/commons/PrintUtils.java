@@ -33,8 +33,8 @@ public class PrintUtils {
             header.append(toGivenSize(rsmd.getColumnLabel(i), columnSize));
         }
         header.append("\n");
-        for (int i = 1; i <= (columnCount + 1); i++) {
-            header.append("-".repeat(columnCount + 1));
+        for (int i = 0; i < columnCount + 1; i++) {
+            header.append("-".repeat(columnSize + 1));
         }
         header.append("\n");
         

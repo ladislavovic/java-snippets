@@ -97,7 +97,7 @@ public class Jackson_Sarialization_Basics
         public void TODOtest() throws JsonProcessingException
         {
             ObjectMapper mapper = new ObjectMapper();
-            mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.DEFAULT)
+            mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.DEFAULT);
 
             Person person = new Person();
             person.name = "Monica";

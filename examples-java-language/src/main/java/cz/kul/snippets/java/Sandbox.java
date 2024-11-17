@@ -14,19 +14,30 @@ import java.util.stream.Stream;
 public class Sandbox extends SandboxSuper
 {
 
-//    public static void main(String[] args)
-//    {
-//        int foo = 10;
-//
-//        System.out.println(null == "ahoj");
-//
-//    }
+    //    public static void main(String[] args)
+    //    {
+    //        int foo = 10;
+    //
+    //        System.out.println(null == "ahoj");
+    //
+    //    }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+
+        String a = Character.toString('a');
+        String b = Character.toString('a');
+
+        String aaa = """
+            ahoj
+            """;
+
+        System.out.println(a == b);
 
     }
 
-    public static void aaa(String ... strs) {
+    public static void aaa(String... strs)
+    {
         System.out.println(strs);
     }
 
@@ -40,7 +51,6 @@ public class Sandbox extends SandboxSuper
             return newValue;
         });
     }
-
 
     public static void optional(String[] args)
     {

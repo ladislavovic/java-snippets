@@ -147,6 +147,7 @@
         <module>rap</module>
         <module>example-servlet-async</module>
         <module>benchmark-postgresql-table-and-index-size</module>
+        <module>examples-apache-http-client</module>
     </modules>
 
     <repositories>

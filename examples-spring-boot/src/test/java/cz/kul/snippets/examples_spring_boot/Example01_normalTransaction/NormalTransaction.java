@@ -49,6 +49,14 @@ class PersonService
     @Transactional
     public Long createPersonWithName(String name)
     {
+        try {
+            if (true) {
+                throw new RuntimeException();
+            }
+        } catch (RuntimeException e) {
+            ;
+        }
+
         Person person = new Person();
         person.setName(name);
         person.setBirthdate(new Date(Instant.now().minus(1000, ChronoUnit.DAYS).toEpochMilli()));
