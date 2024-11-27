@@ -5,7 +5,10 @@ import org.apache.commons.collections.CollectionUtils;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -22,17 +25,24 @@ public class Sandbox extends SandboxSuper
     //
     //    }
 
+    public record Foo(String name, String secondName)
+    {
+
+    }
+
     public static void main(String[] args)
     {
 
-        String a = Character.toString('a');
-        String b = Character.toString('a');
+        List<String> list = List.of("foo", "bar", "baz");
+//        list.add("aaa");
+//        Collections.shuffle(list);
 
-        String aaa = """
-            ahoj
-            """;
+        List<String> list1 = Stream.of("foo", "bar", "baz").toList();
+//        list1.add("aaa");
+        Collections.shuffle(list1);
+        Collections.sort(list1);
 
-        System.out.println(a == b);
+        System.out.println();
 
     }
 
@@ -43,13 +53,15 @@ public class Sandbox extends SandboxSuper
 
     public static <T> Collector<T, ?, T> exactlyOneOrNull()
     {
-        return Collectors.reducing(null, (oldValue, newValue) -> {
-            if (oldValue != null) {
-                return null;
-            }
+        return Collectors.reducing(
+            null, (oldValue, newValue) -> {
+                if (oldValue != null) {
+                    return null;
+                }
 
-            return newValue;
-        });
+                return newValue;
+            }
+        );
     }
 
     public static void optional(String[] args)
