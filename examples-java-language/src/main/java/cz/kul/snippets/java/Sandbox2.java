@@ -22,7 +22,6 @@ public class Sandbox2
             "SO486131-US01",
             "SO488423-US01",
             "SO485401-CA01",
-            "SO478665-CA01",
             "SO488118-US01",
             "SO485401-CA01",
             "SO486131-US01",
