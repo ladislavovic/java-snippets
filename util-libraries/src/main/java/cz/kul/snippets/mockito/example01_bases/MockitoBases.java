@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
+import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -11,14 +12,15 @@ import org.mockito.stubbing.Answer;
 
 /**
  * How to create basic mock.
- * 
- * @author Ladislav Kulhanek
  *
+ * @author Ladislav Kulhanek
  */
-public class MockitoBases {
+public class MockitoBases
+{
 
     @Test
-    public void mockCreating() {
+    public void mockCreating()
+    {
         Foo mock = Mockito.mock(Foo.class);
         assertTrue(mock != null);
         assertTrue(mock instanceof Foo);
@@ -26,7 +28,8 @@ public class MockitoBases {
     }
 
     @Test
-    public void constructorIsNotCalled() {
+    public void constructorIsNotCalled()
+    {
         // It does not call class constructor. It create it by cglib. So if there is
         // a logic in constructor, it is not called.
 
@@ -43,14 +46,16 @@ public class MockitoBases {
     }
 
     @Test
-    public void staticMockOfReturnValue() {
+    public void staticMockOfReturnValue()
+    {
         Foo mock = Mockito.mock(Foo.class);
         doReturn(50).when(mock).intMethod();
         assertEquals(50, mock.intMethod());
     }
 
     @Test
-    public void dynamicMockOfReturnValue() {
+    public void dynamicMockOfReturnValue()
+    {
         Foo mock = Mockito.mock(Foo.class);
 
         Mockito
@@ -65,14 +70,16 @@ public class MockitoBases {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void mockOfExceptionThrowing() {
+    public void mockOfExceptionThrowing()
+    {
         Foo mock = Mockito.mock(Foo.class);
         Mockito.doThrow(IllegalArgumentException.class).when(mock).strMethod();
         mock.strMethod();
     }
 
     @Test()
-    public void capturing() {
+    public void capturing()
+    {
         Foo mock = Mockito.mock(Foo.class);
         mock.methodWithArg("foo");
         mock.methodWithArg("bar");
@@ -87,7 +94,8 @@ public class MockitoBases {
     }
 
     @Test()
-    public void veryfying() {
+    public void veryfying()
+    {
         Foo mock = Mockito.mock(Foo.class);
         mock.intMethod();
         verify(mock).intMethod(); // It means it was called exactly one
@@ -102,35 +110,52 @@ public class MockitoBases {
         verify(mock, Mockito.atMost(10)).methodWithArg(Mockito.any(String.class));
     }
 
-    public static class Foo {
+    @Test
+    public void createAMockThatAlwaysThrowAnException()
+    {
+        Foo mock = Mockito.mock(Foo.class, invocationOnMock -> {
+                throw new RuntimeException();
+            });
+
+    }
+
+    public static class Foo
+    {
 
         private static final String PROP = Foo.class.getName();
 
-        public Foo() {
+        public Foo()
+        {
             setSystemProperty(true);
         }
 
-        public static void setSystemProperty(boolean value) {
+        public static void setSystemProperty(boolean value)
+        {
             System.setProperty(PROP, Boolean.toString(value));
         }
 
-        public static boolean getSystemProperty() {
+        public static boolean getSystemProperty()
+        {
             return Boolean.parseBoolean(System.getProperty(PROP));
         }
 
-        public String strMethod() {
+        public String strMethod()
+        {
             return "STR";
         }
 
-        public String methodWithArg(String str) {
+        public String methodWithArg(String str)
+        {
             return str;
         }
 
-        public int intMethod() {
+        public int intMethod()
+        {
             return 10;
         }
 
-        public boolean booleanMethod() {
+        public boolean booleanMethod()
+        {
             return true;
         }
 

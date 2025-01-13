@@ -1,6 +1,7 @@
 package cz.kul.snippets.java;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.time.Duration;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,18 +36,14 @@ public class Sandbox extends SandboxSuper
     public static void main(String[] args)
     {
 
-        List<String> list = List.of("foo", "bar", "baz");
-//        list.add("aaa");
-//        Collections.shuffle(list);
+        List<String> items = List.of("a", "b", "c");
+        String anotherItem = "d";
 
-        List<String> list1 = Stream.of("foo", "bar", "baz").toList();
-//        list1.add("aaa");
-        Collections.shuffle(list1);
-        Collections.sort(list1);
-
-        System.out.println();
+        List<String> list = Stream.concat(items.stream(), Stream.of(anotherItem)).toList();
+        System.out.println(list.getClass().getName());
 
     }
+
 
     public static void aaa(String... strs)
     {
