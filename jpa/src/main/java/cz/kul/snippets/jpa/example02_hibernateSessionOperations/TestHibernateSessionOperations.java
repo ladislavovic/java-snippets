@@ -55,8 +55,11 @@ public class TestHibernateSessionOperations extends JPATest {
             assertFalse(entityManager.contains(personWithTheSameId));
             return null;
         });
+    }
 
-        // Hibernate compares entities by identity so contains() return true when you try it with another entity even though it has the same ID and the instances are equal
+    @Test
+    public void iterateAllPersistenceContextEntities()
+    {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             entityManager.persist(new Person("Joey"));
             entityManager.persist(new Person("Chandler"));
