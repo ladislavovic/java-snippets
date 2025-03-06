@@ -98,6 +98,7 @@ public class TestHibernateSessionOperations extends JPATest {
             assertEquals(0, getNumberOfEntitiesInSession(entityManager));
             Person person = new Person();
             entityManager.persist(person);
+            entityManager.flush();
             assertEquals(1, getNumberOfEntitiesInSession(entityManager));
             entityManager.detach(person);
             assertEquals(0, getNumberOfEntitiesInSession(entityManager));
