@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,11 +37,9 @@ public class Sandbox extends SandboxSuper
     public static void main(String[] args)
     {
 
-        List<String> items = List.of("a", "b", "c");
-        String anotherItem = "d";
+//        System.out.println(ZonedDateTime.parse("2025-11-04T00:00:00+05:00"));
 
-        List<String> list = Stream.concat(items.stream(), Stream.of(anotherItem)).toList();
-        System.out.println(list.getClass().getName());
+        System.out.println(Stream.of("foo", null, "bar"));
 
     }
 

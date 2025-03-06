@@ -1,6 +1,6 @@
 package cz.kul.snippets.jpa.example06_notJoinTheParentTableWithJoinStrategy.model;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class SubB extends A {

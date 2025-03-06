@@ -4,7 +4,7 @@ import cz.kul.snippets.jpa.example06_notJoinTheParentTableWithJoinStrategy.model
 import org.hibernate.annotations.Polymorphism;
 import org.hibernate.annotations.PolymorphismType;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 public class SubA extends A {

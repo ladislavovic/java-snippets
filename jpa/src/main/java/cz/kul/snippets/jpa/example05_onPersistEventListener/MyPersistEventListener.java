@@ -2,6 +2,7 @@ package cz.kul.snippets.jpa.example05_onPersistEventListener;
 
 import cz.kul.snippets.agent.AgentManager;
 import org.hibernate.HibernateException;
+import org.hibernate.event.spi.PersistContext;
 import org.hibernate.event.spi.PersistEvent;
 import org.hibernate.event.spi.PersistEventListener;
 
@@ -17,10 +18,7 @@ public class MyPersistEventListener implements PersistEventListener {
     }
 
     @Override
-    public void onPersist(PersistEvent event, Map createdAlready) throws HibernateException {
-        Object[] arr = new Object[2];
-        arr[0] = event.getObject();
-        arr[1] = new HashSet<>(createdAlready.values());
-        AgentManager.executeAgent(TestOnPersistEventListener.ON_PERSIST_EVENT_MAP, arr);
+    public void onPersist(PersistEvent event, PersistContext createdAlready) throws HibernateException {
+        AgentManager.executeAgent(TestOnPersistEventListener.ON_PERSIST_EVENT_MAP, event);
     }
 }

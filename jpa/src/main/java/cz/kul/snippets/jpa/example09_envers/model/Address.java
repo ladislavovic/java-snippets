@@ -2,9 +2,9 @@ package cz.kul.snippets.jpa.example09_envers.model;
 
 import org.hibernate.envers.Audited;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
 @Entity
 @Audited

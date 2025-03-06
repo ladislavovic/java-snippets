@@ -39,6 +39,10 @@ public class Data {
         return getYSize();
     }
 
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
     public int getCollumnsCount() {
         return getXSize();
     }

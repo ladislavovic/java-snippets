@@ -5,28 +5,73 @@ import cz.kul.snippets.jpa.common.model.Person;
 import cz.kul.snippets.jpa.common.model.PersonDetail;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.engine.spi.EntityKey;
+import org.hibernate.engine.spi.PersistenceContext;
+import org.hibernate.internal.SessionImpl;
 import org.hibernate.stat.SessionStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class TestHibernateSessionOperations extends JPATest {
 
     @Test
     public void testContains() {
-        Serializable personId = jpaService().doInTransactionAndFreshEM(entityManager -> {
+        // Entity Manager contains all entities that it persist
+        Long personId = jpaService().doInTransactionAndFreshEM(entityManager -> {
             Person person = new Person();
-            Assert.assertFalse(entityManager.contains(person));
+            assertFalse(entityManager.contains(person));
             entityManager.persist(person);
-            Assert.assertTrue(entityManager.contains(person));
+            assertTrue(entityManager.contains(person));
             return person.getId();
         });
+
+        // Entity Manager contains all entities that it load
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             Person loadedPerson = entityManager.find(Person.class, personId);
-            Assert.assertTrue(entityManager.contains(loadedPerson));
+            assertTrue(entityManager.contains(loadedPerson));
+            return null;
+        });
+
+        // Hibernate compares entities by identity so contains() return true when you try it with another entity even though it has the same ID and the instances are equal
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Person person = entityManager.find(Person.class, personId);
+            assertTrue(entityManager.contains(person));
+
+            Person personWithTheSameId = new Person();
+            personWithTheSameId.setId(personId);
+            assertNotSame(personWithTheSameId, person);
+            assertFalse(entityManager.contains(personWithTheSameId));
+            return null;
+        });
+
+        // Hibernate compares entities by identity so contains() return true when you try it with another entity even though it has the same ID and the instances are equal
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            entityManager.persist(new Person("Joey"));
+            entityManager.persist(new Person("Chandler"));
+            entityManager.persist(new Person("Ross"));
+
+            SessionImpl sessionImpl = entityManager.unwrap(SessionImpl.class);
+            PersistenceContext persistenceContext = sessionImpl.getPersistenceContext();
+            var entities = persistenceContext.getEntitiesByKey();
+            assertEquals(3, entities.size());
+
+            entities.entrySet().forEach(entry -> {
+                Object entityId = entry.getKey().getIdentifier();
+                Object entity = entry.getValue();
+                System.out.printf("ID: %s, Entity: %s%n", entityId, entity);
+            });
             return null;
         });
     }
@@ -37,12 +82,12 @@ public class TestHibernateSessionOperations extends JPATest {
     @Test
     public void testEvict() {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
-            Assert.assertEquals(0, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(0, getNumberOfEntitiesInSession(entityManager));
             Person person = new Person();
             entityManager.persist(person);
-            Assert.assertEquals(1, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(1, getNumberOfEntitiesInSession(entityManager));
             entityManager.unwrap(Session.class).evict(person);
-            Assert.assertEquals(0, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(0, getNumberOfEntitiesInSession(entityManager));
             return null;
         });
     }
@@ -50,12 +95,12 @@ public class TestHibernateSessionOperations extends JPATest {
     @Test
     public void testDetach() {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
-            Assert.assertEquals(0, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(0, getNumberOfEntitiesInSession(entityManager));
             Person person = new Person();
             entityManager.persist(person);
-            Assert.assertEquals(1, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(1, getNumberOfEntitiesInSession(entityManager));
             entityManager.detach(person);
-            Assert.assertEquals(0, getNumberOfEntitiesInSession(entityManager));
+            assertEquals(0, getNumberOfEntitiesInSession(entityManager));
             return null;
         });
     }
@@ -88,6 +133,18 @@ public class TestHibernateSessionOperations extends JPATest {
     }
 
     @Test
+    public void testGetReference_shouldReturnTheRealEntityIfItIsAlreadyInThePersistenceContext() {
+        jpaService().doInTransactionAndFreshEM(entityManager -> {
+            Person person = new Person();
+            entityManager.persist(person);
+
+            assertSame(person, entityManager.getReference(Person.class, person.getId()));
+
+            return null;
+        });
+    }
+
+    @Test
     public void testMerge_shouldUpdateObjectIfItExists() {
         Person monicaDetached = jpaService().doInTransactionAndFreshEM(entityManager -> {
             Person monica = new Person("monica");
@@ -97,8 +154,8 @@ public class TestHibernateSessionOperations extends JPATest {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
             monicaDetached.setName("rachel");
             Person monica = entityManager.merge(monicaDetached);
-            Assert.assertEquals("rachel", monica.getName());
-            Assert.assertTrue(entityManager.contains(monica));
+            assertEquals("rachel", monica.getName());
+            assertTrue(entityManager.contains(monica));
             return null;
         });
     }

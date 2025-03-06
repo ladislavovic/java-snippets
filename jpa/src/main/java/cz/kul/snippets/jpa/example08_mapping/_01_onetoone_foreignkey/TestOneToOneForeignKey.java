@@ -9,7 +9,7 @@ import cz.kul.snippets.jpa.common.JPATest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * One-to-one relation by foreign key. Notes:

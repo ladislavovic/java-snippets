@@ -8,7 +8,6 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.Query;
 import java.util.List;
 
 public class TestsEnvers extends JPATest {

@@ -6,7 +6,12 @@ import org.hibernate.type.StandardBasicTypes;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Query;
+import jakarta.persistence.Table;
 import java.math.BigInteger;
 
 public class TestNativeQuery extends JPATest {

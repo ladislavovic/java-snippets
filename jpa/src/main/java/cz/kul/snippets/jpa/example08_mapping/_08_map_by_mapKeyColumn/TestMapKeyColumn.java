@@ -4,7 +4,7 @@ import cz.kul.snippets.jpa.common.JPATest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

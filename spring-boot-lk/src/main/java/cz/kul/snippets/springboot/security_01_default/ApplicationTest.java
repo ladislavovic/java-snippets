@@ -35,4 +35,10 @@ public class ApplicationTest {
 		assertEquals("hello", response2.getBody());
 	}
 
+	@Test
+	public void testTheException() throws Exception {
+		ResponseEntity<String> response1 = template.withBasicAuth("user", "tree").getForEntity("/hello", String.class);
+		assertEquals("hello", response1.getBody());
+	}
+
 }

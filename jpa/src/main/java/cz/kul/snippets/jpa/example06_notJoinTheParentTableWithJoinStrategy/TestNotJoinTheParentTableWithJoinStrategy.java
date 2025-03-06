@@ -4,7 +4,7 @@ import cz.kul.snippets.jpa.common.JPATest;
 import cz.kul.snippets.jpa.example06_notJoinTheParentTableWithJoinStrategy.model.SubA;
 import org.junit.Test;
 
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 
 public class TestNotJoinTheParentTableWithJoinStrategy extends JPATest {
 

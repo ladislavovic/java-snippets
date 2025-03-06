@@ -12,53 +12,50 @@
     <version>1.0-SNAPSHOT</version>
     <name>jpa</name>
 
-    <!-- <properties>
-        <spring.version>4.2.5.RELEASE</spring.version>
-        <log4j.version>1.2.16</log4j.version>
-        <junit.version>4.11</junit.version>
-        <hibernate.version>5.0.8.Final</hibernate.version>
-        <guava.version>21.0</guava.version>
-		<commons-lang3.version>3.5</commons-lang3.version>
-		<assertj.version>3.8.0</assertj.version>
-		<spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version> 
-		<hsql.version>2.3.1</hsql.version>
-    </properties> -->
-
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
-            <groupId>cz.kul.snippets</groupId>
-            <artifactId>commons-jpa</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>6.2.3</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-context</artifactId>-->
-        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>6.2.3</version>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-orm</artifactId>-->
-        <!--</dependency>-->
-        
-        <!-- <dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-			<version>${spring-data-jpa.version}</version>
-		</dependency>  -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.6.3.Final</version>
+        </dependency>
 
-        <!-- Is it necessarry ? -->
-		<!--<dependency>-->
-			<!--<groupId>com.google.guava</groupId>-->
-			<!--<artifactId>guava</artifactId>-->
-		<!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-envers -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>6.6.3.Final</version>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.assertj</groupId>-->
-            <!--<artifactId>assertj-core</artifactId>-->
-            <!--<version>${assertj.version}</version>-->
-        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-c3p0 -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>6.6.3.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.4</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>cz.kul.snippets</groupId>
@@ -71,9 +68,31 @@
             <version>1.3.2</version>
         </dependency>
 
-
-
     </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version.source}</source>
+                    <target>${java.version.target}</target>
+                    <annotationProcessors>
+                        <proc>cz.kul.snippets.annotationProcessor.AnnotationProcessor1</proc>
+                    </annotationProcessors>
+                    <compilerArgs>
+                        <arg>-AprojectVersion=${project.version}</arg>
+                    </compilerArgs>
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+
+    </build>
 
     
 

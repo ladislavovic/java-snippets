@@ -9,7 +9,15 @@ import cz.kul.snippets.jpa.common.JPATest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Table;
 
 /**
  * One-to-one relation by shared primary key. Notes:
@@ -105,7 +113,8 @@ public class TestOneToOneSharedPrimaryKey extends JPATest {
     @Test
     public void testRelationIsNotNullable() {
         jpaService().doInTransactionAndFreshEM(entityManager -> {
-            assertThrows(PersistenceException.class, () -> {
+            assertThrows(
+                PersistenceException.class, () -> {
                 Phone phone = new Phone();
                 entityManager.persist(phone);
                 entityManager.flush();

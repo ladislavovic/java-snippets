@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class JsonbIntroduction
 {
 
@@ -137,6 +141,22 @@ public class JsonbIntroduction
 
             Object value = data.getData(0, 0);
             Assertions.assertEquals("slender", value);
+        }
+    }
+
+    // Operator -> is NPE safety, you do not check the previous value is NULL or not
+    @Test
+    void extractingValueAndNULLinTheMiddle() throws SQLException
+    {
+        // language=SQL
+        try (var db = Database.connect(postgresContainer)) {
+            Data data = db.executeSelect("""
+                select data -> 'foo' -> 'bar' -> 'baz'
+                from person
+                where id = 1
+                """
+            );
+            assertNull(data.getData(0, 0));
         }
     }
 
@@ -409,6 +429,38 @@ public class JsonbIntroduction
                     """,
                 data.getData(0, 0)
             );
+        }
+    }
+
+    @Test
+    void nullabilityCheck() throws SQLException, IOException
+    {
+        // language=SQL
+        try (var db = Database.connect(postgresContainer)) {
+
+            // When the field contains null, sql predicate IS NULL returns false. Because the value is not missing, it contains 'null'::jsonb value
+            assertTrue(db.executeSelect("""
+                SELECT *
+                FROM ( VALUES ('{"name": null}'::jsonb)) AS sample (json_data)
+                WHERE json_data -> 'name' IS NULL
+                """
+            ).isEmpty());
+
+            // When you use ->> operator, then IS NULL works, because 'null'::jsonb is converted to NULL
+            assertFalse(db.executeSelect("""
+                SELECT *
+                FROM ( VALUES ('{"name": null}'::jsonb)) AS sample (json_data)
+                WHERE json_data ->> 'name' IS NULL
+                """
+            ).isEmpty());
+
+            // You can use -> operator, when the field does notWhen you use ->> operator, then IS NULL works, because 'null'::jsonb is converted to NULL
+            assertFalse(db.executeSelect("""
+                SELECT *
+                FROM ( VALUES ('{"name": null}'::jsonb)) AS sample (json_data)
+                WHERE json_data -> 'nonExistingField' IS NULL
+                """
+            ).isEmpty());
         }
     }
 

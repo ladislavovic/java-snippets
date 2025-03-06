@@ -1,10 +1,16 @@
 package cz.kul.snippets.jpa.common.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.*;
 
 @Entity
 public class Person {
@@ -68,5 +74,20 @@ public class Person {
 	public String toString() {
 		return "Person [id=" + id + ", name=" + name + ", birthdate=" + birthdate + "]";
 	}
-	
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (!(o instanceof Person person)) {
+			return false;
+		}
+        return id != null && Objects.equals(id, person.id);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hashCode(id);
+	}
+
 }

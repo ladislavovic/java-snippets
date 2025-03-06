@@ -12,7 +12,7 @@ import org.hibernate.Hibernate;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.Query;
 
 /**
  * One-to-many relation by foreign key. Notes:

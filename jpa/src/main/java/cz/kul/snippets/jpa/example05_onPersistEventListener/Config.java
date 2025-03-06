@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceUnit;
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 
 @Configuration
 public class Config {

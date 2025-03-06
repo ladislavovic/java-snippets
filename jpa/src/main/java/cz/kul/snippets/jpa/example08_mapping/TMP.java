@@ -3,7 +3,16 @@ package cz.kul.snippets.jpa.example08_mapping;
 import cz.kul.snippets.jpa.common.JPATest;
 import org.junit.Test;
 
-import javax.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Query;
+import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -139,7 +148,7 @@ public class TMP extends JPATest {
 //			Query q = session.createQuery( "select valSubA from SubAEntity" );
 //			Query q = session.createQuery( "select ae from AEntity ae join fetch ae.b" );
 //            javax.persistence.Query query = entityManager.createQuery("select p.status from EmployeeEntity e join PhoneEntity p on (p.employee.id = e.id and p.status > :status and p.id = :pid) where e.id = 10");
-            javax.persistence.Query query = entityManager.createQuery("select suba.valSubA from EmployeeEntity e join SubAEntity suba on (e.id = suba.employee.id) where e.id = 10");
+            Query query = entityManager.createQuery("select suba.valSubA from EmployeeEntity e join SubAEntity suba on (e.id = suba.employee.id) where e.id = 10");
 //            query.setParameter("status", 5);
 //            query.setParameter("pid", 5L);
 //			Query q = session.createQuery( "select e from EmployeeEntity e" );
