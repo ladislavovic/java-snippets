@@ -149,6 +149,7 @@
         <module>benchmark-postgresql-table-and-index-size</module>
         <module>examples-apache-http-client</module>
         <module>rabbit-mq</module>
+        <module>rabbit-mq-messaging</module>
     </modules>
 
     <repositories>
