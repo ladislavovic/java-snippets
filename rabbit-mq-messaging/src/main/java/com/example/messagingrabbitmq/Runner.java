@@ -20,8 +20,13 @@ public class Runner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Sending message...");
-		rabbitTemplate.convertAndSend(MessagingRabbitmqApplication.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
-		receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
+		rabbitTemplate.convertAndSend(
+			MessagingRabbitmqApplication.topicExchangeName,
+			"foo.bar.123",
+			"Hello from RabbitMQ!" // you can send any object, it is converted to byte[], because AMQP is a binary protocol
+		);
+
+		Thread.sleep(3000);
 	}
 
 }

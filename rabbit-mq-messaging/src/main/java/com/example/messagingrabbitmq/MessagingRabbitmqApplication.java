@@ -18,16 +18,21 @@ public class MessagingRabbitmqApplication {
 
 	static final String queueName = "spring-boot";
 
+	// Message queue.
+	// * The consumer consume messages from it.
+	// * the producer do NOT send messages directly to the queue, but to the Exchange
 	@Bean
 	Queue queue() {
 		return new Queue(queueName, false);
 	}
 
+	// Exchange is responsible for routing messages to queues
 	@Bean
 	TopicExchange exchange() {
 		return new TopicExchange(topicExchangeName);
 	}
 
+	// A link between exchange and queue. It just configure messages routing
 	@Bean
 	Binding binding(Queue queue, TopicExchange exchange) {
 		return BindingBuilder
@@ -49,6 +54,7 @@ public class MessagingRabbitmqApplication {
 		return container;
 	}
 
+	// The message listener
 	@Bean
 	MessageListenerAdapter listenerAdapter(Receiver receiver) {
 		return new MessageListenerAdapter(receiver, "receiveMessage");
