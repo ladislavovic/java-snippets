@@ -1,6 +1,4 @@
-package com.example.messagingrabbitmq;
-
-import java.util.concurrent.CountDownLatch;
+package cz.kul.snippets.rabbitmq;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;

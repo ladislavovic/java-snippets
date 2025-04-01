@@ -1,6 +1,4 @@
-package com.example.messagingrabbitmq;
-
-import java.util.concurrent.TimeUnit;
+package cz.kul.snippets.rabbitmq;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.CommandLineRunner;

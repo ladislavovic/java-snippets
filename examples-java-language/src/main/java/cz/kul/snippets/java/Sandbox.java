@@ -4,7 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 
+import java.io.File;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,12 +42,26 @@ public class Sandbox extends SandboxSuper
 
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
 
-//        System.out.println(ZonedDateTime.parse("2025-11-04T00:00:00+05:00"));
+        //        ZonedDateTime zdt = ZonedDateTime.of(
+        //            LocalDate.of(2025, Month.MARCH, 18),
+        //            LocalTime.of(15, 5),
+        //            ZoneOffset.UTC
+        //
+        //        );
+        //        System.out.println(zdt);
+        //
+        //        Instant instant = zdt.toInstant();
+        //        ZonedDateTime edt = ZonedDateTime.ofInstant(instant, ZoneId.of("America/New_York"));
+        //        System.out.println(edt);
 
-        System.out.println(Stream.of("foo", null, "bar"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Object> list = objectMapper.readValue(new File("/home/lad/tmp/response_body_1.json"), List.class);
+
+        System.out.println(list.size());
+
 
     }
 
