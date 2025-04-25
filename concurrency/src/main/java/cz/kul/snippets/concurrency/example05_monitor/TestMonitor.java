@@ -55,6 +55,8 @@ public class TestMonitor {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("The thread was interrupted.", e);
             }
             if (current > max) {
                 max = current;

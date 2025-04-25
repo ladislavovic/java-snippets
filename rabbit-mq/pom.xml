@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>rabbit-mq-01-hello-world</module>
+		<module>rabbit-mq-02-topic-exchange</module>
 	</modules>
 
 </project>

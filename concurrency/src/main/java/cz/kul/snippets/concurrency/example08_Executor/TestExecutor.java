@@ -106,9 +106,13 @@ public class TestExecutor extends SnippetsTest {
         tasks.forEach(x -> executor.execute(x));
         assertEquals(N, executor.getTaskCount());
 
+        // prefiously submitted task are finished, but no new tasks are accepted
         executor.shutdown();
+
+        // this waits till all tasks are completed
+        // TODO kill it the tasks if the timeout is up?
         executor.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-        
+
         assertEquals(N, executor.getCompletedTaskCount());
     }
     

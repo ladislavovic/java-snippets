@@ -13,7 +13,7 @@ public class Java13Features {
     // There has to be new line after opening """
     //
     // The metod stripIndent() is called to reduce indentaion. If you want some indentation for all
-    // linex, move the closing """ to the left. See the next examples
+    // lines, move the closing """ to the left. See the next examples
     String json = """
         {
           "firstName" : "Monica",

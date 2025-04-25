@@ -44,25 +44,9 @@ public class Sandbox extends SandboxSuper
 
     public static void main(String[] args) throws Exception
     {
-
-        //        ZonedDateTime zdt = ZonedDateTime.of(
-        //            LocalDate.of(2025, Month.MARCH, 18),
-        //            LocalTime.of(15, 5),
-        //            ZoneOffset.UTC
-        //
-        //        );
-        //        System.out.println(zdt);
-        //
-        //        Instant instant = zdt.toInstant();
-        //        ZonedDateTime edt = ZonedDateTime.ofInstant(instant, ZoneId.of("America/New_York"));
-        //        System.out.println(edt);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Object> list = objectMapper.readValue(new File("/home/lad/tmp/response_body_1.json"), List.class);
-
-        System.out.println(list.size());
-
-
+        Optional<Object> opt = Optional.of("aaa");
+        List<Object> list = opt.map(List::of).orElseGet(List::of);
+        System.out.println(list);
     }
 
 

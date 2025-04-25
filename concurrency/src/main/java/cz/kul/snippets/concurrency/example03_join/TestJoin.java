@@ -8,9 +8,16 @@ import org.junit.Test;
 import java.util.Date;
 
 /**
- * Join causes that current thread is suspended until the thread,
- * which is current thread joined to, is stopped. It is possible
- * to specify the max wait time.
+ * Terminology:
+ * <ul>
+ *     <li>waiting thread - the thread calling join() method</li>
+ *     <li>worker thread - the thread the waiting thread is waiting to</li>
+ * </ul>
+ *
+ * Join causes that the waiting thread waits untill the worker thread is terminated. When it occurs the
+ * waiting thread automatically continue.
+ *
+ * It is possible to specify the max wait time.
  * 
  * @author Ladislav Kulhanek
  */
@@ -19,11 +26,11 @@ public class TestJoin {
 	@Test
 	public void testJoin() throws InterruptedException {
 		Date start = new Date();
-		Thread t1 = new Thread(CommonRunnable.createNotInterruptable(3000));
-		t1.start();
+		Thread worker = new Thread(CommonRunnable.createNotInterruptable(3000));
+		worker.start();
 
 		// stop current thread until thread "t1" ends
-		t1.join();
+		worker.join();
 
 		Date end = new Date();
 		Assert.assertEquals(3000, end.getTime() - start.getTime(), 300);
@@ -32,11 +39,11 @@ public class TestJoin {
 	@Test
 	public void testJoinWithTimeout() throws InterruptedException {
 		Date start = new Date();
-		Thread t1 = new Thread(CommonRunnable.createNotInterruptable(3000));
-		t1.start();
+		Thread worker = new Thread(CommonRunnable.createNotInterruptable(3000));
+		worker.start();
 
 		// stop current thread until thread "t1" ends or until timeout
-		t1.join(1000);
+		worker.join(1000);
 
 		Date end = new Date();
 		Assert.assertEquals(1000, end.getTime() - start.getTime(), 300);

@@ -13,9 +13,9 @@ import java.util.Random;
 
 /**
  * You can interrupt a thread. But it only set status 'interrupted' to true.
- * The treat must check this status and must behave accordint to it itself.
+ * The treat must check this status and must behave according to it itself.
  * <p>
- * I means the thread must ends itself, you can not stop it this way.
+ * It means the thread must end itself, you can not stop it this way.
  *
  * @author kulhalad
  * @since 7.4
@@ -39,22 +39,30 @@ public class TestInterruption {
 
 	@Test
 	public void test_whenInterruptedExceptionThrowedTheFlagIsNOTset() throws InterruptedException {
-		Agent agent = new Agent();
+		Agent interruptedExceptionThrown = new Agent();
+		Agent theThreadHasInterruptedFlag = new Agent();
+
 		Thread t = new Thread(() -> {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// if you want set interrupted status you have to write
+				// Catching of interrupted exception does not set interrupted flag automatically.
+				// If you want to mark the thread as interrupted you have to call
+				//
 				// Thread.currentThread().interrupt();
+				interruptedExceptionThrown.setValue(true);
 			}
-			agent.setValue(Thread.currentThread().isInterrupted());
+			theThreadHasInterruptedFlag.setValue(Thread.currentThread().isInterrupted());
 		});
+
 		t.start();
 		Thread.sleep(100);
 
 		t.interrupt();
 		t.join(1000);
-		Assert.assertFalse(agent.isValue());
+
+		Assert.assertTrue(interruptedExceptionThrown.isValue());
+		Assert.assertFalse(theThreadHasInterruptedFlag.isValue());
 	}
 
 	@Test
