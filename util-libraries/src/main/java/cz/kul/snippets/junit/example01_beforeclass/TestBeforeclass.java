@@ -1,8 +1,6 @@
 package cz.kul.snippets.junit.example01_beforeclass;
 
 import cz.kul.snippets.agent.AgentManager;
-import cz.kul.snippets.junit.example02_runTestsProgrammatically.SampleTest;
-import cz.kul.snippets.junit.example02_runTestsProgrammatically.TestRunTestProgrammatically;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

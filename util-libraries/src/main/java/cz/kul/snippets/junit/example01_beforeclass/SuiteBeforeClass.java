@@ -3,12 +3,9 @@ package cz.kul.snippets.junit.example01_beforeclass;
 import cz.kul.snippets.agent.AgentLog;
 import cz.kul.snippets.agent.AgentManager;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-
-import java.util.List;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

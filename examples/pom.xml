@@ -4,17 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>cz.kul.snippets</groupId>
-	<artifactId>spring-boot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>examples</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
-	<name>spring-boot</name>
+	<name>examples</name>
 
 	<modules>
-		<module>spring-boot-scheduled</module>
-		<module>spring-boot-shutdown</module>
-		<module>spring-boot-opentelemetry</module>
-		<module>spring-boot-profiles</module>
+		<module>go-through-record-fields</module>
 	</modules>
 
 </project>

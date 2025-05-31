@@ -12,7 +12,6 @@ import org.milyn.payload.JavaResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class ExampleJavabinding {
 

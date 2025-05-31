@@ -6,9 +6,6 @@ import org.hibernate.event.spi.PersistContext;
 import org.hibernate.event.spi.PersistEvent;
 import org.hibernate.event.spi.PersistEventListener;
 
-import java.util.HashSet;
-import java.util.Map;
-
 public class MyPersistEventListener implements PersistEventListener {
 
     @Override

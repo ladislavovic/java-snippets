@@ -1,27 +1,11 @@
 package cz.kul.snippets.java;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
-
-import java.io.File;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,11 +26,58 @@ public class Sandbox extends SandboxSuper
 
     }
 
+
+    public static <ObjectType, ValueType> boolean setValue(
+        ObjectType object,
+        ValueType newValue,
+        Function<? super ObjectType, ? extends ValueType> getter,
+        BiConsumer<ObjectType, ValueType> setter
+    ) {
+        ValueType oldValue = getter.apply(object);
+        if (!Objects.equals(oldValue, newValue)) {
+            setter.accept(object, newValue);
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+public static class Point
+{
+
+    private Long x;
+    private Long y;
+
+    public Long getX()
+    {
+        return x;
+    }
+
+    public void setX(final Long x)
+    {
+        this.x = x;
+    }
+
+    public Long getY()
+    {
+        return y;
+    }
+
+    public void setY(final Long y)
+    {
+        this.y = y;
+    }
+
+}
+
+
     public static void main(String[] args) throws Exception
     {
-        Optional<Object> opt = Optional.of("aaa");
-        List<Object> list = opt.map(List::of).orElseGet(List::of);
-        System.out.println(list);
+        Point point = new Point();
+        setValue(point, 10L, Point::getX, Point::setX);
+
     }
 
 

@@ -108,6 +108,7 @@
         <module>concurrency</module>
         <module>commons</module>
         <module>commons-jpa</module>
+        <module>commons-pure</module>
         <module>design-patterns</module>
         <module>util-libraries</module>
         <module>hibernate-search</module>
@@ -121,10 +122,8 @@
         <module>liquidbase</module>
         <module>spring</module>
         <module>spring-boot-lk</module>
-        <module>spring-boot-lib</module>
         <module>spring-mvc</module>
         <module>spring-web-security</module>
-        <module>spring-rest</module>
         <module>spring-rest-testing</module>
         <module>springdoc</module>
         <module>spring-webflux</module>
@@ -151,6 +150,10 @@
         <module>rabbit-mq</module>
         <module>rabbit-mq-messaging</module>
         <module>spring-boot</module>
+        <module>json-patch</module>
+        <module>dependency-group-test-1</module>
+        <module>dependency-group-jackson-1</module>
+        <module>examples</module>
     </modules>
 
     <repositories>
